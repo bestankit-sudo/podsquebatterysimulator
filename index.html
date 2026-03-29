@@ -1,0 +1,1220 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Podsque Battery Estimator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root {
+  --amber: #f59e0b;
+  --green: #10b981;
+  --blue: #3b82f6;
+  --red: #ef4444;
+  --purple: #a855f7;
+  /* Verdict/status colors — distinct from battery graph colors */
+  --v-great: #22d3ee;   /* cyan — >= 9 mo */
+  --v-ok: #a78bfa;      /* violet — 6-9 mo */
+  --v-warn: #fb923c;    /* orange — < 6 mo */
+  --v-bad: #f87171;     /* light red — < 1 mo */
+  --font-mono: 'IBM Plex Mono', monospace;
+  --font-sans: 'IBM Plex Sans', sans-serif;
+}
+
+[data-theme="dark"] {
+  --bg: #0f1117;
+  --surface: #181c27;
+  --surface2: #1e2333;
+  --border: #2a2f3e;
+  --text: #e2e8f0;
+  --text-muted: #94a3b8;
+  --text-dim: #64748b;
+  --header-bg: #0f1117;
+  --input-bg: #1e2333;
+  --input-border: #2a2f3e;
+  --badge-sourced-bg: rgba(16,185,129,.15);
+  --badge-plan-bg: rgba(245,158,11,.15);
+  --tab-inactive: #2a2f3e;
+  --tab-hover: #333a4d;
+  --coming-soon-bg: rgba(100,116,139,.1);
+  --coming-soon-text: #475569;
+  --scrollbar-thumb: #333a4d;
+}
+
+[data-theme="light"] {
+  --bg: #f1f5f9;
+  --surface: #ffffff;
+  --surface2: #f8fafc;
+  --border: #e2e8f0;
+  --text: #1e293b;
+  --text-muted: #64748b;
+  --text-dim: #94a3b8;
+  --header-bg: #f1f5f9;
+  --input-bg: #f8fafc;
+  --input-border: #e2e8f0;
+  --badge-sourced-bg: rgba(16,185,129,.1);
+  --badge-plan-bg: rgba(245,158,11,.1);
+  --tab-inactive: #e2e8f0;
+  --tab-hover: #cbd5e1;
+  --coming-soon-bg: rgba(100,116,139,.06);
+  --coming-soon-text: #94a3b8;
+  --scrollbar-thumb: #cbd5e1;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: var(--font-sans);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+  min-height: 100vh;
+}
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 3px; }
+
+/* ── Product Tabs ── */
+.product-tabs {
+  display: flex;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 200;
+}
+
+.product-tab {
+  flex: 1;
+  padding: 10px 16px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  text-align: center;
+  border: none;
+  cursor: pointer;
+  background: transparent;
+  color: var(--text-muted);
+  border-bottom: 2px solid transparent;
+  transition: all .2s;
+}
+
+.product-tab:hover:not(.disabled) { background: var(--tab-hover); color: var(--text); }
+.product-tab.active { color: var(--amber); border-bottom-color: var(--amber); }
+.product-tab.disabled { cursor: not-allowed; color: var(--coming-soon-text); background: var(--coming-soon-bg); }
+
+.product-tab .coming-soon {
+  font-size: 9px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  background: var(--tab-inactive);
+  color: var(--text-dim);
+  padding: 2px 6px;
+  border-radius: 3px;
+  margin-left: 6px;
+}
+
+/* ── Theme Toggle ── */
+.theme-toggle {
+  position: fixed;
+  top: 12px;
+  right: 16px;
+  z-index: 300;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 5px 9px;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1;
+  transition: all .2s;
+}
+.theme-toggle:hover { border-color: var(--amber); }
+
+/* ── Sticky Header ── */
+.sticky-header {
+  position: sticky;
+  top: 40px;
+  z-index: 100;
+  background: var(--header-bg);
+  border-bottom: 1px solid var(--border);
+}
+
+.header-top {
+  display: flex;
+  align-items: center;
+  padding: 5px 16px;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.header-top h1 {
+  font-family: var(--font-mono);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+  white-space: nowrap;
+}
+
+.tag {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  padding: 2px 7px;
+  border-radius: 4px;
+  background: rgba(245,158,11,.15);
+  color: var(--amber);
+}
+
+.chip-tag {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 500;
+  padding: 2px 7px;
+  border-radius: 4px;
+  background: rgba(59,130,246,.12);
+  color: var(--blue);
+}
+
+.header-spacer { flex: 1; }
+
+.mode-tab {
+  padding: 4px 14px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  background: transparent;
+  color: var(--text-muted);
+  border-radius: 4px;
+  transition: all .2s;
+}
+
+.mode-tab:hover { color: var(--text); border-color: var(--text-dim); }
+.mode-tab.active { color: var(--amber); border-color: var(--amber); background: rgba(245,158,11,.08); }
+
+/* ── Compact Controls ── */
+.control-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 6px;
+  padding: 4px 16px 6px;
+}
+
+.control-grid.learn-grid {
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+.control-panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 6px 10px;
+}
+
+.control-panel h3 {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+
+.control-panel.phase1 { border-color: rgba(245,158,11,.4); }
+.control-panel.phase2-active { border-color: rgba(59,130,246,.3); }
+
+
+.control-group { margin-bottom: 5px; }
+.control-group:last-child { margin-bottom: 0; }
+
+.control-group label {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text);
+  margin-bottom: 2px;
+}
+
+.control-group .sub-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--text-dim);
+  margin-top: 1px;
+  font-style: italic;
+}
+
+.control-group .derived {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--amber);
+  margin-top: 2px;
+}
+
+input[type="number"] {
+  width: 70px;
+  background: var(--input-bg);
+  border: 1px solid var(--input-border);
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  padding: 3px 6px;
+  border-radius: 4px;
+  outline: none;
+}
+input[type="number"]:focus { border-color: var(--amber); }
+
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 3px;
+  background: var(--border);
+  border-radius: 2px;
+  outline: none;
+  margin: 2px 0 1px;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  background: var(--amber);
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  background: var(--amber);
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+}
+
+.slider-bounds {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--text-dim);
+}
+
+.toggle-row { display: flex; align-items: center; gap: 8px; }
+
+.toggle {
+  position: relative;
+  width: 32px;
+  height: 18px;
+  background: var(--border);
+  border-radius: 9px;
+  cursor: pointer;
+  transition: background .2s;
+  flex-shrink: 0;
+}
+.toggle.on { background: var(--amber); }
+
+.toggle::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 14px;
+  height: 14px;
+  background: white;
+  border-radius: 50%;
+  transition: transform .2s;
+}
+.toggle.on::after { transform: translateX(14px); }
+
+/* ── Sync Summary ── */
+.sync-summary {
+  padding: 4px 16px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-muted);
+  border-top: 1px solid var(--border);
+}
+.sync-summary span { color: var(--amber); font-weight: 600; }
+
+/* ── Results ── */
+.results-zone {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 16px 20px;
+}
+
+/* ── Result Cards (merged: icon + efficiency + life) ── */
+.result-cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.result-card {
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: 6px;
+  padding: 12px;
+  text-align: center;
+}
+
+.result-card .batt-icon {
+  font-size: 28px;
+  margin-bottom: 4px;
+  line-height: 1;
+}
+
+.result-card .verdict-badge {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 4px;
+  margin-bottom: 4px;
+}
+
+.result-card .batt-name {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-bottom: 2px;
+}
+
+.result-card .life-value {
+  font-family: var(--font-mono);
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.result-card .sub-line {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--text-dim);
+  line-height: 1.4;
+}
+
+.verdict-great { border-color: var(--v-great) !important; }
+.verdict-great .verdict-badge { background: rgba(34,211,238,.12); color: var(--v-great); }
+.verdict-great .life-value { color: var(--v-great); }
+
+.verdict-ok { border-color: var(--v-ok) !important; }
+.verdict-ok .verdict-badge { background: rgba(167,139,250,.12); color: var(--v-ok); }
+.verdict-ok .life-value { color: var(--v-ok); }
+
+.verdict-warn { border-color: var(--v-warn) !important; }
+.verdict-warn .verdict-badge { background: rgba(251,146,60,.12); color: var(--v-warn); }
+.verdict-warn .life-value { color: var(--v-warn); }
+
+.verdict-bad { border-color: var(--v-bad) !important; }
+.verdict-bad .verdict-badge { background: rgba(248,113,113,.12); color: var(--v-bad); }
+.verdict-bad .life-value { color: var(--v-bad); }
+
+/* ── Chart ── */
+.chart-container {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 12px;
+  margin-bottom: 16px;
+}
+
+.chart-container h3 {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+
+.chart-wrap { position: relative; height: 200px; }
+.chart-wrap canvas { width: 100% !important; height: 100% !important; }
+
+/* ── Recharge Callout ── */
+.recharge-callout {
+  background: rgba(16,185,129,.06);
+  border: 1px solid rgba(16,185,129,.25);
+  border-radius: 6px;
+  padding: 12px;
+  margin-bottom: 16px;
+}
+
+.recharge-callout .callout-title {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--green);
+  margin-bottom: 6px;
+}
+
+.phase-depletion {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+/* ── Breakdown Table ── */
+.breakdown-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-mono);
+  font-size: 11px;
+}
+
+.breakdown-table th {
+  text-align: left;
+  padding: 6px 10px;
+  font-size: 9px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  color: var(--text-dim);
+  border-bottom: 1px solid var(--border);
+}
+
+.breakdown-table td {
+  padding: 6px 10px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-muted);
+}
+
+.breakdown-table tr:last-child td {
+  font-weight: 600;
+  color: var(--amber);
+  border-bottom: none;
+}
+
+.badge-sourced {
+  display: inline-block;
+  font-size: 8px;
+  font-weight: 600;
+  padding: 1px 5px;
+  border-radius: 3px;
+  background: var(--badge-sourced-bg);
+  color: var(--green);
+}
+
+.badge-plan {
+  display: inline-block;
+  font-size: 8px;
+  font-weight: 600;
+  padding: 1px 5px;
+  border-radius: 3px;
+  background: var(--badge-plan-bg);
+  color: var(--amber);
+}
+
+/* ── Assumptions (Categorized) ── */
+.assumptions-section {
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+
+.assumptions-section > h3 {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-dim);
+  margin-bottom: 14px;
+}
+
+.assumption-categories {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 12px;
+}
+
+.assumption-cat {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 10px 12px;
+}
+
+.assumption-cat h4 {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--border);
+}
+
+.assumption-cat ul { list-style: none; padding: 0; }
+
+.assumption-cat li {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-dim);
+  line-height: 1.5;
+  padding: 2px 0 2px 12px;
+  position: relative;
+}
+
+.assumption-cat li::before {
+  content: '\2022';
+  position: absolute;
+  left: 2px;
+  color: var(--text-dim);
+}
+
+.assumption-cat a { color: var(--blue); text-decoration: none; }
+.assumption-cat a:hover { text-decoration: underline; }
+
+/* ── Coming Soon ── */
+.coming-soon-page {
+  display: none;
+  text-align: center;
+  padding: 80px 20px;
+}
+.coming-soon-page.visible { display: block; }
+
+.coming-soon-page h2 {
+  font-family: var(--font-mono);
+  font-size: 20px;
+  color: var(--text-dim);
+  margin-bottom: 8px;
+}
+
+.coming-soon-page p {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--text-dim);
+}
+
+@media (max-width: 768px) {
+  .result-cards { grid-template-columns: 1fr 1fr; }
+  .control-grid { grid-template-columns: 1fr; }
+  .control-grid.learn-grid { grid-template-columns: 1fr 1fr; }
+  .assumption-categories { grid-template-columns: 1fr; }
+  .header-top { flex-wrap: wrap; }
+  .advanced-inline { flex-direction: column; }
+}
+
+@media (max-width: 1024px) {
+  .control-grid.learn-grid { grid-template-columns: 1fr 1fr; }
+  .control-grid { grid-template-columns: 1fr 1fr; }
+}
+
+.hidden { display: none !important; }
+</style>
+</head>
+<body>
+
+<button class="theme-toggle" onclick="toggleTheme()" title="Toggle dark/light mode" aria-label="Toggle theme">&#x1f319;</button>
+
+<!-- Product Tabs -->
+<nav class="product-tabs">
+  <button class="product-tab active" onclick="switchProduct('counting')">Counting + Hub</button>
+  <button class="product-tab disabled" onclick="return false">E-Ink <span class="coming-soon">Coming Soon</span></button>
+  <button class="product-tab disabled" onclick="return false">Weighing Scale <span class="coming-soon">Coming Soon</span></button>
+</nav>
+
+<!-- Counting + Hub -->
+<div id="counting-content">
+
+  <header class="sticky-header">
+    <div class="header-top">
+      <h1>Counting + Hub</h1>
+      <span class="tag">Battery Estimator</span>
+      <span class="chip-tag">nRF5340 + nRF7002</span>
+      <span class="header-spacer"></span>
+      <button class="mode-tab active" data-mode="without" onclick="switchMode('without')">Without Learning</button>
+      <button class="mode-tab" data-mode="with" onclick="switchMode('with')">With Learning</button>
+    </div>
+
+    <!-- Controls: Without Learning -->
+    <div id="controls-without" class="control-grid">
+      <div class="control-panel">
+        <h3>Sync &amp; Cadence</h3>
+        <div class="control-group">
+          <label>Sync every <input type="number" id="syncMin" value="60" min="1" max="1440"> min</label>
+          <div class="derived" id="syncDerived">= 24 syncs / day</div>
+        </div>
+        <div class="control-group">
+          <label>App refreshes / day</label>
+          <input type="range" id="appRefresh" min="0" max="20" value="0">
+          <div class="slider-bounds"><span>0</span><span id="appRefreshVal">0</span><span>20</span></div>
+        </div>
+        <div class="control-group">
+          <label>Wi-Fi session <span class="sub-label">nRF7002 boot+send+shutdown</span></label>
+          <input type="range" id="wifiSec" min="4" max="20" value="8">
+          <div class="slider-bounds"><span>4 s</span><span id="wifiSecVal">8 s</span><span>20 s</span></div>
+        </div>
+      </div>
+
+      <div class="control-panel">
+        <h3>Usage</h3>
+        <div class="control-group">
+          <label>Coffee drinks / day <span class="sub-label">each triggers BLE sync to e-ink</span></label>
+          <input type="range" id="drinks" min="0" max="20" value="3">
+          <div class="slider-bounds"><span>0</span><span id="drinksVal">3</span><span>20</span></div>
+        </div>
+      </div>
+
+      <div class="control-panel">
+        <h3>Advanced</h3>
+        <div class="control-group">
+          <label>MCU wake / cycle <span class="sub-label">nRF5340 @ 4 mA</span></label>
+          <input type="range" id="wakeS" min="0.5" max="5" step="0.5" value="1.5">
+          <div class="slider-bounds"><span>0.5 s</span><span id="wakeSVal">1.5 s</span><span>5.0 s</span></div>
+        </div>
+        <div class="control-group">
+          <div class="toggle-row">
+            <div class="toggle" id="ulpToggle" onclick="this.classList.toggle('on'); calculate()"></div>
+            <label>Sensors ULP <span class="sub-label">+220 uA</span></label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Controls: With Learning -->
+    <div id="controls-with" class="control-grid learn-grid hidden">
+      <div class="control-panel phase1">
+        <h3>Phase 1: Learning</h3>
+        <div class="control-group">
+          <label>Sync every <input type="number" id="learnSyncMin" value="5" min="1" max="30"> min</label>
+          <div class="derived" id="learnSyncDerived">= 288 syncs / day</div>
+        </div>
+        <div class="control-group">
+          <label>Duration</label>
+          <input type="range" id="learnDays" min="1" max="60" value="30">
+          <div class="slider-bounds"><span>1 d</span><span id="learnDaysVal">30 d</span><span>60 d</span></div>
+        </div>
+        <div class="control-group">
+          <label>Wi-Fi session</label>
+          <input type="range" id="learnWifiSec" min="4" max="20" value="8">
+          <div class="slider-bounds"><span>4 s</span><span id="learnWifiSecVal">8 s</span><span>20 s</span></div>
+        </div>
+      </div>
+
+      <div class="control-panel phase2-active">
+        <h3>Phase 2: Active Window</h3>
+        <div class="control-group">
+          <label>Drinks / day <span class="sub-label">BLE sync per drink</span></label>
+          <input type="range" id="learnDrinks" min="0" max="20" value="3">
+          <div class="slider-bounds"><span>0</span><span id="learnDrinksVal">3</span><span>20</span></div>
+        </div>
+        <div class="control-group">
+          <label>Window per drink</label>
+          <input type="range" id="activeWindow" min="5" max="90" step="5" value="30">
+          <div class="slider-bounds"><span>5 min</span><span id="activeWindowVal">30 min</span><span>90 min</span></div>
+        </div>
+        <div class="control-group">
+          <label>Active sync every <input type="number" id="activeSyncMin" value="5" min="1" max="60"> min</label>
+        </div>
+      </div>
+
+      <div class="control-panel">
+        <h3>Phase 2: Idle</h3>
+        <div class="control-group">
+          <label>Idle sync every <input type="number" id="idleSyncMin" value="60" min="1" max="1440"> min</label>
+        </div>
+        <div class="control-group">
+          <label>Wi-Fi session</label>
+          <input type="range" id="postWifiSec" min="4" max="20" value="8">
+          <div class="slider-bounds"><span>4 s</span><span id="postWifiSecVal">8 s</span><span>20 s</span></div>
+        </div>
+        <div class="control-group">
+          <label>App refreshes / day</label>
+          <input type="range" id="learnAppRefresh" min="0" max="20" value="0">
+          <div class="slider-bounds"><span>0</span><span id="learnAppRefreshVal">0</span><span>20</span></div>
+        </div>
+      </div>
+
+      <div class="control-panel">
+        <h3>Advanced</h3>
+        <div class="control-group">
+          <label>MCU wake / cycle <span class="sub-label">nRF5340 @ 4 mA</span></label>
+          <input type="range" id="learnWakeS" min="0.5" max="5" step="0.5" value="1.5">
+          <div class="slider-bounds"><span>0.5 s</span><span id="learnWakeSVal">1.5 s</span><span>5.0 s</span></div>
+        </div>
+        <div class="control-group">
+          <div class="toggle-row">
+            <div class="toggle" id="learnUlpToggle" onclick="this.classList.toggle('on'); calculate()"></div>
+            <label>Sensors ULP <span class="sub-label">+220 uA</span></label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sync-summary" id="syncSummary">
+      <span>24</span> syncs/day &middot; <span>0.00</span> mAh/day
+    </div>
+  </header>
+
+  <main class="results-zone">
+
+    <!-- Recharge Callout (Learning only, before cards) -->
+    <div id="rechargeCallout" class="recharge-callout hidden"></div>
+
+    <!-- Combined result cards: icon + efficiency info + life estimate -->
+    <div class="result-cards" id="resultCards"></div>
+
+    <!-- Line Graph -->
+    <div class="chart-container">
+      <h3>Battery Depletion Over Time</h3>
+      <div class="chart-wrap"><canvas id="lineChart"></canvas></div>
+    </div>
+
+    <!-- Breakdown Table -->
+    <div class="chart-container">
+      <h3>Daily Energy Breakdown</h3>
+      <table class="breakdown-table" id="breakdownTable"></table>
+    </div>
+
+    <!-- Categorized Assumptions -->
+    <section class="assumptions-section">
+      <h3>Assumptions &amp; Data Sources</h3>
+      <div class="assumption-categories">
+
+        <div class="assumption-cat">
+          <h4>Datasheets</h4>
+          <ul>
+            <li><a href="https://docs.nordicsemi.com/bundle/ps_nrf5340/page/keyfeatures_html5.html" target="_blank" rel="noopener">nRF5340 PS v2.0</a> &mdash; MCU + BLE, deep-sleep ~5 uA, BLE TX 3.4 mA</li>
+            <li><a href="https://docs.nordicsemi.com/bundle/ps_nrf7002/page/keyfeatures_html5.html" target="_blank" rel="noopener">nRF7002 PS v1.2</a> &mdash; Wi-Fi 6 companion, ~60 mA active, 15 uA shutdown</li>
+            <li><a href="https://docs.nordicsemi.com/bundle/ps_npm1100/page/keyfeatures_html5.html" target="_blank" rel="noopener">nPM1100 PS v1.4</a> &mdash; PMIC, 700 nA quiescent (negligible)</li>
+            <li><a href="https://www.st.com/resource/en/datasheet/vl53l4cd.pdf" target="_blank" rel="noopener">VL53L4CD DS rev.8</a> &mdash; ToF sensor, 23 mA active, 55 uA ULP per sensor</li>
+          </ul>
+        </div>
+
+        <div class="assumption-cat">
+          <h4>Efficiency Factors</h4>
+          <ul>
+            <li>AAA efficiency: <strong>70%</strong> &mdash; pulse-load ~78% &times; buck-boost regulator ~87% &times; temp/aging/cutoff ~94%</li>
+            <li>Li-ion efficiency: <strong>80%</strong> &mdash; regulator ~90% &times; aging/cycle ~92% &times; temperature ~95% &times; cutoff reserve ~94%</li>
+            <li>Usable mAh = (nominal Wh &times; efficiency &times; 1000) / 3.3 V rail</li>
+          </ul>
+        </div>
+
+        <div class="assumption-cat">
+          <h4>Board-Level Estimates</h4>
+          <ul>
+            <li>Board deep-sleep: <strong>30 uA</strong> practical &mdash; nRF5340 ~5 uA + nRF7002 shutdown ~15 uA + PCB leakage</li>
+            <li>BLE average modelled: <strong>4 mA</strong> &mdash; includes RX windows + BLE stack overhead</li>
+            <li>Sensor on-time per cycle: <strong>1.0 s</strong> &mdash; 4 sensors measured sequentially</li>
+            <li><a href="https://devzone.nordicsemi.com/f/nordic-q-a/112208" target="_blank" rel="noopener">Nordic DevZone #112208</a> &mdash; community power measurement reference</li>
+          </ul>
+        </div>
+
+        <div class="assumption-cat">
+          <h4>Design Targets</h4>
+          <ul>
+            <li>9-month threshold = acceptable charge/swap cycle for Podsque v1</li>
+            <li>BLE session duration: 3.0 s per e-ink update</li>
+            <li>Wi-Fi session default: 8 s (boot + scan + TX + shutdown)</li>
+          </ul>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<div id="eink-content" class="coming-soon-page">
+  <h2>E-Ink Module</h2>
+  <p>Battery estimator for the e-ink display module is coming soon.</p>
+</div>
+
+<div id="weighing-content" class="coming-soon-page">
+  <h2>Weighing Scale Module</h2>
+  <p>Battery estimator for the weighing scale module is coming soon.</p>
+</div>
+
+<script>
+// SVG battery icons (inline to keep single-file)
+// 2x AAA: two cylindrical cells
+const ICON_AAA2 = '<svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="5" y="8" width="7" height="16" rx="1.5" stroke="currentColor" stroke-width="1.3" fill="none"/><rect x="16" y="8" width="7" height="16" rx="1.5" stroke="currentColor" stroke-width="1.3" fill="none"/><rect x="7" y="5" width="3" height="3" rx="0.5" fill="currentColor"/><rect x="18" y="5" width="3" height="3" rx="0.5" fill="currentColor"/></svg>';
+// 4x AAA: four cylindrical cells
+const ICON_AAA4 = '<svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="1" y="8" width="5.5" height="16" rx="1.2" stroke="currentColor" stroke-width="1.2" fill="none"/><rect x="8" y="8" width="5.5" height="16" rx="1.2" stroke="currentColor" stroke-width="1.2" fill="none"/><rect x="15" y="8" width="5.5" height="16" rx="1.2" stroke="currentColor" stroke-width="1.2" fill="none"/><rect x="22" y="8" width="5.5" height="16" rx="1.2" stroke="currentColor" stroke-width="1.2" fill="none"/><rect x="2.5" y="5" width="2.5" height="3" rx="0.5" fill="currentColor"/><rect x="9.5" y="5" width="2.5" height="3" rx="0.5" fill="currentColor"/><rect x="16.5" y="5" width="2.5" height="3" rx="0.5" fill="currentColor"/><rect x="23.5" y="5" width="2.5" height="3" rx="0.5" fill="currentColor"/></svg>';
+// Li-ion 2000: single battery pack
+const ICON_LI1 = '<svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="6" y="7" width="16" height="18" rx="2" stroke="currentColor" stroke-width="1.3" fill="none"/><rect x="11" y="3.5" width="6" height="3.5" rx="1" fill="currentColor"/><path d="M14 12v5M11.5 14.5h5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>';
+// Li-ion 4000: two battery packs
+const ICON_LI2 = '<svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="1" y="7" width="12" height="18" rx="2" stroke="currentColor" stroke-width="1.3" fill="none"/><rect x="4.5" y="3.5" width="5" height="3.5" rx="1" fill="currentColor"/><path d="M7 12v5M5 14.5h4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><rect x="15" y="7" width="12" height="18" rx="2" stroke="currentColor" stroke-width="1.3" fill="none"/><rect x="18.5" y="3.5" width="5" height="3.5" rx="1" fill="currentColor"/><path d="M21 12v5M19 14.5h4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>';
+
+const BATTERIES = [
+  { id: 'aaa2', name: '2x AAA Alkaline', nomWh: 3.75, eff: 0.70, color: 'rgba(168,85,247,.8)', icon: ICON_AAA2, effNote: 'pulse-load ~78% x buck-boost ~87% x temp/aging/cutoff ~94%', action: 'swapped' },
+  { id: 'aaa4', name: '4x AAA Alkaline', nomWh: 7.50, eff: 0.70, color: 'rgba(245,158,11,.85)', icon: ICON_AAA4, effNote: 'pulse-load ~78% x buck-boost ~87% x temp/aging/cutoff ~94%', action: 'swapped' },
+  { id: 'li2k', name: 'Li-ion 2000 mAh', nomWh: 7.40, eff: 0.80, color: 'rgba(59,130,246,.85)', icon: ICON_LI1, effNote: 'regulator ~90% x aging ~92% x temp ~95% x cutoff ~94%', action: 'recharged' },
+  { id: 'li4k', name: 'Li-ion 4000 mAh', nomWh: 14.80, eff: 0.80, color: 'rgba(16,185,129,.9)', icon: ICON_LI2, effNote: 'regulator ~90% x aging ~92% x temp ~95% x cutoff ~94%', action: 'recharged' }
+];
+
+const RAIL_V = 3.3, WIFI_MA = 60, BLE_MA = 4, MCU_MA = 4, SENSOR_MA = 23;
+const SLEEP_UA = 30, ULP_UA_PER_SENSOR = 55, NUM_SENSORS = 4;
+const SENSOR_ON_S = 1.0, BLE_SESSION_S = 3.0, MONTH_DAYS = 30.44;
+
+BATTERIES.forEach(b => {
+  b.usableWh = b.nomWh * b.eff;
+  b.usableMah = (b.usableWh * 1000) / RAIL_V;
+});
+
+let currentMode = 'without';
+let lineChart = null;
+
+function toggleTheme() {
+  const html = document.documentElement;
+  const btn = document.querySelector('.theme-toggle');
+  if (html.getAttribute('data-theme') === 'dark') {
+    html.setAttribute('data-theme', 'light');
+    btn.innerHTML = '&#x2600;&#xFE0F;';
+  } else {
+    html.setAttribute('data-theme', 'dark');
+    btn.innerHTML = '&#x1f319;';
+  }
+  if (lineChart) { lineChart.destroy(); lineChart = null; }
+  calculate();
+}
+
+function switchProduct(tab) {
+  document.querySelectorAll('.product-tab').forEach((t, i) => t.classList.toggle('active', i === 0 && tab === 'counting'));
+  document.getElementById('counting-content').classList.toggle('hidden', tab !== 'counting');
+  document.getElementById('eink-content').classList.toggle('visible', tab === 'eink');
+  document.getElementById('weighing-content').classList.toggle('visible', tab === 'weighing');
+}
+
+function switchMode(mode) {
+  currentMode = mode;
+  document.querySelectorAll('.mode-tab').forEach(t => t.classList.toggle('active', t.dataset.mode === mode));
+  document.getElementById('controls-without').classList.toggle('hidden', mode !== 'without');
+  document.getElementById('controls-with').classList.toggle('hidden', mode !== 'with');
+  if (lineChart) { lineChart.destroy(); lineChart = null; }
+  calculate();
+}
+
+function val(id) { return parseFloat(document.getElementById(id).value) || 0; }
+function clamp(v, mn, mx) { return Math.max(mn, Math.min(mx, v)); }
+
+function formatLife(months) {
+  if (months < 0.5) return (months * MONTH_DAYS).toFixed(1) + ' d';
+  if (months >= 24) return (months / 12).toFixed(1) + ' yr';
+  return months.toFixed(1) + ' mo';
+}
+
+function verdict(months) {
+  if (months >= 9) return { cls: 'verdict-great', text: '\u2265 9 months \u2713', color: 'var(--v-great)' };
+  if (months >= 6) return { cls: 'verdict-ok', text: '6\u20139 months', color: 'var(--v-ok)' };
+  if (months >= 1) return { cls: 'verdict-warn', text: '< 6 months', color: 'var(--v-warn)' };
+  return { cls: 'verdict-bad', text: '< 1 month', color: 'var(--v-bad)' };
+}
+
+function getTC() {
+  const s = getComputedStyle(document.documentElement);
+  return { textMuted: s.getPropertyValue('--text-muted').trim(), border: s.getPropertyValue('--border').trim() };
+}
+
+function calcDaily(wifiSec, syncsPerDay, appRefreshes, drinks, wakeS, ulpOn) {
+  const cycles = syncsPerDay + appRefreshes;
+  const wifiMah = (wifiSec / 3600) * WIFI_MA * cycles;
+  const wakeMah = (wakeS / 3600) * MCU_MA * cycles;
+  const sensorMah = (SENSOR_ON_S / 3600) * SENSOR_MA * cycles;
+  const bleMah = drinks * (BLE_SESSION_S / 3600) * BLE_MA;
+  const sleepMah = (SLEEP_UA / 1000) * 24;
+  const ulpMah = ulpOn ? (NUM_SENSORS * ULP_UA_PER_SENSOR / 1000) * 24 : 0;
+  const totalMah = wifiMah + wakeMah + sensorMah + bleMah + sleepMah + ulpMah;
+  return {
+    wifiMah, wakeMah, sensorMah, bleMah, sleepMah, ulpMah, totalMah,
+    rows: [
+      { name: 'Wi-Fi sync', mah: wifiMah, badge: 'sourced' },
+      { name: 'MCU wake', mah: wakeMah, badge: 'sourced' },
+      { name: 'Sensor measurement', mah: sensorMah, badge: 'sourced' },
+      { name: 'BLE \u2192 e-ink', mah: bleMah, badge: 'sourced' },
+      { name: 'Board sleep', mah: sleepMah, badge: 'sourced' },
+      ...(ulpOn ? [{ name: 'Sensor ULP', mah: ulpMah, badge: 'plan' }] : []),
+      { name: 'Total', mah: totalMah, badge: null }
+    ]
+  };
+}
+
+function calculate() {
+  if (currentMode === 'without') calcWithout(); else calcWith();
+}
+
+function calcWithout() {
+  const syncMin = clamp(val('syncMin'), 1, 1440);
+  const appRefreshes = val('appRefresh');
+  const wifiSec = val('wifiSec');
+  const drinks = val('drinks');
+  const wakeS = val('wakeS');
+  const ulpOn = document.getElementById('ulpToggle').classList.contains('on');
+
+  const syncsPerDay = Math.floor(1440 / syncMin);
+  document.getElementById('syncDerived').textContent = '= ' + syncsPerDay + ' syncs / day';
+
+  const d = calcDaily(wifiSec, syncsPerDay, appRefreshes, drinks, wakeS, ulpOn);
+  const lives = BATTERIES.map(b => ({ ...b, dailyMah: d.totalMah, lifeMonths: (b.usableMah / d.totalMah) / MONTH_DAYS }));
+
+  document.getElementById('syncSummary').innerHTML =
+    '<span>' + (syncsPerDay + appRefreshes) + '</span> syncs/day &middot; <span>' + d.totalMah.toFixed(2) + '</span> mAh/day';
+
+  document.getElementById('rechargeCallout').classList.add('hidden');
+
+  renderResultCards(lives);
+  renderLineChart(lives, null);
+  renderBreakdown(d);
+}
+
+function calcWith() {
+  const learnSyncMin = clamp(val('learnSyncMin'), 1, 30);
+  const learnDays = val('learnDays');
+  const learnWifiSec = val('learnWifiSec');
+  const learnDrinks = val('learnDrinks');
+  const activeWindow = val('activeWindow');
+  const activeSyncMin = clamp(val('activeSyncMin'), 1, 60);
+  const idleSyncMin = clamp(val('idleSyncMin'), 1, 1440);
+  const postWifiSec = val('postWifiSec');
+  const learnAppRefresh = val('learnAppRefresh');
+  const wakeS = val('learnWakeS');
+  const ulpOn = document.getElementById('learnUlpToggle').classList.contains('on');
+
+  const learnSyncsPerDay = Math.floor(1440 / learnSyncMin);
+  document.getElementById('learnSyncDerived').textContent = '= ' + learnSyncsPerDay + ' syncs / day';
+
+  const phase1Daily = calcDaily(learnWifiSec, learnSyncsPerDay, 0, learnDrinks, wakeS, ulpOn);
+
+  const activeMinsPerDay = Math.min(1440, learnDrinks * activeWindow);
+  const idleMinsPerDay = 1440 - activeMinsPerDay;
+  const activeSyncs = activeMinsPerDay / activeSyncMin;
+  const idleSyncs = idleMinsPerDay / idleSyncMin;
+  const postSyncsPerDay = activeSyncs + idleSyncs + learnAppRefresh;
+
+  const phase2Daily = calcDaily(postWifiSec, activeSyncs + idleSyncs, learnAppRefresh, learnDrinks, wakeS, ulpOn);
+
+  document.getElementById('syncSummary').innerHTML =
+    'Phase 1: <span>' + learnSyncsPerDay + '</span> syncs/day &middot; <span>' + phase1Daily.totalMah.toFixed(2) + '</span> mAh/day &nbsp;|&nbsp; ' +
+    'Phase 2: <span>' + Math.round(postSyncsPerDay) + '</span> syncs/day &middot; <span>' + phase2Daily.totalMah.toFixed(2) + '</span> mAh/day';
+
+  const phase1MahUsed = phase1Daily.totalMah * learnDays;
+  const lives = BATTERIES.map(b => ({
+    ...b,
+    dailyMah: phase2Daily.totalMah,
+    lifeMonths: (b.usableMah / phase2Daily.totalMah) / MONTH_DAYS,
+    phase1Pct: (phase1MahUsed / b.usableMah) * 100,
+    phase1MahUsed
+  }));
+
+  renderRechargeCallout(lives, phase1Daily.totalMah, learnDays);
+  renderResultCards(lives);
+  renderLineChart(lives, { learnDays, phase1Daily: phase1Daily.totalMah, phase2Daily: phase2Daily.totalMah });
+  renderBreakdown(phase2Daily);
+}
+
+// ── Renderers ──
+
+// Combined card: icon + efficiency + life (replaces separate eff banner + result cards)
+function renderResultCards(lives) {
+  document.getElementById('resultCards').innerHTML = lives.map(l => {
+    const v = verdict(l.lifeMonths);
+    return `
+      <div class="result-card ${v.cls}">
+        <div class="batt-icon">${l.icon}</div>
+        <div class="verdict-badge">${v.text}</div>
+        <div class="batt-name">${l.name}</div>
+        <div class="life-value">${formatLife(l.lifeMonths)}</div>
+        <div class="sub-line">
+          ${l.dailyMah.toFixed(2)} mAh/day<br>
+          ${l.nomWh.toFixed(2)} Wh &middot; ${(l.eff * 100).toFixed(0)}% eff &middot; ${l.usableMah.toFixed(0)} mAh usable
+        </div>
+      </div>`;
+  }).join('');
+}
+
+// Learning: single compact callout with phase depletion inline
+function renderRechargeCallout(lives, phase1DailyMah, learnDays) {
+  const el = document.getElementById('rechargeCallout');
+  el.classList.remove('hidden');
+  const parts = lives.map(l => `${l.name}: ${l.phase1Pct.toFixed(1)}% used \u2192 ${l.action}`).join(' &middot; ');
+  el.innerHTML = `
+    <div class="callout-title">After ${learnDays}-day learning phase &mdash; batteries recharged / swapped &mdash; Post-learning life from 100%</div>
+    <div class="phase-depletion">Phase 1 consumed ${phase1DailyMah.toFixed(2)} mAh/day &times; ${learnDays}d &mdash; ${parts}</div>`;
+}
+
+function renderLineChart(lives, learningData) {
+  const tc = getTC();
+  const ctx = document.getElementById('lineChart').getContext('2d');
+  // Use finer resolution: 0.25-month steps for smoother curves and proper month-0 data
+  const maxMonths = 18;
+  const step = 0.25;
+  const labels = [];
+  for (let m = 0; m <= maxMonths; m += step) labels.push(Math.round(m * 100) / 100);
+
+  let datasets;
+  if (learningData) {
+    const switchMonth = learningData.learnDays / MONTH_DAYS;
+    datasets = lives.map(l => {
+      const points = [];
+      // Phase 1: depletion from 100% down to recharge point
+      for (let m = 0; m <= maxMonths; m += step) {
+        const t = Math.round(m * 100) / 100;
+        if (t < switchMonth) {
+          points.push({ x: t, y: Math.max(0, 100 - ((learningData.phase1Daily * t * MONTH_DAYS) / l.usableMah) * 100) });
+        }
+      }
+      // Always include the exact recharge point as the last Phase 1 data
+      points.push({ x: switchMonth, y: Math.max(0, 100 - ((learningData.phase1Daily * switchMonth * MONTH_DAYS) / l.usableMah) * 100) });
+      // Null to break the line
+      points.push({ x: switchMonth + 0.001, y: null });
+      // Phase 2: restart from 100% at recharge point
+      points.push({ x: switchMonth + 0.002, y: 100 });
+      for (let m = 0; m <= maxMonths; m += step) {
+        const t = Math.round(m * 100) / 100;
+        if (t > switchMonth) {
+          const monthsSinceSwap = t - switchMonth;
+          const pct = 100 - ((learningData.phase2Daily * monthsSinceSwap * MONTH_DAYS) / l.usableMah) * 100;
+          points.push({ x: t, y: Math.max(0, pct) });
+        }
+      }
+      return { label: l.name, data: points, borderColor: l.color, backgroundColor: 'transparent', borderWidth: 2, pointRadius: 0, pointHoverRadius: 5, pointHoverBackgroundColor: l.color, pointHoverBorderColor: l.color, pointHitRadius: 6, spanGaps: false, tension: 0.1 };
+    });
+  } else {
+    datasets = lives.map(l => ({
+      label: l.name,
+      data: labels.map(m => ({ x: m, y: Math.max(0, 100 - ((l.dailyMah * m * MONTH_DAYS) / l.usableMah) * 100) })),
+      borderColor: l.color, backgroundColor: 'transparent', borderWidth: 2, pointRadius: 0, pointHoverRadius: 5, pointHoverBackgroundColor: l.color, pointHoverBorderColor: l.color, pointHitRadius: 6, tension: 0.1
+    }));
+  }
+
+  const data = { datasets };
+
+  if (lineChart) {
+    lineChart.data = data;
+    lineChart.options.scales.x.ticks.color = tc.textMuted;
+    lineChart.options.scales.y.ticks.color = tc.textMuted;
+    lineChart.options.scales.x.grid.color = tc.border;
+    lineChart.options.scales.y.grid.color = tc.border;
+    lineChart.update();
+    return;
+  }
+
+  lineChart = new Chart(ctx, {
+    type: 'line',
+    data,
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { mode: 'nearest', axis: 'x', intersect: false },
+      plugins: {
+        legend: { labels: { color: tc.textMuted, font: { family: 'IBM Plex Mono', size: 10 }, usePointStyle: true, pointStyle: 'line' } },
+        tooltip: {
+          callbacks: {
+            title: c => { const m = c[0].parsed.x; return 'Day ' + Math.round(m * MONTH_DAYS) + ' (~' + m.toFixed(1) + ' mo)'; },
+            label: c => { const y = c.parsed.y; return c.dataset.label + ': ' + (y !== null && y !== undefined ? y.toFixed(1) + '%' : 'recharge'); }
+          }
+        }
+      },
+      scales: {
+        x: {
+          type: 'linear',
+          min: 0,
+          max: maxMonths,
+          title: { display: true, text: 'Months', color: tc.textMuted, font: { family: 'IBM Plex Mono', size: 10 } },
+          ticks: { color: tc.textMuted, font: { family: 'IBM Plex Mono', size: 10 }, stepSize: 3 },
+          grid: { color: tc.border }
+        },
+        y: {
+          min: 0, max: 100,
+          title: { display: true, text: 'Battery %', color: tc.textMuted, font: { family: 'IBM Plex Mono', size: 10 } },
+          ticks: { color: tc.textMuted, font: { family: 'IBM Plex Mono', size: 10 }, callback: v => v + '%' },
+          grid: { color: tc.border }
+        }
+      }
+    },
+    plugins: [{
+      afterDraw(chart) {
+        const xS = chart.scales.x, yS = chart.scales.y, c = chart.ctx;
+        c.save();
+        const x9 = xS.getPixelForValue(9);
+        if (x9 >= xS.left && x9 <= xS.right) {
+          c.setLineDash([4, 4]); c.strokeStyle = 'rgba(16,185,129,.6)'; c.lineWidth = 1.5;
+          c.beginPath(); c.moveTo(x9, yS.top); c.lineTo(x9, yS.bottom); c.stroke();
+          c.setLineDash([]); c.fillStyle = 'rgba(16,185,129,.8)'; c.font = '10px IBM Plex Mono';
+          c.fillText('9 mo', x9 + 4, yS.top + 12);
+        }
+        if (learningData) {
+          const xSwap = xS.getPixelForValue(learningData.learnDays / MONTH_DAYS);
+          if (xSwap >= xS.left && xSwap <= xS.right) {
+            c.setLineDash([4, 4]); c.strokeStyle = 'rgba(245,158,11,.6)'; c.lineWidth = 1.5;
+            c.beginPath(); c.moveTo(xSwap, yS.top); c.lineTo(xSwap, yS.bottom); c.stroke();
+            c.setLineDash([]); c.fillStyle = 'rgba(245,158,11,.8)'; c.font = '10px IBM Plex Mono';
+            c.fillText('recharge \u2191', xSwap + 4, yS.top + 24);
+          }
+        }
+        c.restore();
+      }
+    }]
+  });
+}
+
+function renderBreakdown(d) {
+  let html = '<thead><tr><th>Component</th><th>mAh/day</th><th>%</th><th></th></tr></thead><tbody>';
+  d.rows.forEach(r => {
+    const pct = r.name === 'Total' ? 100 : ((r.mah / d.totalMah) * 100);
+    const badge = r.badge === 'sourced' ? '<span class="badge-sourced">sourced</span>' :
+                  r.badge === 'plan' ? '<span class="badge-plan">plan</span>' : '';
+    html += `<tr><td>${r.name}</td><td>${r.mah.toFixed(4)}</td><td>${pct.toFixed(1)}%</td><td>${badge}</td></tr>`;
+  });
+  html += '</tbody>';
+  document.getElementById('breakdownTable').innerHTML = html;
+}
+
+// ── Event Binding ──
+function bindInputs() {
+  ['syncMin'].forEach(id => {
+    const el = document.getElementById(id);
+    el.addEventListener('input', calculate);
+    el.addEventListener('blur', function() { this.value = clamp(parseFloat(this.value) || 1, +this.min, +this.max); calculate(); });
+  });
+
+  ['appRefresh', 'wifiSec', 'drinks', 'wakeS'].forEach(id => {
+    const el = document.getElementById(id);
+    el.addEventListener('input', () => {
+      const v = document.getElementById(id + 'Val');
+      if (v) { let t = el.value; if (id === 'wifiSec' || id === 'wakeS') t += ' s'; v.textContent = t; }
+      calculate();
+    });
+  });
+
+  ['learnSyncMin', 'activeSyncMin', 'idleSyncMin'].forEach(id => {
+    const el = document.getElementById(id);
+    el.addEventListener('input', calculate);
+    el.addEventListener('blur', function() { this.value = clamp(parseFloat(this.value) || 1, +this.min, +this.max); calculate(); });
+  });
+
+  ['learnDays', 'learnWifiSec', 'learnDrinks', 'activeWindow', 'postWifiSec', 'learnAppRefresh', 'learnWakeS'].forEach(id => {
+    const el = document.getElementById(id);
+    el.addEventListener('input', () => {
+      const v = document.getElementById(id + 'Val');
+      if (v) {
+        let t = el.value;
+        if (id === 'learnWifiSec' || id === 'postWifiSec' || id === 'learnWakeS') t += ' s';
+        else if (id === 'learnDays') t += ' d';
+        else if (id === 'activeWindow') t += ' min';
+        v.textContent = t;
+      }
+      calculate();
+    });
+  });
+}
+
+bindInputs();
+calculate();
+</script>
+</body>
+</html>
