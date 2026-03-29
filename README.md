@@ -2,37 +2,37 @@
 
 Interactive battery life estimator for Podsque hardware modules. Single-file HTML app — no build step, no backend.
 
+**Live:** [podsquebatterysimulator.vercel.app](https://podsquebatterysimulator.vercel.app/)
+
 ## Modules
 
 | Tab | Status | Description |
 |---|---|---|
 | **Counting + Hub** | Live | nRF5340 + nRF7002 pod-counting sensor module |
-| **E-Ink** | Coming Soon | E-ink display module |
+| **E-Ink** | Live | nRF52832 + 3.9" e-paper display module |
 | **Weighing Scale** | Coming Soon | Weighing scale module |
 
 ## Counting + Hub
 
-Estimates battery life across 4 battery options:
+Estimates battery life across 4 battery options: 2x AAA, 4x AAA, Li-ion 2000 mAh, Li-ion 4000 mAh.
 
-- 2x AAA Alkaline (3.75 Wh, 70% efficiency)
-- 4x AAA Alkaline (7.50 Wh, 70% efficiency)
-- Li-ion 2000 mAh (7.40 Wh, 80% efficiency)
-- Li-ion 4000 mAh (14.80 Wh, 80% efficiency)
+### Modes
 
-### Two modes
+- **Without Learning** — fixed sync interval, configurable Wi-Fi session, drink count, MCU wake overhead
+- **With Learning** — aggressive Phase 1 sync during learning window, then optimized Phase 2 with active/idle cadence. Batteries recharged/swapped after learning.
 
-- **Without Learning** — fixed sync interval, configurable Wi-Fi session, drink count, and MCU wake overhead
-- **With Learning** — aggressive Phase 1 sync during a learning window, then optimized Phase 2 with active/idle cadence. Batteries recharged/swapped after learning.
+### Power model components
 
-### Features
+- Wi-Fi sync (nRF7002, 60 mA per cycle)
+- MCU wake overhead (nRF5340, 4 mA)
+- Sensor measurement (4x VL53L4CD, 23 mA)
+- BLE TX to e-ink (4 mA per drink)
+- BLE advertising (10 µA constant — always on for e-ink + phone connectivity)
+- Li-ion protection IC leakage (6 µA constant)
+- Board deep sleep (30 µA — nRF5340 + nRF7002 shutdown + PCB leakage)
+- Sensor ULP mode (optional, +220 µA constant)
 
-- Live-updating results on every input change
-- Depletion line chart (0-18 months) with 9-month target marker
-- Daily energy breakdown table with sourced/plan badges
-- Dark / light theme toggle
-- Verdict badges: cyan (>= 9 mo), violet (6-9 mo), orange (< 6 mo), red (< 1 mo)
-
-## Hardware
+### Hardware
 
 | Component | Part | Role |
 |---|---|---|
@@ -41,14 +41,52 @@ Estimates battery life across 4 battery options:
 | Sensors | 4x VL53L4CD | IR ToF pod-counting |
 | PMIC | nPM1100 | Battery charger + regulator |
 
+## E-Ink Display
+
+Estimates battery life across 4 options: CR2032, CR2450, CR2477, 2x AAA Alkaline.
+
+### Controls
+
+- Content changes per week (layout/pod type changes)
+- Live inventory count toggle (refresh on every coffee)
+- Payload type (Scene JSON min/max, full-screen image)
+- Freshness mode (Max Battery 60min / Balanced 30min / Real-time 5min)
+- BLE advertising interval (1s or 2s)
+- E-paper refresh duration and board sleep current
+
+### Power model components
+
+- E-paper refresh (100 mA peak, 3.5s — per Akash, Hardware & BLE Strategy Sync)
+- MCU wait during refresh (1.9 mA idle on BUSY pin, on top of e-paper draw)
+- BLE connection setup + data receive (7 mA avg)
+- MCU render — JSON parse + layout + framebuffer (4.5 mA, 0.3s)
+- SPI framebuffer transfer to panel (4.5 mA, 0.05s)
+- BLE version checks (6 mA per check, per freshness mode)
+- BLE advertising (7-12 µA constant — always on for Sync Now)
+- Board sleep (5 µA — nRF52832 1.9 µA + regulator + leakage)
+- E-paper controller standby (0.5 µA)
+
+### Coin cell limitation
+
+Per Akash (Hardware & BLE Strategy Sync, 2026-03-29): e-paper refresh draws ~100 mA peak, which sags coin cell voltage to 2.4-2.5V causing MCU brownout. Coin cells are modeled at 30-45% effective capacity. 2x AAA has no peak current limitation and is the recommended path.
+
+### Hardware
+
+| Component | Part | Role |
+|---|---|---|
+| MCU + BLE | nRF52832 | BLE SoC, receives payload, renders scene, drives panel |
+| Display | 3.9" 800x480 e-paper | Monochrome electrophoretic, zero power to hold image |
+| Battery | Coin cell or 2x AAA | User-replaceable, ≤10 mm module thickness |
+
 ## Power Model Sources
 
-- [nRF5340 PS v2.0](https://docs.nordicsemi.com/bundle/ps_nrf5340/page/keyfeatures_html5.html)
-- [nRF7002 PS v1.2](https://docs.nordicsemi.com/bundle/ps_nrf7002/page/keyfeatures_html5.html)
-- [nPM1100 PS v1.4](https://docs.nordicsemi.com/bundle/ps_npm1100/page/keyfeatures_html5.html)
-- [VL53L4CD DS rev.8](https://www.st.com/resource/en/datasheet/vl53l4cd.pdf)
-- [Nordic DevZone #112208](https://devzone.nordicsemi.com/f/nordic-q-a/112208)
+- [nRF5340 PS v2.0](https://docs.nordicsemi.com/bundle/ps_nrf5340/page/keyfeatures_html5.html) — MCU + BLE for counting hub
+- [nRF7002 PS v1.2](https://docs.nordicsemi.com/bundle/ps_nrf7002/page/keyfeatures_html5.html) — Wi-Fi 6 companion
+- [nRF52832 PS v1.8](https://docs.nordicsemi.com/bundle/ps_nrf52832/page/keyfeatures_html5.html) — BLE SoC for e-ink module
+- [nPM1100 PS v1.4](https://docs.nordicsemi.com/bundle/ps_npm1100/page/keyfeatures_html5.html) — PMIC
+- [VL53L4CD DS rev.8](https://www.st.com/resource/en/datasheet/vl53l4cd.pdf) — ToF sensor
+- [Nordic DevZone #112208](https://devzone.nordicsemi.com/f/nordic-q-a/112208) — power measurement reference
 
 ## Deploy
 
-Single file `index.html` — deploy via GitHub Pages, Netlify Drop, or any static host. Works with `file://` too.
+Single file `index.html` — deploy via Vercel, GitHub Pages, or any static host. Works with `file://` too.

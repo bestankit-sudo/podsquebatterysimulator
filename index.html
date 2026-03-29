@@ -893,8 +893,11 @@ input[type="number"]:focus { border-color: var(--amber); }
           <h4>Board-Level Estimates</h4>
           <ul>
             <li>Board deep-sleep: <strong>30 uA</strong> practical &mdash; nRF5340 ~5 uA + nRF7002 shutdown ~15 uA + PCB leakage</li>
-            <li>BLE average modelled: <strong>4 mA</strong> &mdash; includes RX windows + BLE stack overhead</li>
+            <li>BLE TX to e-ink: <strong>4 mA</strong> avg &mdash; includes RX windows + BLE stack overhead</li>
+            <li>BLE advertising: <strong>~10 uA</strong> avg @ 1s interval &mdash; always on for e-ink + phone connectivity</li>
+            <li>Li-ion protection IC: <strong>~6 uA</strong> &mdash; overcurrent/undervoltage protection leakage</li>
             <li>Sensor on-time per cycle: <strong>1.0 s</strong> &mdash; 4 sensors measured sequentially</li>
+            <li>Battery self-discharge: ~0.3%/mo Li-ion, ~0.2%/mo AAA &mdash; not in formula, adds ~2-5% over product life</li>
             <li><a href="https://devzone.nordicsemi.com/f/nordic-q-a/112208" target="_blank" rel="noopener">Nordic DevZone #112208</a> &mdash; community power measurement reference</li>
           </ul>
         </div>
@@ -921,16 +924,27 @@ input[type="number"]:focus { border-color: var(--amber); }
     <div class="header-top">
       <h1>E-Ink Display</h1>
       <span class="tag">Battery Estimator</span>
-      <span class="chip-tag">3.9" 800x480 e-paper</span>
+      <span class="chip-tag">nRF52832 + 3.9" e-paper</span>
     </div>
 
     <div id="eink-controls" class="control-grid">
       <div class="control-panel">
         <h3>Display Updates</h3>
         <div class="control-group">
-          <label>Content changes / week <span class="sub-label">pod swap, count change, etc.</span></label>
-          <input type="range" id="eiUpdatesWeek" min="1" max="30" value="2">
-          <div class="slider-bounds"><span>1</span><span id="eiUpdatesWeekVal">2</span><span>30</span></div>
+          <label>Content changes / week <span class="sub-label">new pod type, layout change, etc.</span></label>
+          <input type="range" id="eiUpdatesWeek" min="0" max="30" value="2">
+          <div class="slider-bounds"><span>0</span><span id="eiUpdatesWeekVal">2</span><span>30</span></div>
+        </div>
+        <div class="control-group">
+          <div class="toggle-row">
+            <div class="toggle" id="eiCountToggle" onclick="this.classList.toggle('on'); calcEink()"></div>
+            <label>Show live inventory count <span class="sub-label">refresh on every coffee</span></label>
+          </div>
+        </div>
+        <div class="control-group hidden" id="eiDrinksGroup">
+          <label>Coffees / day <span class="sub-label">each triggers a screen refresh</span></label>
+          <input type="range" id="eiDrinks" min="1" max="15" value="3">
+          <div class="slider-bounds"><span>1</span><span id="eiDrinksVal">3</span><span>15</span></div>
         </div>
         <div class="control-group">
           <label>Payload type</label>
@@ -963,14 +977,21 @@ input[type="number"]:focus { border-color: var(--amber); }
       <div class="control-panel">
         <h3>Advanced</h3>
         <div class="control-group">
-          <label>E-paper refresh <span class="sub-label">full-screen update</span></label>
+          <label>E-paper refresh <span class="sub-label">100 mA peak, full-screen</span></label>
           <input type="range" id="eiRefreshSec" min="2" max="6" step="0.5" value="3.5">
           <div class="slider-bounds"><span>2 s</span><span id="eiRefreshSecVal">3.5 s</span><span>6 s</span></div>
         </div>
         <div class="control-group">
-          <label>Board sleep current</label>
-          <input type="range" id="eiSleepUA" min="2" max="30" step="1" value="10">
-          <div class="slider-bounds"><span>2 uA</span><span id="eiSleepUAVal">10 uA</span><span>30 uA</span></div>
+          <label>BLE advertising interval <span class="sub-label">always-on for Sync Now</span></label>
+          <div class="radio-group" id="eiAdvGroup" data-value="1">
+            <div class="radio-opt selected" data-val="1" onclick="selectRadio('eiAdvGroup','1')"><span class="radio-dot"></span>1 s (~12 uA avg)</div>
+            <div class="radio-opt" data-val="2" onclick="selectRadio('eiAdvGroup','2')"><span class="radio-dot"></span>2 s (~7 uA avg)</div>
+          </div>
+        </div>
+        <div class="control-group">
+          <label>Board sleep <span class="sub-label">MCU + regulator + leakage</span></label>
+          <input type="range" id="eiSleepUA" min="2" max="30" step="1" value="5">
+          <div class="slider-bounds"><span>2 uA</span><span id="eiSleepUAVal">5 uA</span><span>30 uA</span></div>
         </div>
       </div>
     </div>
@@ -1001,17 +1022,21 @@ input[type="number"]:focus { border-color: var(--amber); }
           <ul>
             <li>800x480 monochrome e-paper, 3.9" diagonal</li>
             <li>Full-screen refresh ~3.5 s at <strong>~100 mA peak</strong> (Akash, Hardware Sync)</li>
+            <li>MCU idle-wait during refresh: <strong>1.9 mA</strong> (BUSY pin interrupt, on top of 100 mA)</li>
+            <li>Gate drive boost converter (+15V/-15V) included in 100 mA figure</li>
+            <li>E-paper controller standby: <strong>~0.5 uA</strong></li>
             <li>Zero power to hold image (electrophoretic)</li>
             <li>Scene JSON primary payload (per BLE payload decision)</li>
           </ul>
         </div>
         <div class="assumption-cat">
-          <h4>Radio &amp; MCU</h4>
+          <h4>nRF52832 (BLE SoC)</h4>
           <ul>
-            <li>BLE peak: <strong>15-20 mA</strong> (Akash: "fine for coin cell")</li>
-            <li>MCU processing (JSON parse + render): ~20 mA, 0.3 s</li>
-            <li>Wake check (no update): ~10 mA for BLE version check</li>
-            <li>Deep sleep: 5-15 uA (MCU + regulator quiescent)</li>
+            <li><a href="https://docs.nordicsemi.com/bundle/ps_nrf52832/page/keyfeatures_html5.html" target="_blank" rel="noopener">nRF52832 PS v1.8</a> &mdash; BLE-only SoC for e-ink module</li>
+            <li>BLE TX @ 0 dBm: <strong>5.3 mA</strong> (DC/DC), RX: <strong>5.4 mA</strong></li>
+            <li>CPU active @ 64 MHz: <strong>~4.5 mA</strong></li>
+            <li>System ON idle (RAM retention): <strong>1.9 uA</strong></li>
+            <li>Board sleep estimate: ~5 uA (MCU 1.9 + regulator + leakage)</li>
           </ul>
         </div>
         <div class="assumption-cat">
@@ -1022,6 +1047,8 @@ input[type="number"]:focus { border-color: var(--amber); }
             <li>Shelf label industry uses 3-4 coin cells in parallel to solve this</li>
             <li>Supercap workaround degrades over time &mdash; unreliable</li>
             <li><strong>2x AAA has no peak current limitation</strong> &mdash; recommended by Akash</li>
+            <li>Cold temperature (0&deg;C): coin cell capacity drops additional <strong>20-30%</strong> beyond pulse-load penalty</li>
+            <li>Coin cell self-discharge: ~1%/yr (negligible); AAA: ~2-3%/yr</li>
           </ul>
         </div>
         <div class="assumption-cat">
@@ -1064,6 +1091,13 @@ const BATTERIES = [
 const RAIL_V = 3.3, WIFI_MA = 60, BLE_MA = 4, MCU_MA = 4, SENSOR_MA = 23;
 const SLEEP_UA = 30, ULP_UA_PER_SENSOR = 55, NUM_SENSORS = 4;
 const SENSOR_ON_S = 1.0, BLE_SESSION_S = 3.0, MONTH_DAYS = 30.44;
+// nRF5340 BLE advertising — always on so e-ink display + phone can connect
+const HUB_BLE_ADV_UA = 10;
+// Li-ion protection IC leakage (overcurrent + undervoltage protection)
+const HUB_LIION_PROT_UA = 6; // ~5-8µA typical, applies only to Li-ion batteries
+// Battery self-discharge rate per month (fraction)
+const SELF_DISCHARGE_LIION = 0.003;  // ~3-5% per year ≈ 0.3% per month
+const SELF_DISCHARGE_AAA = 0.002;    // ~2-3% per year ≈ 0.2% per month
 
 BATTERIES.forEach(b => {
   b.usableWh = b.nomWh * b.eff;
@@ -1142,18 +1176,22 @@ function calcDaily(wifiSec, syncsPerDay, appRefreshes, drinks, wakeS, ulpOn) {
   const wakeMah = (wakeS / 3600) * MCU_MA * cycles;
   const sensorMah = (SENSOR_ON_S / 3600) * SENSOR_MA * cycles;
   const bleMah = drinks * (BLE_SESSION_S / 3600) * BLE_MA;
+  const bleAdvMah = (HUB_BLE_ADV_UA / 1000) * 24;
+  const protIcMah = (HUB_LIION_PROT_UA / 1000) * 24; // Li-ion protection IC 24h
   const sleepMah = (SLEEP_UA / 1000) * 24;
   const ulpMah = ulpOn ? (NUM_SENSORS * ULP_UA_PER_SENSOR / 1000) * 24 : 0;
-  const totalMah = wifiMah + wakeMah + sensorMah + bleMah + sleepMah + ulpMah;
+  const totalMah = wifiMah + wakeMah + sensorMah + bleMah + bleAdvMah + protIcMah + sleepMah + ulpMah;
   return {
-    wifiMah, wakeMah, sensorMah, bleMah, sleepMah, ulpMah, totalMah,
+    wifiMah, wakeMah, sensorMah, bleMah, bleAdvMah, protIcMah, sleepMah, ulpMah, totalMah,
     rows: [
       { name: 'Wi-Fi sync', mah: wifiMah, badge: 'sourced' },
       { name: 'MCU wake', mah: wakeMah, badge: 'sourced' },
       { name: 'Sensor measurement', mah: sensorMah, badge: 'sourced' },
       { name: 'BLE \u2192 e-ink', mah: bleMah, badge: 'sourced' },
-      { name: 'Board sleep', mah: sleepMah, badge: 'sourced' },
-      ...(ulpOn ? [{ name: 'Sensor ULP', mah: ulpMah, badge: 'plan' }] : []),
+      { name: 'BLE advertising (24h)', mah: bleAdvMah, badge: 'sourced' },
+      { name: 'Li-ion protection IC (24h)', mah: protIcMah, badge: 'sourced' },
+      { name: 'Board sleep (24h)', mah: sleepMah, badge: 'sourced' },
+      ...(ulpOn ? [{ name: 'Sensor ULP (24h)', mah: ulpMah, badge: 'plan' }] : []),
       { name: 'Total', mah: totalMah, badge: null }
     ]
   };
@@ -1454,12 +1492,28 @@ const EI_PAYLOADS = {
   image:    { bytes: 48000, bleS: 2.89, label: 'Full image' }
 };
 
-// E-ink power constants (updated from Akash's Hardware & BLE Strategy Sync)
-const EI_BLE_RX_MA = 15;      // BLE receive peak 15-20 mA (Akash confirmed)
-const EI_MCU_RENDER_MA = 20;  // MCU JSON parse + layout + render
-const EI_MCU_RENDER_S = 0.3;  // processing time
-const EI_EPAPER_MA = 100;     // e-paper refresh peak ~100mA (Akash: "100 milliamps or more")
-const EI_CHECK_MA = 10;       // BLE wake check (no update) — MCU wake + radio scan
+// E-ink power constants
+// MCU: nRF52832 (BLE-only SoC) — PS v1.8
+const EI_NRF52_SLEEP_UA = 1.9;   // System ON idle, RAM retention (nRF52832 PS v1.8)
+const EI_NRF52_BLE_TX_MA = 5.3;  // BLE TX @ 0 dBm with DC/DC (nRF52832 PS v1.8)
+const EI_NRF52_BLE_RX_MA = 5.4;  // BLE RX 1 Mbps with DC/DC (nRF52832 PS v1.8)
+const EI_NRF52_CPU_MA = 4.5;     // CPU active @ 64 MHz (nRF52832 PS v1.8)
+// BLE session: avg of TX + RX + CPU overhead
+const EI_BLE_RX_MA = 7;          // BLE receive avg (RX 5.4 + CPU overhead)
+const EI_BLE_CONN_SETUP_S = 0.1; // BLE connection setup (handshake + MTU negotiation)
+const EI_MCU_RENDER_MA = 4.5;    // nRF52832 CPU @ 64 MHz during JSON parse + render
+const EI_MCU_RENDER_S = 0.3;     // processing time
+const EI_SPI_TRANSFER_S = 0.05;  // SPI push ~48KB framebuffer to e-paper controller
+const EI_EPAPER_MA = 100;        // e-paper refresh peak ~100mA (Akash: "100 milliamps or more")
+const EI_MCU_WAIT_MA = 1.9;     // MCU idle-wait during e-paper refresh (BUSY pin interrupt, System ON idle)
+const EI_EPAPER_STANDBY_UA = 0.5;// e-paper controller IC deep sleep (~0.5µA typical)
+const EI_CHECK_MA = 6;           // BLE wake check: CPU wake + short RX scan + sleep
+// BLE advertising — always on so phone/hub can connect for Sync Now
+// nRF52832 @ 1s adv interval ≈ 12µA avg; 2s ≈ 7µA (Nordic Online Power Profiler)
+const EI_ADV_1S_UA = 12;         // 1s advertising interval
+const EI_ADV_2S_UA = 7;          // 2s advertising interval
+// Board sleep: nRF52832 System ON idle + regulator Iq + PCB leakage + e-paper controller standby
+const EI_BOARD_SLEEP_DEFAULT = 5; // µA (nRF52832 1.9µA + regulator ~1µA + leakage ~2µA)
 
 let eiChart = null;
 
@@ -1474,35 +1528,52 @@ function selectRadio(groupId, value) {
 
 function calcEink() {
   const updatesWeek = val('eiUpdatesWeek');
+  const countOn = document.getElementById('eiCountToggle').classList.contains('on');
+  const drinksDay = countOn ? val('eiDrinks') : 0;
   const payloadKey = document.getElementById('eiPayloadGroup').dataset.value;
   const freshMin = parseInt(document.getElementById('eiFreshnessGroup').dataset.value);
+  const advInterval = parseInt(document.getElementById('eiAdvGroup').dataset.value);
   const checkSec = val('eiCheckSec');
   const refreshSec = val('eiRefreshSec');
   const sleepUA = val('eiSleepUA');
 
+  // Show/hide drinks slider
+  document.getElementById('eiDrinksGroup').classList.toggle('hidden', !countOn);
+
   const payload = EI_PAYLOADS[payloadKey];
-  const updatesDay = updatesWeek / 7;
+  const contentUpdatesDay = updatesWeek / 7;
+  const countUpdatesDay = drinksDay; // each coffee = 1 screen refresh
+  const totalUpdatesDay = contentUpdatesDay + countUpdatesDay;
   const checksDay = Math.floor(1440 / freshMin);
 
   document.getElementById('eiChecksDerived').textContent = '= ' + checksDay + ' checks / day';
 
-  // Per-update energy: BLE receive + MCU render + e-paper refresh
-  const bleRxMah = (payload.bleS / 3600) * EI_BLE_RX_MA;
-  const mcuRenderMah = (EI_MCU_RENDER_S / 3600) * EI_MCU_RENDER_MA;
-  const epaperMah = (refreshSec / 3600) * EI_EPAPER_MA;
-  const perUpdateMah = bleRxMah + mcuRenderMah + epaperMah;
-  const updateMahDay = updatesDay * perUpdateMah;
+  // Per-update energy: BLE conn + receive + render + SPI + e-paper refresh + MCU wait
+  const bleConnMah = (EI_BLE_CONN_SETUP_S / 3600) * EI_BLE_RX_MA; // connection handshake
+  const bleRxMah = (payload.bleS / 3600) * EI_BLE_RX_MA;           // payload transfer
+  const mcuRenderMah = (EI_MCU_RENDER_S / 3600) * EI_MCU_RENDER_MA; // JSON parse + layout
+  const spiMah = (EI_SPI_TRANSFER_S / 3600) * EI_MCU_RENDER_MA;    // SPI push framebuffer
+  const epaperMah = (refreshSec / 3600) * EI_EPAPER_MA;            // e-paper refresh @ 100mA
+  const mcuWaitMah = (refreshSec / 3600) * EI_MCU_WAIT_MA;         // MCU idle during refresh (BUSY wait)
+  const perUpdateMah = bleConnMah + bleRxMah + mcuRenderMah + spiMah + epaperMah + mcuWaitMah;
+  const contentMahDay = contentUpdatesDay * perUpdateMah;
+  const countMahDay = countUpdatesDay * perUpdateMah;
+  const updateMahDay = contentMahDay + countMahDay;
 
   // Per-check energy (no update): BLE wake + version check
   const perCheckMah = (checkSec / 3600) * EI_CHECK_MA;
-  // Only checks that DON'T result in an update (subtract update checks)
-  const checkOnlyDay = Math.max(0, checksDay - updatesDay);
+  const checkOnlyDay = Math.max(0, checksDay - totalUpdatesDay);
   const checkMahDay = checkOnlyDay * perCheckMah;
 
-  // Sleep
-  const sleepMahDay = (sleepUA / 1000) * 24;
+  // BLE advertising — always on so phone/hub can discover and connect
+  const advUA = advInterval === 1 ? EI_ADV_1S_UA : EI_ADV_2S_UA;
+  const advMahDay = (advUA / 1000) * 24;
 
-  const totalMahDay = updateMahDay + checkMahDay + sleepMahDay;
+  // Sleep: board + e-paper controller standby
+  const sleepMahDay = (sleepUA / 1000) * 24;
+  const epaperStandbyMahDay = (EI_EPAPER_STANDBY_UA / 1000) * 24;
+
+  const totalMahDay = updateMahDay + checkMahDay + advMahDay + sleepMahDay + epaperStandbyMahDay;
 
   const lives = EI_BATTERIES.map(b => ({
     ...b,
@@ -1511,8 +1582,12 @@ function calcEink() {
   }));
 
   // Summary bar
+  const countLabel = countOn ? ' (<span>' + drinksDay + '</span> coffees)' : '';
   document.getElementById('eiSyncSummary').innerHTML =
-    '<span>' + updatesDay.toFixed(2) + '</span> updates/day &middot; <span>' + checksDay + '</span> checks/day &middot; <span>' + totalMahDay.toFixed(4) + '</span> mAh/day';
+    '<span>' + totalUpdatesDay.toFixed(2) + '</span> refreshes/day' + countLabel +
+    ' &middot; <span>' + checksDay + '</span> checks/day' +
+    ' &middot; adv ' + advInterval + 's' +
+    ' &middot; <span>' + totalMahDay.toFixed(4) + '</span> mAh/day';
 
   // Result cards
   document.getElementById('eiResultCards').innerHTML = lives.map(l => {
@@ -1537,9 +1612,12 @@ function calcEink() {
 
   // Breakdown
   const rows = [
-    { name: 'Display refresh (' + updatesDay.toFixed(2) + '/day)', mah: updateMahDay, badge: 'plan' },
+    { name: 'Content refreshes (' + contentUpdatesDay.toFixed(2) + '/day)', mah: contentMahDay, badge: 'plan' },
+    ...(countOn ? [{ name: 'Count refreshes (' + drinksDay + ' coffees/day)', mah: countMahDay, badge: 'plan' }] : []),
     { name: 'BLE version checks (' + Math.round(checkOnlyDay) + '/day)', mah: checkMahDay, badge: 'plan' },
-    { name: 'Board sleep (24h)', mah: sleepMahDay, badge: 'sourced' },
+    { name: 'BLE advertising (' + advInterval + 's interval, 24h)', mah: advMahDay, badge: 'sourced' },
+    { name: 'Board sleep (MCU + regulator, 24h)', mah: sleepMahDay, badge: 'sourced' },
+    { name: 'E-paper controller standby (24h)', mah: epaperStandbyMahDay, badge: 'sourced' },
     { name: 'Total', mah: totalMahDay, badge: null }
   ];
   let html = '<thead><tr><th>Component</th><th>mAh/day</th><th>%</th><th></th></tr></thead><tbody>';
@@ -1638,7 +1716,7 @@ function renderEiLineChart(lives) {
 
 // E-ink event binding
 function bindEinkInputs() {
-  ['eiUpdatesWeek', 'eiCheckSec', 'eiRefreshSec', 'eiSleepUA'].forEach(id => {
+  ['eiUpdatesWeek', 'eiDrinks', 'eiCheckSec', 'eiRefreshSec', 'eiSleepUA'].forEach(id => {
     const el = document.getElementById(id);
     el.addEventListener('input', () => {
       const v = document.getElementById(id + 'Val');
