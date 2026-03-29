@@ -272,7 +272,13 @@ input[type="number"] {
 }
 input[type="number"]:focus { border-color: var(--amber); }
 
-input[type="range"] {
+.range-wrap {
+  position: relative;
+  height: 22px;
+  margin: 4px 0 1px;
+}
+
+.range-wrap input[type="range"] {
   -webkit-appearance: none;
   appearance: none;
   width: 100%;
@@ -280,25 +286,103 @@ input[type="range"] {
   background: var(--border);
   border-radius: 2px;
   outline: none;
-  margin: 2px 0 1px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  margin: 0;
 }
 
-input[type="range"]::-webkit-slider-thumb {
+.range-wrap input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
-  width: 14px;
-  height: 14px;
+  width: 44px;
+  height: 20px;
   background: var(--amber);
-  border-radius: 50%;
+  border-radius: 10px;
   cursor: pointer;
+  position: relative;
+  z-index: 1;
 }
 
-input[type="range"]::-moz-range-thumb {
-  width: 14px;
-  height: 14px;
+.range-wrap input[type="range"]::-moz-range-thumb {
+  width: 44px;
+  height: 20px;
   background: var(--amber);
-  border-radius: 50%;
+  border-radius: 10px;
   cursor: pointer;
   border: none;
+  position: relative;
+  z-index: 1;
+}
+
+.range-val {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 700;
+  color: #1a1a1a;
+  background: transparent;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  z-index: 2;
+  padding: 0 2px;
+}
+
+.radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin-top: 2px;
+}
+
+.radio-opt {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-muted);
+  padding: 3px 6px;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  transition: all .15s;
+}
+
+.radio-opt:hover { color: var(--text); background: var(--surface2); }
+
+.radio-opt.selected {
+  color: var(--amber);
+  border-color: var(--amber);
+  background: rgba(245,158,11,.06);
+}
+
+.radio-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 1.5px solid var(--text-dim);
+  flex-shrink: 0;
+  position: relative;
+  transition: border-color .15s;
+}
+
+.radio-opt.selected .radio-dot {
+  border-color: var(--amber);
+}
+
+.radio-opt.selected .radio-dot::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--amber);
 }
 
 .slider-bounds {
@@ -307,6 +391,7 @@ input[type="range"]::-moz-range-thumb {
   font-family: var(--font-mono);
   font-size: 9px;
   color: var(--text-dim);
+  margin-top: 1px;
 }
 
 .toggle-row { display: flex; align-items: center; gap: 8px; }
@@ -623,7 +708,7 @@ input[type="range"]::-moz-range-thumb {
 <!-- Product Tabs -->
 <nav class="product-tabs">
   <button class="product-tab active" onclick="switchProduct('counting')">Counting + Hub</button>
-  <button class="product-tab disabled" onclick="return false">E-Ink <span class="coming-soon">Coming Soon</span></button>
+  <button class="product-tab" onclick="switchProduct('eink')">E-Ink</button>
   <button class="product-tab disabled" onclick="return false">Weighing Scale <span class="coming-soon">Coming Soon</span></button>
 </nav>
 
@@ -829,9 +914,128 @@ input[type="range"]::-moz-range-thumb {
   </main>
 </div>
 
-<div id="eink-content" class="coming-soon-page">
-  <h2>E-Ink Module</h2>
-  <p>Battery estimator for the e-ink display module is coming soon.</p>
+<!-- E-Ink Display Module -->
+<div id="eink-content" class="hidden">
+
+  <header class="sticky-header">
+    <div class="header-top">
+      <h1>E-Ink Display</h1>
+      <span class="tag">Battery Estimator</span>
+      <span class="chip-tag">3.9" 800x480 e-paper</span>
+    </div>
+
+    <div id="eink-controls" class="control-grid">
+      <div class="control-panel">
+        <h3>Display Updates</h3>
+        <div class="control-group">
+          <label>Content changes / week <span class="sub-label">pod swap, count change, etc.</span></label>
+          <input type="range" id="eiUpdatesWeek" min="1" max="30" value="2">
+          <div class="slider-bounds"><span>1</span><span id="eiUpdatesWeekVal">2</span><span>30</span></div>
+        </div>
+        <div class="control-group">
+          <label>Payload type</label>
+          <div class="radio-group" id="eiPayloadGroup" data-value="json_max">
+            <div class="radio-opt" data-val="json_min" onclick="selectRadio('eiPayloadGroup','json_min')"><span class="radio-dot"></span>Scene JSON min (~619 B)</div>
+            <div class="radio-opt selected" data-val="json_max" onclick="selectRadio('eiPayloadGroup','json_max')"><span class="radio-dot"></span>Scene JSON max (~4 KB)</div>
+            <div class="radio-opt" data-val="image" onclick="selectRadio('eiPayloadGroup','image')"><span class="radio-dot"></span>Full-screen image (~48 KB)</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="control-panel">
+        <h3>Freshness Mode</h3>
+        <div class="control-group">
+          <label>Check interval <span class="sub-label">wake to check for new content</span></label>
+          <div class="radio-group" id="eiFreshnessGroup" data-value="60">
+            <div class="radio-opt selected" data-val="60" onclick="selectRadio('eiFreshnessGroup','60')"><span class="radio-dot"></span>Max Battery (every 60 min)</div>
+            <div class="radio-opt" data-val="30" onclick="selectRadio('eiFreshnessGroup','30')"><span class="radio-dot"></span>Balanced (every 30 min)</div>
+            <div class="radio-opt" data-val="5" onclick="selectRadio('eiFreshnessGroup','5')"><span class="radio-dot"></span>Real-time (every 5 min)</div>
+          </div>
+          <div class="derived" id="eiChecksDerived">= 24 checks / day</div>
+        </div>
+        <div class="control-group">
+          <label>BLE check duration <span class="sub-label">wake + radio + version check</span></label>
+          <input type="range" id="eiCheckSec" min="0.5" max="5" step="0.5" value="1.5">
+          <div class="slider-bounds"><span>0.5 s</span><span id="eiCheckSecVal">1.5 s</span><span>5.0 s</span></div>
+        </div>
+      </div>
+
+      <div class="control-panel">
+        <h3>Advanced</h3>
+        <div class="control-group">
+          <label>E-paper refresh <span class="sub-label">full-screen update</span></label>
+          <input type="range" id="eiRefreshSec" min="2" max="6" step="0.5" value="3.5">
+          <div class="slider-bounds"><span>2 s</span><span id="eiRefreshSecVal">3.5 s</span><span>6 s</span></div>
+        </div>
+        <div class="control-group">
+          <label>Board sleep current</label>
+          <input type="range" id="eiSleepUA" min="2" max="30" step="1" value="10">
+          <div class="slider-bounds"><span>2 uA</span><span id="eiSleepUAVal">10 uA</span><span>30 uA</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sync-summary" id="eiSyncSummary">
+      <span>0.29</span> updates/day &middot; <span>24</span> checks/day &middot; <span>0.00</span> mAh/day
+    </div>
+  </header>
+
+  <main class="results-zone">
+    <div class="result-cards" id="eiResultCards"></div>
+
+    <div class="chart-container">
+      <h3>Battery Depletion Over Time</h3>
+      <div class="chart-wrap"><canvas id="eiLineChart"></canvas></div>
+    </div>
+
+    <div class="chart-container">
+      <h3>Daily Energy Breakdown</h3>
+      <table class="breakdown-table" id="eiBreakdownTable"></table>
+    </div>
+
+    <section class="assumptions-section">
+      <h3>Assumptions &amp; Data Sources</h3>
+      <div class="assumption-categories">
+        <div class="assumption-cat">
+          <h4>Display</h4>
+          <ul>
+            <li>800x480 monochrome e-paper, 3.9" diagonal</li>
+            <li>Full-screen refresh ~3.5 s at <strong>~100 mA peak</strong> (Akash, Hardware Sync)</li>
+            <li>Zero power to hold image (electrophoretic)</li>
+            <li>Scene JSON primary payload (per BLE payload decision)</li>
+          </ul>
+        </div>
+        <div class="assumption-cat">
+          <h4>Radio &amp; MCU</h4>
+          <ul>
+            <li>BLE peak: <strong>15-20 mA</strong> (Akash: "fine for coin cell")</li>
+            <li>MCU processing (JSON parse + render): ~20 mA, 0.3 s</li>
+            <li>Wake check (no update): ~10 mA for BLE version check</li>
+            <li>Deep sleep: 5-15 uA (MCU + regulator quiescent)</li>
+          </ul>
+        </div>
+        <div class="assumption-cat">
+          <h4>Coin Cell Limitation (Hardware Sync)</h4>
+          <ul>
+            <li>100 mA e-paper peak sags coin cell to <strong>2.4-2.5 V</strong> &mdash; MCU brownout</li>
+            <li>Coin cells: only <strong>~30-45% capacity usable</strong> due to voltage dip cutoff</li>
+            <li>Shelf label industry uses 3-4 coin cells in parallel to solve this</li>
+            <li>Supercap workaround degrades over time &mdash; unreliable</li>
+            <li><strong>2x AAA has no peak current limitation</strong> &mdash; recommended by Akash</li>
+          </ul>
+        </div>
+        <div class="assumption-cat">
+          <h4>Design Targets</h4>
+          <ul>
+            <li>6-month target = acceptable battery life for e-ink v1</li>
+            <li>Module thickness: &le;10 mm total (display + battery + housing)</li>
+            <li>Baseline usage: 2 content updates per week</li>
+            <li>BLE-only architecture &mdash; Thread dropped (confirmed Akash + Aditya)</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
 </div>
 
 <div id="weighing-content" class="coming-soon-page">
@@ -880,14 +1084,26 @@ function toggleTheme() {
     btn.innerHTML = '&#x1f319;';
   }
   if (lineChart) { lineChart.destroy(); lineChart = null; }
-  calculate();
+  if (typeof eiChart !== 'undefined' && eiChart) { eiChart.destroy(); eiChart = null; }
+  if (activeProduct === 'eink') calcEink(); else calculate();
 }
 
+let activeProduct = 'counting';
+
 function switchProduct(tab) {
-  document.querySelectorAll('.product-tab').forEach((t, i) => t.classList.toggle('active', i === 0 && tab === 'counting'));
+  activeProduct = tab;
+  const tabs = document.querySelectorAll('.product-tab');
+  tabs[0].classList.toggle('active', tab === 'counting');
+  tabs[1].classList.toggle('active', tab === 'eink');
+  tabs[2].classList.toggle('active', tab === 'weighing');
   document.getElementById('counting-content').classList.toggle('hidden', tab !== 'counting');
-  document.getElementById('eink-content').classList.toggle('visible', tab === 'eink');
+  document.getElementById('eink-content').classList.toggle('hidden', tab !== 'eink');
   document.getElementById('weighing-content').classList.toggle('visible', tab === 'weighing');
+  // Destroy charts when switching
+  if (lineChart) { lineChart.destroy(); lineChart = null; }
+  if (eiChart) { eiChart.destroy(); eiChart = null; }
+  if (tab === 'counting') calculate();
+  if (tab === 'eink') calcEink();
 }
 
 function switchMode(mode) {
@@ -1213,7 +1429,279 @@ function bindInputs() {
   });
 }
 
+// ══════════════════════════════════════
+// ── E-Ink Display Module ──
+// ══════════════════════════════════════
+
+const ICON_COIN = '<svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="14" cy="14" r="10" stroke="currentColor" stroke-width="1.3" fill="none"/><circle cx="14" cy="14" r="6" stroke="currentColor" stroke-width="0.8" fill="none" opacity=".5"/><path d="M12 11v6M14 10v8M16 11v6" stroke="currentColor" stroke-width="1" stroke-linecap="round" opacity=".6"/></svg>';
+
+// Coin cell efficiency is ~30% due to voltage sag at 100mA e-paper peak draw
+// (Akash: "you'll only be using 30% of the battery" — voltage dips to 2.4V, MCU browns out)
+// 2x AAA has no peak current limitation — full efficiency applies
+const EI_BATTERIES = [
+  { id: 'cr2032', name: 'CR2032', capMah: 225, volt: 3.0, color: 'rgba(245,158,11,.85)', icon: ICON_COIN, eff: 0.30, effNote: '~30% usable — 100mA e-paper peak sags coin cell to 2.4V, MCU brownout', warn: true },
+  { id: 'cr2450', name: 'CR2450', capMah: 620, volt: 3.0, color: 'rgba(59,130,246,.85)', icon: ICON_COIN, eff: 0.40, effNote: '~40% usable — lower ESR than CR2032 but still sags at 100mA peak', warn: true },
+  { id: 'cr2477', name: 'CR2477', capMah: 1000, volt: 3.0, color: 'rgba(16,185,129,.9)', icon: ICON_COIN, eff: 0.45, effNote: '~45% usable — largest coin cell, lower ESR, but still marginal at 100mA', warn: true },
+  { id: 'aaa2', name: '2x AAA Alkaline', capMah: 795, volt: 3.0, color: 'rgba(168,85,247,.8)', icon: ICON_AAA2, eff: 0.70, effNote: '70% — no peak current limitation, handles e-paper refresh easily', warn: false }
+];
+
+EI_BATTERIES.forEach(b => { b.usableMah = b.capMah * b.eff; });
+
+// Payload sizes and BLE times
+const EI_PAYLOADS = {
+  json_min: { bytes: 619, bleS: 0.04, label: 'JSON min' },
+  json_max: { bytes: 4040, bleS: 0.24, label: 'JSON max' },
+  image:    { bytes: 48000, bleS: 2.89, label: 'Full image' }
+};
+
+// E-ink power constants (updated from Akash's Hardware & BLE Strategy Sync)
+const EI_BLE_RX_MA = 15;      // BLE receive peak 15-20 mA (Akash confirmed)
+const EI_MCU_RENDER_MA = 20;  // MCU JSON parse + layout + render
+const EI_MCU_RENDER_S = 0.3;  // processing time
+const EI_EPAPER_MA = 100;     // e-paper refresh peak ~100mA (Akash: "100 milliamps or more")
+const EI_CHECK_MA = 10;       // BLE wake check (no update) — MCU wake + radio scan
+
+let eiChart = null;
+
+function selectRadio(groupId, value) {
+  const group = document.getElementById(groupId);
+  group.dataset.value = value;
+  group.querySelectorAll('.radio-opt').forEach(opt => {
+    opt.classList.toggle('selected', opt.dataset.val === value);
+  });
+  calcEink();
+}
+
+function calcEink() {
+  const updatesWeek = val('eiUpdatesWeek');
+  const payloadKey = document.getElementById('eiPayloadGroup').dataset.value;
+  const freshMin = parseInt(document.getElementById('eiFreshnessGroup').dataset.value);
+  const checkSec = val('eiCheckSec');
+  const refreshSec = val('eiRefreshSec');
+  const sleepUA = val('eiSleepUA');
+
+  const payload = EI_PAYLOADS[payloadKey];
+  const updatesDay = updatesWeek / 7;
+  const checksDay = Math.floor(1440 / freshMin);
+
+  document.getElementById('eiChecksDerived').textContent = '= ' + checksDay + ' checks / day';
+
+  // Per-update energy: BLE receive + MCU render + e-paper refresh
+  const bleRxMah = (payload.bleS / 3600) * EI_BLE_RX_MA;
+  const mcuRenderMah = (EI_MCU_RENDER_S / 3600) * EI_MCU_RENDER_MA;
+  const epaperMah = (refreshSec / 3600) * EI_EPAPER_MA;
+  const perUpdateMah = bleRxMah + mcuRenderMah + epaperMah;
+  const updateMahDay = updatesDay * perUpdateMah;
+
+  // Per-check energy (no update): BLE wake + version check
+  const perCheckMah = (checkSec / 3600) * EI_CHECK_MA;
+  // Only checks that DON'T result in an update (subtract update checks)
+  const checkOnlyDay = Math.max(0, checksDay - updatesDay);
+  const checkMahDay = checkOnlyDay * perCheckMah;
+
+  // Sleep
+  const sleepMahDay = (sleepUA / 1000) * 24;
+
+  const totalMahDay = updateMahDay + checkMahDay + sleepMahDay;
+
+  const lives = EI_BATTERIES.map(b => ({
+    ...b,
+    dailyMah: totalMahDay,
+    lifeMonths: (b.usableMah / totalMahDay) / MONTH_DAYS
+  }));
+
+  // Summary bar
+  document.getElementById('eiSyncSummary').innerHTML =
+    '<span>' + updatesDay.toFixed(2) + '</span> updates/day &middot; <span>' + checksDay + '</span> checks/day &middot; <span>' + totalMahDay.toFixed(4) + '</span> mAh/day';
+
+  // Result cards
+  document.getElementById('eiResultCards').innerHTML = lives.map(l => {
+    const v = eiVerdict(l.lifeMonths);
+    const warnHtml = l.warn ? '<div style="font-family:var(--font-mono);font-size:8px;color:var(--v-warn);margin-top:4px;line-height:1.3">\u26a0 ' + l.effNote + '</div>' : '';
+    return `
+      <div class="result-card ${v.cls}">
+        <div class="batt-icon">${l.icon}</div>
+        <div class="verdict-badge">${v.text}</div>
+        <div class="batt-name">${l.name}</div>
+        <div class="life-value">${formatLife(l.lifeMonths)}</div>
+        <div class="sub-line">
+          ${l.dailyMah.toFixed(4)} mAh/day<br>
+          ${l.capMah} mAh &middot; ${(l.eff * 100).toFixed(0)}% eff &middot; ${l.usableMah.toFixed(0)} mAh usable
+        </div>
+        ${warnHtml}
+      </div>`;
+  }).join('');
+
+  // Line chart
+  renderEiLineChart(lives);
+
+  // Breakdown
+  const rows = [
+    { name: 'Display refresh (' + updatesDay.toFixed(2) + '/day)', mah: updateMahDay, badge: 'plan' },
+    { name: 'BLE version checks (' + Math.round(checkOnlyDay) + '/day)', mah: checkMahDay, badge: 'plan' },
+    { name: 'Board sleep (24h)', mah: sleepMahDay, badge: 'sourced' },
+    { name: 'Total', mah: totalMahDay, badge: null }
+  ];
+  let html = '<thead><tr><th>Component</th><th>mAh/day</th><th>%</th><th></th></tr></thead><tbody>';
+  rows.forEach(r => {
+    const pct = r.name === 'Total' ? 100 : ((r.mah / totalMahDay) * 100);
+    const badge = r.badge === 'sourced' ? '<span class="badge-sourced">sourced</span>' :
+                  r.badge === 'plan' ? '<span class="badge-plan">plan</span>' : '';
+    html += `<tr><td>${r.name}</td><td>${r.mah.toFixed(6)}</td><td>${pct.toFixed(1)}%</td><td>${badge}</td></tr>`;
+  });
+  html += '</tbody>';
+  document.getElementById('eiBreakdownTable').innerHTML = html;
+}
+
+// E-ink verdict (6-month target instead of 9)
+function eiVerdict(months) {
+  if (months >= 6) return { cls: 'verdict-great', text: '\u2265 6 months \u2713', color: 'var(--v-great)' };
+  if (months >= 3) return { cls: 'verdict-ok', text: '3\u20136 months', color: 'var(--v-ok)' };
+  if (months >= 1) return { cls: 'verdict-warn', text: '< 3 months', color: 'var(--v-warn)' };
+  return { cls: 'verdict-bad', text: '< 1 month', color: 'var(--v-bad)' };
+}
+
+function renderEiLineChart(lives) {
+  const tc = getTC();
+  const ctx = document.getElementById('eiLineChart').getContext('2d');
+  const maxMonths = 18;
+  const step = 0.25;
+  const labels = [];
+  for (let m = 0; m <= maxMonths; m += step) labels.push(Math.round(m * 100) / 100);
+
+  const datasets = lives.map(l => ({
+    label: l.name,
+    data: labels.map(m => ({ x: m, y: Math.max(0, 100 - ((l.dailyMah * m * MONTH_DAYS) / l.usableMah) * 100) })),
+    borderColor: l.color, backgroundColor: 'transparent', borderWidth: 2, pointRadius: 0,
+    pointHoverRadius: 5, pointHoverBackgroundColor: l.color, pointHoverBorderColor: l.color,
+    pointHitRadius: 6, tension: 0.1
+  }));
+
+  const data = { datasets };
+
+  if (eiChart) {
+    eiChart.data = data;
+    eiChart.options.scales.x.ticks.color = tc.textMuted;
+    eiChart.options.scales.y.ticks.color = tc.textMuted;
+    eiChart.options.scales.x.grid.color = tc.border;
+    eiChart.options.scales.y.grid.color = tc.border;
+    eiChart.update();
+    return;
+  }
+
+  eiChart = new Chart(ctx, {
+    type: 'line', data,
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      interaction: { mode: 'nearest', axis: 'x', intersect: false },
+      plugins: {
+        legend: { labels: { color: tc.textMuted, font: { family: 'IBM Plex Mono', size: 10 }, usePointStyle: true, pointStyle: 'line' } },
+        tooltip: {
+          callbacks: {
+            title: c => { const m = c[0].parsed.x; return 'Day ' + Math.round(m * MONTH_DAYS) + ' (~' + m.toFixed(1) + ' mo)'; },
+            label: c => { const y = c.parsed.y; return c.dataset.label + ': ' + (y !== null ? y.toFixed(1) + '%' : '—'); }
+          }
+        }
+      },
+      scales: {
+        x: {
+          type: 'linear', min: 0, max: maxMonths,
+          title: { display: true, text: 'Months', color: tc.textMuted, font: { family: 'IBM Plex Mono', size: 10 } },
+          ticks: { color: tc.textMuted, font: { family: 'IBM Plex Mono', size: 10 }, stepSize: 3 },
+          grid: { color: tc.border }
+        },
+        y: {
+          min: 0, max: 100,
+          title: { display: true, text: 'Battery %', color: tc.textMuted, font: { family: 'IBM Plex Mono', size: 10 } },
+          ticks: { color: tc.textMuted, font: { family: 'IBM Plex Mono', size: 10 }, callback: v => v + '%' },
+          grid: { color: tc.border }
+        }
+      }
+    },
+    plugins: [{
+      afterDraw(chart) {
+        const xS = chart.scales.x, yS = chart.scales.y, c = chart.ctx;
+        c.save();
+        // 6-month target line for e-ink
+        const x6 = xS.getPixelForValue(6);
+        if (x6 >= xS.left && x6 <= xS.right) {
+          c.setLineDash([4, 4]); c.strokeStyle = 'rgba(34,211,238,.6)'; c.lineWidth = 1.5;
+          c.beginPath(); c.moveTo(x6, yS.top); c.lineTo(x6, yS.bottom); c.stroke();
+          c.setLineDash([]); c.fillStyle = 'rgba(34,211,238,.8)'; c.font = '10px IBM Plex Mono';
+          c.fillText('6 mo target', x6 + 4, yS.top + 12);
+        }
+        c.restore();
+      }
+    }]
+  });
+}
+
+// E-ink event binding
+function bindEinkInputs() {
+  ['eiUpdatesWeek', 'eiCheckSec', 'eiRefreshSec', 'eiSleepUA'].forEach(id => {
+    const el = document.getElementById(id);
+    el.addEventListener('input', () => {
+      const v = document.getElementById(id + 'Val');
+      if (v) {
+        let t = el.value;
+        if (id === 'eiCheckSec' || id === 'eiRefreshSec') t += ' s';
+        else if (id === 'eiSleepUA') t += ' uA';
+        v.textContent = t;
+      }
+      calcEink();
+    });
+  });
+
+  // Radio groups fire calcEink via selectRadio onclick — no binding needed
+}
+
+// ── Auto-setup range sliders with embedded value pill ──
+function setupRangeSliders() {
+  document.querySelectorAll('input[type="range"]').forEach(input => {
+    // Wrap in .range-wrap
+    const wrap = document.createElement('div');
+    wrap.className = 'range-wrap';
+    input.parentNode.insertBefore(wrap, input);
+    wrap.appendChild(input);
+
+    // Create floating value label
+    const valLabel = document.createElement('span');
+    valLabel.className = 'range-val';
+    wrap.appendChild(valLabel);
+
+    // Find the corresponding Val span and get its suffix
+    const valSpan = document.getElementById(input.id + 'Val');
+    const suffix = valSpan ? valSpan.textContent.replace(/^[\d.]+\s*/, '') : '';
+
+    function updatePos() {
+      const min = parseFloat(input.min) || 0;
+      const max = parseFloat(input.max) || 100;
+      const v = parseFloat(input.value) || 0;
+      const pct = (v - min) / (max - min);
+      const thumbW = 44;
+      const trackW = input.offsetWidth;
+      const left = pct * (trackW - thumbW) + thumbW / 2;
+      valLabel.style.left = left + 'px';
+      const displayVal = (v % 1 === 0) ? v.toString() : v.toFixed(1);
+      valLabel.textContent = displayVal + (suffix ? ' ' + suffix.trim() : '');
+      if (valSpan) valSpan.textContent = displayVal + (suffix ? ' ' + suffix.trim() : '');
+    }
+
+    // Recalc on resize
+    new ResizeObserver(() => updatePos()).observe(input);
+
+    input.addEventListener('input', updatePos);
+    // Hide the old center val span from slider-bounds
+    if (valSpan && valSpan.parentElement && valSpan.parentElement.classList.contains('slider-bounds')) {
+      valSpan.style.display = 'none';
+    }
+    updatePos();
+  });
+}
+
+setupRangeSliders();
 bindInputs();
+bindEinkInputs();
 calculate();
 </script>
 </body>
