@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Podsque Battery Estimator</title>
+<title>Podsque Simulator</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -816,14 +816,14 @@ input[type="number"]:focus { border-color: var(--amber); }
 
 <!-- Product Tabs -->
 <nav class="product-tabs">
-  <button class="product-tab active" onclick="switchProduct('counting')">Counting + Hub</button>
+  <button class="product-tab active" onclick="switchProduct('einkimage')">E-Ink Image</button>
+  <button class="product-tab" onclick="switchProduct('counting')">Counting + Hub</button>
   <button class="product-tab" onclick="switchProduct('eink')">E-Ink</button>
-  <button class="product-tab" onclick="switchProduct('einkimage')">E-Ink Image</button>
   <button class="product-tab disabled" onclick="return false">Weighing Scale <span class="coming-soon">Coming Soon</span></button>
 </nav>
 
 <!-- Counting + Hub -->
-<div id="counting-content">
+<div id="counting-content" class="hidden">
 
   <header class="sticky-header">
     <div class="header-top">
@@ -1176,7 +1176,7 @@ input[type="number"]:focus { border-color: var(--amber); }
 </div>
 
 <!-- E-Ink Image Generator -->
-<div id="einkimage-content" class="hidden">
+<div id="einkimage-content">
   <header class="sticky-header">
     <div class="header-top">
       <h1>E-Ink Image Generator</h1>
@@ -1310,14 +1310,14 @@ function toggleTheme() {
   if (activeProduct === 'eink') calcEink(); else calculate();
 }
 
-let activeProduct = 'counting';
+let activeProduct = 'einkimage';
 
 function switchProduct(tab) {
   activeProduct = tab;
   const tabs = document.querySelectorAll('.product-tab');
-  tabs[0].classList.toggle('active', tab === 'counting');
-  tabs[1].classList.toggle('active', tab === 'eink');
-  tabs[2].classList.toggle('active', tab === 'einkimage');
+  tabs[0].classList.toggle('active', tab === 'einkimage');
+  tabs[1].classList.toggle('active', tab === 'counting');
+  tabs[2].classList.toggle('active', tab === 'eink');
   tabs[3].classList.toggle('active', tab === 'weighing');
   document.getElementById('counting-content').classList.toggle('hidden', tab !== 'counting');
   document.getElementById('eink-content').classList.toggle('hidden', tab !== 'eink');
