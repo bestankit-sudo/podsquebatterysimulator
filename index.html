@@ -688,6 +688,7 @@ input[type="number"]:focus { border-color: var(--amber); }
   .result-cards { grid-template-columns: 1fr 1fr; }
   .control-grid { grid-template-columns: 1fr; }
   .control-grid.learn-grid { grid-template-columns: 1fr 1fr; }
+  .einkimg-grid { grid-template-columns: 1fr; }
   .assumption-categories { grid-template-columns: 1fr; }
   .header-top { flex-wrap: wrap; }
   .advanced-inline { flex-direction: column; }
@@ -696,6 +697,114 @@ input[type="number"]:focus { border-color: var(--amber); }
 @media (max-width: 1024px) {
   .control-grid.learn-grid { grid-template-columns: 1fr 1fr; }
   .control-grid { grid-template-columns: 1fr 1fr; }
+}
+
+/* ── E-Ink Image Generator ── */
+.einkimg-grid { grid-template-columns: 1fr 1fr 1fr; }
+
+.einkimg-coffee-list {
+  max-height: 280px;
+  overflow-y: auto;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 4px;
+  background: var(--input-bg);
+}
+
+.einkimg-coffee-row, .einkimg-field-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 6px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text);
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.einkimg-coffee-row:hover, .einkimg-field-row:hover { background: var(--surface2); }
+.einkimg-coffee-row input[type="checkbox"],
+.einkimg-field-row input[type="checkbox"] { accent-color: var(--amber); }
+
+.einkimg-coffee-row .decaf-badge {
+  font-size: 8px;
+  padding: 1px 4px;
+  border-radius: 2px;
+  background: rgba(16,185,129,.15);
+  color: #10b981;
+  font-weight: 600;
+  margin-left: auto;
+}
+
+.einkimg-field-list { display: flex; flex-direction: column; gap: 3px; }
+
+.einkimg-btn {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 8px 20px;
+  background: var(--amber);
+  color: #1a1a1a;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: opacity .2s;
+}
+.einkimg-btn:hover { opacity: 0.85; }
+.einkimg-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+#einkimg-preview-wrap {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 16px;
+  background: var(--surface);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  min-height: 200px;
+}
+
+#einkimg-canvas {
+  max-width: 100%;
+  height: auto;
+  border: 1px solid var(--border);
+}
+
+.radio-opt.disabled-opt {
+  opacity: 0.35;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.einkimg-custom-res {
+  display: none;
+  gap: 8px;
+  margin-top: 4px;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-dim);
+}
+.einkimg-custom-res.visible { display: flex; }
+.einkimg-custom-res input[type="number"] {
+  width: 70px;
+  padding: 3px 6px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--input-bg);
+  color: var(--text);
+}
+
+.einkimg-res-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--text-dim);
+  margin-left: 4px;
 }
 
 .hidden { display: none !important; }
@@ -709,6 +818,7 @@ input[type="number"]:focus { border-color: var(--amber); }
 <nav class="product-tabs">
   <button class="product-tab active" onclick="switchProduct('counting')">Counting + Hub</button>
   <button class="product-tab" onclick="switchProduct('eink')">E-Ink</button>
+  <button class="product-tab" onclick="switchProduct('einkimage')">E-Ink Image</button>
   <button class="product-tab disabled" onclick="return false">Weighing Scale <span class="coming-soon">Coming Soon</span></button>
 </nav>
 
@@ -1065,6 +1175,84 @@ input[type="number"]:focus { border-color: var(--amber); }
   </main>
 </div>
 
+<!-- E-Ink Image Generator -->
+<div id="einkimage-content" class="hidden">
+  <header class="sticky-header">
+    <div class="header-top">
+      <h1>E-Ink Image Generator</h1>
+      <span class="tag">PNG Export</span>
+    </div>
+
+    <div class="control-grid einkimg-grid">
+      <!-- Coffee Selection -->
+      <div class="control-panel">
+        <h3>Select Coffees (max 4)</h3>
+        <div id="einkimg-coffee-list" class="einkimg-coffee-list"></div>
+      </div>
+
+      <!-- Field Selection -->
+      <div class="control-panel">
+        <h3>Fields to Display (max 6)</h3>
+        <div id="einkimg-field-list" class="einkimg-field-list"></div>
+
+        <div class="control-group" style="margin-top: 8px;">
+          <h3>Numeric Display</h3>
+          <div id="einkimgNumericGroup" class="radio-group" data-value="dots">
+            <div class="radio-opt selected" data-val="dots" onclick="selectEinkImgRadio('einkimgNumericGroup','dots')">
+              <span class="radio-dot"></span> Dots (circles out of 10)
+            </div>
+            <div class="radio-opt" data-val="number" onclick="selectEinkImgRadio('einkimgNumericGroup','number')">
+              <span class="radio-dot"></span> Plain number (e.g. 7/10)
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Resolution & Settings -->
+      <div class="control-panel">
+        <h3>Resolution</h3>
+        <div id="einkimgResGroup" class="radio-group" data-value="800x480">
+          <div class="radio-opt" data-val="792x528" onclick="selectEinkImgRadio('einkimgResGroup','792x528')">
+            <span class="radio-dot"></span> 3.68&quot; <span class="einkimg-res-label">792&times;528</span>
+          </div>
+          <div class="radio-opt selected" data-val="800x480" onclick="selectEinkImgRadio('einkimgResGroup','800x480')">
+            <span class="radio-dot"></span> 3.97&quot; <span class="einkimg-res-label">800&times;480</span>
+          </div>
+          <div class="radio-opt" data-val="768x552" onclick="selectEinkImgRadio('einkimgResGroup','768x552')">
+            <span class="radio-dot"></span> 3.98&quot; <span class="einkimg-res-label">768&times;552</span>
+          </div>
+          <div class="radio-opt" data-val="custom" onclick="selectEinkImgRadio('einkimgResGroup','custom')">
+            <span class="radio-dot"></span> Custom
+          </div>
+        </div>
+        <div id="einkimg-custom-res" class="einkimg-custom-res">
+          <label>H</label><input type="number" id="einkimgCustomW" value="400" min="100" max="2000">
+          <label>&times;</label>
+          <label>V</label><input type="number" id="einkimgCustomH" value="300" min="100" max="2000">
+        </div>
+
+        <div class="control-group" style="margin-top: 8px;">
+          <h3>Color Mode <span class="coming-soon">Coming Soon</span></h3>
+          <div class="radio-group">
+            <div class="radio-opt disabled-opt selected"><span class="radio-dot"></span> B/W</div>
+            <div class="radio-opt disabled-opt"><span class="radio-dot"></span> 3-Color</div>
+            <div class="radio-opt disabled-opt"><span class="radio-dot"></span> 4-Color</div>
+          </div>
+        </div>
+
+        <button class="einkimg-btn" onclick="generateEinkImage()">Generate PNG</button>
+      </div>
+    </div>
+  </header>
+
+  <main style="padding: 16px;">
+    <div id="einkimg-preview-wrap">
+      <canvas id="einkimg-canvas" width="800" height="480"></canvas>
+      <button id="einkimg-download-btn" class="einkimg-btn" style="display:none;" onclick="downloadEinkPNG()">Download PNG</button>
+    </div>
+  </main>
+</div>
+
 <div id="weighing-content" class="coming-soon-page">
   <h2>Weighing Scale Module</h2>
   <p>Battery estimator for the weighing scale module is coming soon.</p>
@@ -1129,9 +1317,11 @@ function switchProduct(tab) {
   const tabs = document.querySelectorAll('.product-tab');
   tabs[0].classList.toggle('active', tab === 'counting');
   tabs[1].classList.toggle('active', tab === 'eink');
-  tabs[2].classList.toggle('active', tab === 'weighing');
+  tabs[2].classList.toggle('active', tab === 'einkimage');
+  tabs[3].classList.toggle('active', tab === 'weighing');
   document.getElementById('counting-content').classList.toggle('hidden', tab !== 'counting');
   document.getElementById('eink-content').classList.toggle('hidden', tab !== 'eink');
+  document.getElementById('einkimage-content').classList.toggle('hidden', tab !== 'einkimage');
   document.getElementById('weighing-content').classList.toggle('visible', tab === 'weighing');
   // Destroy charts when switching
   if (lineChart) { lineChart.destroy(); lineChart = null; }
@@ -1733,6 +1923,301 @@ function bindEinkInputs() {
   // Radio groups fire calcEink via selectRadio onclick — no binding needed
 }
 
+// ══════════════════════════════════════
+// ── E-Ink Image Generator ──
+// ══════════════════════════════════════
+
+const COFFEES = [
+  { brand: 'Nespresso', flavour: 'Ristretto Italiano Decaffeinato', tasting: 'Intense, Roasted & Woody', remarks: 'Best with short pull', decaf: true, cupSize: 'Ristretto', intensity: 10, bitterness: 8 },
+  { brand: 'Nespresso', flavour: 'Arpeggio Decaffeinato', tasting: 'Cocoa, Creamy & Intense', remarks: 'Great as a doppio', decaf: true, cupSize: 'Espresso', intensity: 9, bitterness: 7 },
+  { brand: 'Nespresso', flavour: 'Volluto Decaffeinato', tasting: 'Sweet, Light & Biscuity', remarks: 'Good afternoon pick-me-up', decaf: true, cupSize: 'Espresso', intensity: 4, bitterness: 2 },
+  { brand: 'Nespresso', flavour: 'Lungo Decaffeinato Leggero', tasting: 'Light, Smooth & Subtle Citrus', remarks: 'Gentle on the palate, pairs well with dessert', decaf: true, cupSize: 'Lungo', intensity: 3, bitterness: 2 },
+  { brand: 'Lavazza', flavour: 'Dek Decaffeinato Intenso Crema', tasting: 'Rich, Creamy & Full-bodied', remarks: 'Surprisingly bold for decaf', decaf: true, cupSize: 'Espresso, Lungo', intensity: 7, bitterness: 5 },
+  { brand: 'Illy', flavour: 'Classico Decaffeinato Medium Roast', tasting: 'Caramel, Floral & Smooth', remarks: 'Elegant Italian classic', decaf: true, cupSize: 'Espresso, Cappuccino', intensity: 5, bitterness: 3 },
+  { brand: 'Starbucks', flavour: 'Decaf Pike Place Medium Roast', tasting: 'Smooth, Chocolate & Cocoa', remarks: 'Use lungo button for best results', decaf: true, cupSize: 'Gran Lungo, Coffee', intensity: 6, bitterness: 4 },
+  { brand: "Peet's Coffee", flavour: "Decaf Major Dickason's Blend", tasting: 'Deep, Complex & Earthy', remarks: 'Skim milk only, dash of caramel syrup', decaf: true, cupSize: 'Espresso, Americano', intensity: 8, bitterness: 7 },
+  { brand: 'Swiss Water', flavour: 'Signature Decaf Organic Blend', tasting: 'Clean, Balanced & Nutty', remarks: 'Great for evening espresso', decaf: true, cupSize: 'Espresso', intensity: 5, bitterness: 3 },
+  { brand: 'Kicking Horse', flavour: 'Decaf Dark Roast Swiss Water', tasting: 'Smoky, Bold & Chocolatey', remarks: 'Full body despite decaf process', decaf: true, cupSize: 'Espresso, Latte', intensity: 8, bitterness: 6 },
+  { brand: 'Nespresso', flavour: 'Firenze Arpeggio', tasting: 'Roasted & Chocolatey', remarks: 'Use lungo button', decaf: false, cupSize: 'Espresso', intensity: 9, bitterness: 7 },
+  { brand: 'Nespresso', flavour: 'Alto Ambrato', tasting: 'Caramel, Balanced & Fruit', remarks: 'Best served black', decaf: false, cupSize: 'Alto', intensity: 4, bitterness: 3 },
+  { brand: 'Nespresso', flavour: 'Melozio', tasting: 'Nutty & Balanced, Milk', remarks: 'Froth milk, then brew', decaf: false, cupSize: 'Espresso, Latte', intensity: 6, bitterness: 4 },
+  { brand: 'Nespresso', flavour: 'Stormio', tasting: 'Cereal & Intense', remarks: 'Strong morning coffee', decaf: false, cupSize: 'Espresso, Americano', intensity: 8, bitterness: 6 },
+  { brand: 'Nespresso', flavour: 'Odacio', tasting: 'Cereal & Intense', remarks: 'Pair with dark chocolate', decaf: false, cupSize: 'Espresso, Cappuccino', intensity: 8, bitterness: 5 },
+  { brand: 'Nespresso', flavour: 'Caramello', tasting: 'Caramel & Nutty', remarks: 'Skim milk only and a dash of caramel syrup', decaf: false, cupSize: 'Cappuccino, Latte Macchiato', intensity: 8, bitterness: 5 },
+  { brand: 'KopiHouse', flavour: 'Gula Melaka Kopi', tasting: 'Chocolate, Spice', remarks: 'Traditional Southeast Asian brew', decaf: false, cupSize: 'Espresso, Cappuccino, Latte Macchiato', intensity: 7, bitterness: 5 },
+  { brand: 'Suzuki Coffee', flavour: 'Guatemala Single Origin Reserve', tasting: 'Honey, Orange', remarks: 'Best as pour-over style', decaf: false, cupSize: 'Espresso, Americano', intensity: 10, bitterness: 8 },
+  { brand: 'Lavazza', flavour: 'Super Crema Espresso Italiano', tasting: 'Honey, Almond & Dried Fruit', remarks: 'Classic Italian preparation', decaf: false, cupSize: 'Espresso, Cappuccino', intensity: 7, bitterness: 5 },
+  { brand: 'Illy', flavour: 'Classico Medium Roast Arabica', tasting: 'Caramel, Orange Blossom & Jasmine', remarks: 'Elegant everyday espresso', decaf: false, cupSize: 'Espresso, Latte', intensity: 5, bitterness: 3 },
+  { brand: 'Starbucks', flavour: 'Pike Place Roast Medium', tasting: 'Rich, Smooth & Chocolate', remarks: 'Use lungo button for best extraction', decaf: false, cupSize: 'Gran Lungo, Coffee', intensity: 7, bitterness: 6 },
+  { brand: 'Blue Bottle', flavour: 'Hayes Valley Espresso Blend', tasting: 'Cocoa, Citrus & Berry', remarks: 'Pull short for maximum sweetness', decaf: false, cupSize: 'Espresso', intensity: 6, bitterness: 4 },
+  { brand: 'Counter Culture', flavour: 'Big Trouble Blend', tasting: 'Chocolate, Caramel & Smooth', remarks: 'Versatile for any milk drink', decaf: false, cupSize: 'Espresso, Latte, Cappuccino', intensity: 6, bitterness: 4 },
+  { brand: 'Nespresso', flavour: 'Mexico Single Origin Roast', tasting: 'Woody & Earthy', remarks: 'Use lungo button', decaf: false, cupSize: 'Espresso', intensity: 7, bitterness: 5 },
+  { brand: 'Nespresso', flavour: 'Tanzania Kilimanjaro Reserve', tasting: 'Citrus & Cereal', remarks: 'Skim milk only and a dash of caramel syrup', decaf: false, cupSize: 'Cappuccino, Latte Macchiato', intensity: 5, bitterness: 3 }
+];
+
+const EINKIMG_FIELDS = [
+  { key: 'brand', label: 'Brand Name', defaultOn: true },
+  { key: 'flavour', label: 'Flavour Name', defaultOn: true },
+  { key: 'tasting', label: 'Flavour', defaultOn: true },
+  { key: 'remarks', label: 'Remarks', defaultOn: false },
+  { key: 'decaf', label: 'Decaf Yes/No', defaultOn: false },
+  { key: 'cupSize', label: 'Cup Size', defaultOn: true },
+  { key: 'intensity', label: 'Intensity', defaultOn: true },
+  { key: 'bitterness', label: 'Bitterness', defaultOn: true }
+];
+
+function initEinkImageTab() {
+  const listEl = document.getElementById('einkimg-coffee-list');
+  COFFEES.forEach((c, i) => {
+    const row = document.createElement('label');
+    row.className = 'einkimg-coffee-row';
+    row.innerHTML = '<input type="checkbox" data-idx="' + i + '" onchange="enforceCoffeeMax()">' +
+      '<span>' + c.brand + ' — ' + c.flavour + '</span>' +
+      (c.decaf ? '<span class="decaf-badge">DECAF</span>' : '');
+    listEl.appendChild(row);
+  });
+
+  const fieldEl = document.getElementById('einkimg-field-list');
+  EINKIMG_FIELDS.forEach(f => {
+    const row = document.createElement('label');
+    row.className = 'einkimg-field-row';
+    row.innerHTML = '<input type="checkbox" data-key="' + f.key + '"' +
+      (f.defaultOn ? ' checked' : '') + ' onchange="enforceFieldMax()">' +
+      '<span>' + f.label + '</span>';
+    fieldEl.appendChild(row);
+  });
+}
+
+function enforceCoffeeMax() {
+  const boxes = document.querySelectorAll('#einkimg-coffee-list input[type="checkbox"]');
+  const checked = [...boxes].filter(b => b.checked).length;
+  boxes.forEach(b => { if (!b.checked) b.disabled = checked >= 4; });
+}
+
+function enforceFieldMax() {
+  const boxes = document.querySelectorAll('#einkimg-field-list input[type="checkbox"]');
+  const checked = [...boxes].filter(b => b.checked).length;
+  boxes.forEach(b => { if (!b.checked) b.disabled = checked >= 6; });
+}
+
+function selectEinkImgRadio(groupId, value) {
+  const group = document.getElementById(groupId);
+  group.dataset.value = value;
+  group.querySelectorAll('.radio-opt').forEach(opt => {
+    opt.classList.toggle('selected', opt.dataset.val === value);
+  });
+  if (groupId === 'einkimgResGroup') {
+    document.getElementById('einkimg-custom-res').classList.toggle('visible', value === 'custom');
+  }
+}
+
+function getSelectedCoffees() {
+  const boxes = document.querySelectorAll('#einkimg-coffee-list input[type="checkbox"]:checked');
+  return [...boxes].map(b => COFFEES[parseInt(b.dataset.idx)]);
+}
+
+function getSelectedFields() {
+  const boxes = document.querySelectorAll('#einkimg-field-list input[type="checkbox"]:checked');
+  return [...boxes].map(b => b.dataset.key);
+}
+
+function getEinkImgResolution() {
+  const val = document.getElementById('einkimgResGroup').dataset.value;
+  if (val === 'custom') {
+    return {
+      w: parseInt(document.getElementById('einkimgCustomW').value) || 400,
+      h: parseInt(document.getElementById('einkimgCustomH').value) || 300
+    };
+  }
+  const [w, h] = val.split('x').map(Number);
+  return { w, h };
+}
+
+function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
+  const words = text.split(' ');
+  let line = '';
+  let curY = y;
+  for (let i = 0; i < words.length; i++) {
+    const test = line + (line ? ' ' : '') + words[i];
+    if (ctx.measureText(test).width > maxWidth && line) {
+      ctx.fillText(line, x, curY);
+      line = words[i];
+      curY += lineHeight;
+    } else {
+      line = test;
+    }
+  }
+  if (line) { ctx.fillText(line, x, curY); curY += lineHeight; }
+  return curY;
+}
+
+function drawDotRating(ctx, value, max, x, y, dotRadius, spacing) {
+  const v = Math.min(Math.max(0, value), max);
+  for (let i = 0; i < max; i++) {
+    const cx = x + i * spacing + dotRadius;
+    ctx.beginPath();
+    ctx.arc(cx, y, dotRadius, 0, Math.PI * 2);
+    if (i < v) {
+      ctx.fillStyle = '#000000';
+      ctx.fill();
+    } else {
+      ctx.strokeStyle = '#000000';
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+    }
+  }
+  // Draw number after dots
+  ctx.fillStyle = '#000000';
+  const numX = x + max * spacing + dotRadius + 4;
+  ctx.fillText('(' + v + ')', numX, y + dotRadius * 0.4);
+}
+
+function drawCoffeeCard(ctx, coffee, fields, x, y, w, h, posLabel, numericMode) {
+  const pad = Math.round(w * 0.05);
+  const contentW = w - pad * 2;
+  let curY = y + pad;
+
+  // Scale fonts to card size
+  const scale = Math.min(w / 400, h / 500);
+  const brandSize = Math.max(10, Math.round(14 * scale));
+  const nameSize = Math.max(14, Math.round(28 * scale));
+  const labelSize = Math.max(8, Math.round(11 * scale));
+  const valueSize = Math.max(10, Math.round(16 * scale));
+  const dotR = Math.max(3, Math.round(5 * scale));
+  const dotSpacing = Math.max(8, Math.round(13 * scale));
+
+  // Position label (top-right corner)
+  ctx.fillStyle = '#666666';
+  ctx.font = '600 ' + labelSize + 'px "IBM Plex Sans", sans-serif';
+  ctx.textAlign = 'right';
+  ctx.fillText(posLabel, x + w - pad, curY + labelSize);
+  ctx.textAlign = 'left';
+
+  ctx.fillStyle = '#000000';
+
+  for (let fi = 0; fi < fields.length; fi++) {
+    const key = fields[fi];
+    const val = coffee[key];
+
+    if (key === 'brand') {
+      ctx.font = '500 ' + brandSize + 'px "IBM Plex Sans", sans-serif';
+      ctx.fillStyle = '#000000';
+      ctx.fillText(String(val).toUpperCase(), x + pad, curY + brandSize);
+      curY += brandSize + Math.round(4 * scale);
+    }
+    else if (key === 'flavour') {
+      ctx.font = '700 ' + nameSize + 'px "IBM Plex Sans", sans-serif';
+      ctx.fillStyle = '#000000';
+      curY = wrapText(ctx, String(val), x + pad, curY + nameSize, contentW, nameSize + 4);
+      curY += Math.round(8 * scale);
+    }
+    else if (key === 'intensity' || key === 'bitterness') {
+      const lbl = key === 'intensity' ? 'INTENSITY' : 'BITTERNESS';
+      ctx.font = '600 ' + labelSize + 'px "IBM Plex Sans", sans-serif';
+      ctx.fillStyle = '#000000';
+      ctx.fillText(lbl, x + pad, curY + labelSize);
+      curY += labelSize + Math.round(6 * scale);
+
+      if (numericMode === 'dots') {
+        drawDotRating(ctx, val, 10, x + pad, curY, dotR, dotSpacing);
+        curY += dotR * 2 + Math.round(10 * scale);
+      } else {
+        ctx.font = '700 ' + valueSize + 'px "IBM Plex Sans", sans-serif';
+        ctx.fillStyle = '#000000';
+        ctx.fillText(val + '/10', x + pad, curY + valueSize);
+        curY += valueSize + Math.round(10 * scale);
+      }
+    }
+    else if (key === 'decaf') {
+      ctx.font = '600 ' + labelSize + 'px "IBM Plex Sans", sans-serif';
+      ctx.fillStyle = '#000000';
+      ctx.fillText('DECAF', x + pad, curY + labelSize);
+      curY += labelSize + Math.round(4 * scale);
+      ctx.font = '700 ' + valueSize + 'px "IBM Plex Sans", sans-serif';
+      ctx.fillText(val ? 'YES' : 'NO', x + pad, curY + valueSize);
+      curY += valueSize + Math.round(10 * scale);
+    }
+    else {
+      // Generic text field: tasting, remarks, cupSize
+      const labels = { tasting: 'NOTES', remarks: 'MY COMMENTS', cupSize: 'BEST SERVED AS' };
+      const lbl = labels[key] || key.toUpperCase();
+      ctx.font = '600 ' + labelSize + 'px "IBM Plex Sans", sans-serif';
+      ctx.fillStyle = '#000000';
+      ctx.fillText(lbl, x + pad, curY + labelSize);
+      curY += labelSize + Math.round(4 * scale);
+      ctx.font = '700 ' + valueSize + 'px "IBM Plex Sans", sans-serif';
+      curY = wrapText(ctx, String(val), x + pad, curY + valueSize, contentW, valueSize + 4);
+      curY += Math.round(8 * scale);
+    }
+  }
+}
+
+function generateEinkImage() {
+  const coffees = getSelectedCoffees();
+  const fields = getSelectedFields();
+  const res = getEinkImgResolution();
+  const numericMode = document.getElementById('einkimgNumericGroup').dataset.value;
+
+  if (coffees.length === 0) { alert('Select at least 1 coffee.'); return; }
+  if (fields.length === 0) { alert('Select at least 1 field.'); return; }
+
+  const canvas = document.getElementById('einkimg-canvas');
+  canvas.width = res.w;
+  canvas.height = res.h;
+  const ctx = canvas.getContext('2d');
+
+  document.fonts.ready.then(() => {
+    // White background
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, res.w, res.h);
+
+    const count = coffees.length;
+
+    if (count === 1) {
+      drawCoffeeCard(ctx, coffees[0], fields, 0, 0, res.w, res.h, 'FRONT', numericMode);
+    }
+    else if (count === 2) {
+      const hw = Math.floor(res.w / 2);
+      drawCoffeeCard(ctx, coffees[0], fields, 0, 0, hw, res.h, 'LEFT', numericMode);
+      drawCoffeeCard(ctx, coffees[1], fields, hw, 0, res.w - hw, res.h, 'RIGHT', numericMode);
+      // Vertical divider
+      ctx.strokeStyle = '#000000';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(hw, 0);
+      ctx.lineTo(hw, res.h);
+      ctx.stroke();
+    }
+    else {
+      // 3 or 4: 2x2 grid
+      const hw = Math.floor(res.w / 2);
+      const hh = Math.floor(res.h / 2);
+      const labels = ['FRONT L', 'FRONT R', 'BACK L', 'BACK R'];
+      const positions = [[0, 0, hw, hh], [hw, 0, res.w - hw, hh], [0, hh, hw, res.h - hh], [hw, hh, res.w - hw, res.h - hh]];
+      for (let i = 0; i < count; i++) {
+        drawCoffeeCard(ctx, coffees[i], fields, positions[i][0], positions[i][1], positions[i][2], positions[i][3], labels[i], numericMode);
+      }
+      // Dividers
+      ctx.strokeStyle = '#000000';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(hw, 0); ctx.lineTo(hw, res.h);
+      ctx.moveTo(0, hh); ctx.lineTo(res.w, hh);
+      ctx.stroke();
+    }
+
+    document.getElementById('einkimg-download-btn').style.display = 'inline-block';
+  });
+}
+
+function downloadEinkPNG() {
+  const canvas = document.getElementById('einkimg-canvas');
+  const link = document.createElement('a');
+  link.download = 'podsque-eink-' + Date.now() + '.png';
+  link.href = canvas.toDataURL('image/png');
+  link.click();
+}
+
 // ── Auto-setup range sliders with embedded value pill ──
 function setupRangeSliders() {
   document.querySelectorAll('input[type="range"]').forEach(input => {
@@ -1780,6 +2265,7 @@ function setupRangeSliders() {
 setupRangeSliders();
 bindInputs();
 bindEinkInputs();
+initEinkImageTab();
 calculate();
 </script>
 </body>
