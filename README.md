@@ -1,6 +1,6 @@
-# Podsque Battery Life Simulator
+# Podsque Simulator
 
-Interactive battery life estimator for Podsque hardware modules. Single-file HTML app — no build step, no backend.
+Interactive simulator for Podsque hardware modules — e-ink image generation and battery life estimation. Single-file HTML app — no build step, no backend.
 
 **Live:** [podsquebatterysimulator.vercel.app](https://podsquebatterysimulator.vercel.app/)
 
@@ -8,9 +8,29 @@ Interactive battery life estimator for Podsque hardware modules. Single-file HTM
 
 | Tab | Status | Description |
 |---|---|---|
-| **Counting + Hub** | Live | nRF5340 + nRF7002 pod-counting sensor module |
-| **E-Ink** | Live | nRF52832 + 3.9" e-paper display module |
+| **E-Ink Image** | Live | PNG generator for e-ink displays — coffee card layouts at target resolutions |
+| **Counting + Hub** | Live | Battery estimator for nRF5340 + nRF7002 pod-counting sensor module |
+| **E-Ink** | Live | Battery estimator for nRF52832 + 3.9" e-paper display module |
 | **Weighing Scale** | Coming Soon | Weighing scale module |
+
+## E-Ink Image Generator
+
+Generates PNG images for Podsque e-ink displays to test readability at target resolutions before hardware production.
+
+### Features
+
+- Select up to 4 coffees from a catalogue of 25 (mix of regular and decaf)
+- Choose up to 6 display fields: Brand Name, Flavour Name, Flavour, Remarks, Decaf, Cup Size, Intensity, Bitterness
+- Predefined landscape resolutions from candidate display panels:
+  - 3.68" — 792×528
+  - 3.97" — 800×480 (default, best mechanical fit per Akash)
+  - 3.98" — 768×552
+  - Custom resolution input
+- Numeric values (Intensity, Bitterness) rendered as dot visualization or plain numbers
+- Layout adapts to coffee count: full canvas (1), left/right split (2), 2×2 grid (3-4)
+- Position labels (FRONT, LEFT/RIGHT, FRONT L/R, BACK L/R) match physical pod holder slots
+- Color mode (B/W, 3-Color, 4-Color) — coming soon
+- Download as PNG for testing on physical e-ink panels
 
 ## Counting + Hub
 
