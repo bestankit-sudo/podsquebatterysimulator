@@ -843,6 +843,18 @@ input[type="number"]:focus { border-color: var(--amber); }
 .einkimg-spec-table td { padding:3px 6px; border-bottom:1px solid rgba(128,128,128,.1); }
 .einkimg-spec-table td:first-child { font-weight:600; }
 
+/* ── Simulator ── */
+.sim-grid { display:grid; grid-template-columns:280px 1fr; gap:16px; padding:16px; }
+.sim-controls { max-height:75vh; overflow-y:auto; }
+.sim-controls .control-panel { margin-bottom:8px; }
+.sim-preview { display:flex; flex-direction:column; align-items:center; gap:12px; }
+.sim-preview canvas { max-width:100%; height:auto; border:1px solid var(--border); }
+.sim-slider-row { display:flex; align-items:center; gap:6px; margin-bottom:4px; }
+.sim-slider-row label { font-family:var(--font-mono); font-size:9px; color:var(--text); min-width:90px; }
+.sim-slider-row input[type="range"] { flex:1; height:4px; }
+.sim-slider-row .sim-val { font-family:var(--font-mono); font-size:10px; font-weight:700; color:var(--amber); min-width:28px; text-align:right; }
+@media (max-width:768px) { .sim-grid { grid-template-columns:1fr; } }
+
 .hidden { display: none !important; }
 </style>
 </head>
@@ -853,6 +865,7 @@ input[type="number"]:focus { border-color: var(--amber); }
 <!-- Product Tabs -->
 <nav class="product-tabs">
   <button class="product-tab active" onclick="switchProduct('einkimage')">E-Ink Image</button>
+  <button class="product-tab" onclick="switchProduct('simulator')">Simulator</button>
   <button class="product-tab" onclick="switchProduct('counting')">Counting + Hub</button>
   <button class="product-tab" onclick="switchProduct('eink')">E-Ink</button>
   <button class="product-tab disabled" onclick="return false">Weighing Scale <span class="coming-soon">Coming Soon</span></button>
@@ -1400,6 +1413,59 @@ input[type="number"]:focus { border-color: var(--amber); }
   </main>
 </div>
 
+<!-- Profile Simulator -->
+<div id="simulator-content" class="hidden">
+  <header class="sticky-header">
+    <div class="header-top">
+      <h1>Profile Simulator</h1>
+      <span class="tag">Live Preview</span>
+    </div>
+  </header>
+  <div class="sim-grid">
+    <div class="sim-controls">
+      <!-- Layout selector -->
+      <div class="control-panel">
+        <h3>Layout</h3>
+        <div id="simLayoutGroup" class="radio-group" data-value="1">
+          <div class="radio-opt selected" data-val="1" onclick="simSwitchLayout(1)"><span class="radio-dot"></span> 1 Coffee</div>
+          <div class="radio-opt" data-val="2" onclick="simSwitchLayout(2)"><span class="radio-dot"></span> 2 Coffees</div>
+          <div class="radio-opt" data-val="4" onclick="simSwitchLayout(4)"><span class="radio-dot"></span> 3&ndash;4 Coffees</div>
+        </div>
+      </div>
+
+      <!-- Typography -->
+      <div class="control-panel">
+        <h3>Typography</h3>
+        <div class="sim-slider-row"><label>Brand</label><input type="range" id="simBrand" min="6" max="50" value="22" oninput="simRender()"><span class="sim-val" id="simBrandVal">22</span></div>
+        <div class="sim-slider-row"><label>Flavour Name</label><input type="range" id="simName" min="8" max="60" value="44" oninput="simRender()"><span class="sim-val" id="simNameVal">44</span></div>
+        <div class="sim-slider-row"><label>Field Label</label><input type="range" id="simLabel" min="4" max="30" value="16" oninput="simRender()"><span class="sim-val" id="simLabelVal">16</span></div>
+        <div class="sim-slider-row"><label>Field Value</label><input type="range" id="simValue" min="4" max="30" value="22" oninput="simRender()"><span class="sim-val" id="simValueVal">22</span></div>
+      </div>
+
+      <!-- Circles -->
+      <div class="control-panel">
+        <h3>Circles</h3>
+        <div class="sim-slider-row"><label>Dot Radius</label><input type="range" id="simDotR" min="1" max="20" value="8" oninput="simRender()"><span class="sim-val" id="simDotRVal">8</span></div>
+        <div class="sim-slider-row"><label>Dot Spacing</label><input type="range" id="simDotSp" min="3" max="30" value="13" oninput="simRender()"><span class="sim-val" id="simDotSpVal">13</span></div>
+      </div>
+
+      <!-- Spacing -->
+      <div class="control-panel">
+        <h3>Spacing (Center-to-Center)</h3>
+        <div class="sim-slider-row"><label>Label-to-Value</label><input type="range" id="simPitchLV" min="4" max="50" value="28" oninput="simRender()"><span class="sim-val" id="simPitchLVVal">28</span></div>
+        <div class="sim-slider-row"><label>Section Break</label><input type="range" id="simPitchSec" min="6" max="60" value="38" oninput="simRender()"><span class="sim-val" id="simPitchSecVal">38</span></div>
+        <div class="sim-slider-row"><label>Padding</label><span style="font-family:var(--font-mono); font-size:10px; color:var(--text-dim);">15 px (fixed)</span></div>
+      </div>
+
+      <button class="einkimg-btn" onclick="simApplyProfile()" style="width:100%;">Apply to E-Ink Image Profile</button>
+    </div>
+
+    <div class="sim-preview">
+      <canvas id="sim-canvas" width="800" height="480"></canvas>
+    </div>
+  </div>
+</div>
+
 <div id="weighing-content" class="coming-soon-page">
   <h2>Weighing Scale Module</h2>
   <p>Battery estimator for the weighing scale module is coming soon.</p>
@@ -1463,18 +1529,21 @@ function switchProduct(tab) {
   activeProduct = tab;
   const tabs = document.querySelectorAll('.product-tab');
   tabs[0].classList.toggle('active', tab === 'einkimage');
-  tabs[1].classList.toggle('active', tab === 'counting');
-  tabs[2].classList.toggle('active', tab === 'eink');
-  tabs[3].classList.toggle('active', tab === 'weighing');
+  tabs[1].classList.toggle('active', tab === 'simulator');
+  tabs[2].classList.toggle('active', tab === 'counting');
+  tabs[3].classList.toggle('active', tab === 'eink');
+  tabs[4].classList.toggle('active', tab === 'weighing');
+  document.getElementById('einkimage-content').classList.toggle('hidden', tab !== 'einkimage');
+  document.getElementById('simulator-content').classList.toggle('hidden', tab !== 'simulator');
   document.getElementById('counting-content').classList.toggle('hidden', tab !== 'counting');
   document.getElementById('eink-content').classList.toggle('hidden', tab !== 'eink');
-  document.getElementById('einkimage-content').classList.toggle('hidden', tab !== 'einkimage');
   document.getElementById('weighing-content').classList.toggle('visible', tab === 'weighing');
   // Destroy charts when switching
   if (lineChart) { lineChart.destroy(); lineChart = null; }
   if (eiChart) { eiChart.destroy(); eiChart = null; }
   if (tab === 'counting') calculate();
   if (tab === 'eink') calcEink();
+  if (tab === 'simulator') simRender();
 }
 
 function switchMode(mode) {
@@ -2121,6 +2190,113 @@ function toggleEinkControls(forceCollapse) {
   btn.textContent = collapse ? 'Show Controls' : 'Hide Controls';
 }
 
+// ══════════════════════════════════════
+// ── Profile Simulator ──
+// ══════════════════════════════════════
+
+var PROFILE_OVERRIDES = {};  // global override for drawCoffeeCard
+let simLayout = 1;
+
+const SIM_DEFAULTS = {
+  1: { brand:22, name:44, label:16, value:22, dotR:8, dotSp:13, pitchLV:28, pitchSec:38 },
+  2: { brand:18, name:36, label:14, value:18, dotR:4, dotSp:11, pitchLV:22, pitchSec:32 },
+  4: { brand:12, name:22, label:10, value:12, dotR:3, dotSp:8, pitchLV:16, pitchSec:22 }
+};
+
+const SIM_FIELDS = ['brand','name','label','value','dotR','dotSp','pitchLV','pitchSec'];
+const SIM_IDS = ['simBrand','simName','simLabel','simValue','simDotR','simDotSp','simPitchLV','simPitchSec'];
+
+function simSwitchLayout(n) {
+  simLayout = n;
+  // Update radio UI
+  document.getElementById('simLayoutGroup').dataset.value = String(n);
+  document.getElementById('simLayoutGroup').querySelectorAll('.radio-opt').forEach(opt => {
+    opt.classList.toggle('selected', opt.dataset.val === String(n));
+  });
+  // Load profile values into sliders
+  const prof = SIM_DEFAULTS[n] || SIM_DEFAULTS[4];
+  SIM_FIELDS.forEach((key, i) => {
+    const el = document.getElementById(SIM_IDS[i]);
+    el.value = prof[key];
+    document.getElementById(SIM_IDS[i] + 'Val').textContent = prof[key];
+  });
+  simRender();
+}
+
+function simReadProfile() {
+  const p = { pad: 15 };
+  SIM_FIELDS.forEach((key, i) => {
+    p[key] = parseInt(document.getElementById(SIM_IDS[i]).value) || 0;
+  });
+  return p;
+}
+
+function simRender() {
+  // Update value displays
+  SIM_IDS.forEach(id => {
+    const el = document.getElementById(id);
+    document.getElementById(id + 'Val').textContent = el.value;
+  });
+
+  const profile = simReadProfile();
+  const canvas = document.getElementById('sim-canvas');
+  const res = { w: 800, h: 480 };
+
+  canvas.width = res.w;
+  canvas.height = res.h;
+  const ctx = canvas.getContext('2d');
+
+  document.fonts.ready.then(() => {
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, res.w, res.h);
+
+    // Build override for current layout
+    PROFILE_OVERRIDES = {};
+    PROFILE_OVERRIDES[simLayout] = profile;
+
+    // Find longest decaf coffee for sample data
+    let sampleIdx = 0, longest = 0;
+    COFFEES.forEach((c, i) => {
+      if (c.decaf && (c.brand + c.flavour).length > longest) {
+        longest = (c.brand + c.flavour).length;
+        sampleIdx = i;
+      }
+    });
+
+    const allFields = EINKIMG_FIELDS.map(f => f.key);
+    const coffee = COFFEES[sampleIdx];
+    const numericMode = 'dots';
+
+    if (simLayout === 1) {
+      drawCoffeeCard(ctx, coffee, allFields, 0, 0, res.w, res.h, 'FRONT', numericMode, 1);
+    } else if (simLayout === 2) {
+      const hw = Math.floor(res.w / 2);
+      drawCoffeeCard(ctx, coffee, allFields, 0, 0, hw, res.h, 'LEFT', numericMode, 2);
+      drawCoffeeCard(ctx, coffee, allFields, hw, 0, res.w - hw, res.h, 'RIGHT', numericMode, 2);
+      ctx.strokeStyle = '#000000'; ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.moveTo(hw, 0); ctx.lineTo(hw, res.h); ctx.stroke();
+    } else {
+      const hw = Math.floor(res.w / 2), hh = Math.floor(res.h / 2);
+      const labels = ['FRONT L','FRONT R','BACK L','BACK R'];
+      const pos = [[0,0,hw,hh],[hw,0,res.w-hw,hh],[0,hh,hw,res.h-hh],[hw,hh,res.w-hw,res.h-hh]];
+      for (let i = 0; i < 4; i++) {
+        drawCoffeeCard(ctx, coffee, allFields, pos[i][0], pos[i][1], pos[i][2], pos[i][3], labels[i], numericMode, 4);
+      }
+      ctx.strokeStyle = '#000000'; ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.moveTo(hw,0); ctx.lineTo(hw,res.h); ctx.moveTo(0,hh); ctx.lineTo(res.w,hh); ctx.stroke();
+    }
+
+    // Clear override after rendering
+    PROFILE_OVERRIDES = {};
+  });
+}
+
+function simApplyProfile() {
+  const profile = simReadProfile();
+  PROFILE_OVERRIDES[simLayout] = profile;
+  alert('Profile applied for ' + (simLayout === 1 ? '1 coffee' : simLayout === 2 ? '2 coffees' : '3-4 coffees') + ' layout. Generate a new preview in E-Ink Image to see the changes.');
+}
+
 function initEinkImageTab() {
   // Find longest decaf coffee name for pre-selection
   let longestDecafIdx = 0, longestLen = 0;
@@ -2269,12 +2445,15 @@ function drawCoffeeCard(ctx, coffee, fields, x, y, w, h, posLabel, numericMode, 
   ctx.clip();
 
   // ── Per-layout profiles: fixed pixel values ──
-  const PROFILES = {
+  const DEFAULT_PROFILES = {
     1: { brand:22, name:44, label:16, value:22, dotR:8, dotSp:13, pitchLV:28, pitchSec:38, pad:15 },
     2: { brand:18, name:36, label:14, value:18, dotR:4, dotSp:11, pitchLV:22, pitchSec:32, pad:15 },
     4: { brand:12, name:22, label:10, value:12, dotR:3, dotSp:8, pitchLV:16, pitchSec:22, pad:15 }
   };
-  const P = PROFILES[coffeeCount] || PROFILES[4];
+  // Check for simulator overrides first
+  const profiles = (typeof PROFILE_OVERRIDES !== 'undefined' && PROFILE_OVERRIDES[coffeeCount])
+    ? PROFILE_OVERRIDES : DEFAULT_PROFILES;
+  const P = profiles[coffeeCount] || DEFAULT_PROFILES[4];
 
   const pad = P.pad;
   const contentW = w - pad * 2;
