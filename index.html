@@ -2083,7 +2083,7 @@ const EINKIMG_FIELDS = [
   { key: 'brand', label: 'Brand Name', defaultOn: true },
   { key: 'flavour', label: 'Flavour Name', defaultOn: true },
   { key: 'tasting', label: 'Flavour', defaultOn: true },
-  { key: 'remarks', label: 'Remarks', defaultOn: false },
+  { key: 'remarks', label: 'Review', defaultOn: false },
   { key: 'decaf', label: 'Decaf Yes/No', defaultOn: false },
   { key: 'cupSize', label: 'Cup Size', defaultOn: true },
   { key: 'intensity', label: 'Intensity', defaultOn: true },
@@ -2267,13 +2267,22 @@ function drawCoffeeCard(ctx, coffee, fields, x, y, w, h, posLabel, numericMode, 
 
   // ── Field loop ──
   const LABELS = {
-    tasting: 'NOTES', remarks: 'MY COMMENTS', cupSize: 'BEST SERVED AS',
+    tasting: 'NOTES', remarks: 'REVIEW', cupSize: 'BEST SERVED AS',
     intensity: 'INTENSITY', bitterness: 'BITTERNESS', decaf: 'DECAF'
   };
 
-  for (let fi = 0; fi < fields.length; fi++) {
+  // Separate remarks (drawn last in reserved bottom space) and check for
+  // intensity/bitterness pair (drawn side-by-side on one row)
+  const hasRemarks = fields.includes('remarks');
+  const hasIntensity = fields.includes('intensity');
+  const hasBitterness = fields.includes('bitterness');
+  const drawFields = fields.filter(k => k !== 'remarks' && k !== 'intensity' && k !== 'bitterness');
+  const needsIntBitRow = hasIntensity || hasBitterness;
+
+  // Draw normal fields
+  for (let fi = 0; fi < drawFields.length; fi++) {
     if (cursor > y + h - pad) break;
-    const key = fields[fi];
+    const key = drawFields[fi];
     const val = coffee[key];
 
     // ── Brand ──
@@ -2281,7 +2290,6 @@ function drawCoffeeCard(ctx, coffee, fields, x, y, w, h, posLabel, numericMode, 
       ctx.font = '500 ' + brandSize + 'px "IBM Plex Sans", sans-serif';
       ctx.fillStyle = '#000000';
       ctx.fillText(String(val).toUpperCase(), x + pad, cursor + brandSize * 0.35);
-      // Tight advance: brand center → flavour center
       cursor += brandSize / 2 + 1 + nameSize / 2;
       continue;
     }
@@ -2291,39 +2299,62 @@ function drawCoffeeCard(ctx, coffee, fields, x, y, w, h, posLabel, numericMode, 
       ctx.font = '700 ' + nameSize + 'px "IBM Plex Sans", sans-serif';
       ctx.fillStyle = '#000000';
       cursor = wrapText(ctx, String(val), x + pad, cursor, contentW, nameSize);
-      // Compensate for larger font: match the visual white space of
-      // a normal value→label transition (PITCH_SEC with valueSize font).
-      // White space in normal case = PITCH_SEC - valueSize/2 - labelSize/2
-      // So: advance = nameSize/2 + that white space + labelSize/2
       cursor += PITCH_SEC + (nameSize - valueSize) / 2;
       continue;
     }
 
-    // ── All other fields: LABEL then VALUE ──
-
-    // Draw label at cursor (cursor = center of this label)
+    // ── Standard field: LABEL then VALUE ──
     ctx.font = '600 ' + labelSize + 'px "IBM Plex Sans", sans-serif';
     ctx.fillStyle = '#000000';
     ctx.fillText(LABELS[key] || key.toUpperCase(), x + pad, cursor + labelSize * 0.35);
-
-    // Advance by PITCH_LV to value center
     cursor += PITCH_LV;
 
-    // Draw value at cursor (cursor = center of this value)
-    if ((key === 'intensity' || key === 'bitterness') && numericMode === 'dots') {
-      drawDotRating(ctx, val, 10, x + pad, cursor, dotR, dotSpacing);
+    ctx.font = '700 ' + valueSize + 'px "IBM Plex Sans", sans-serif';
+    ctx.fillStyle = '#000000';
+    let text;
+    if (key === 'decaf') text = val ? 'YES' : 'NO';
+    else text = String(val);
+    cursor = wrapText(ctx, text, x + pad, cursor, contentW, valueSize);
+    cursor += PITCH_SEC;
+  }
+
+  // ── Intensity / Bitterness: side-by-side on one row ──
+  if (needsIntBitRow && cursor <= y + h - pad) {
+    const halfW = Math.floor(contentW / 2);
+    const leftX = x + pad;
+    const rightX = x + pad + halfW;
+
+    // Labels row
+    ctx.font = '600 ' + labelSize + 'px "IBM Plex Sans", sans-serif';
+    ctx.fillStyle = '#000000';
+    if (hasIntensity) ctx.fillText('INTENSITY', leftX, cursor + labelSize * 0.35);
+    if (hasBitterness) ctx.fillText('BITTERNESS', rightX, cursor + labelSize * 0.35);
+    cursor += PITCH_LV;
+
+    // Values row
+    if (numericMode === 'dots') {
+      if (hasIntensity) drawDotRating(ctx, coffee.intensity, 10, leftX, cursor, dotR, dotSpacing);
+      if (hasBitterness) drawDotRating(ctx, coffee.bitterness, 10, rightX, cursor, dotR, dotSpacing);
     } else {
       ctx.font = '700 ' + valueSize + 'px "IBM Plex Sans", sans-serif';
       ctx.fillStyle = '#000000';
-      let text;
-      if (key === 'intensity' || key === 'bitterness') text = val + '/10';
-      else if (key === 'decaf') text = val ? 'YES' : 'NO';
-      else text = String(val);
-      cursor = wrapText(ctx, text, x + pad, cursor, contentW, valueSize);
+      if (hasIntensity) ctx.fillText(coffee.intensity + '/10', leftX, cursor + valueSize * 0.35);
+      if (hasBitterness) ctx.fillText(coffee.bitterness + '/10', rightX, cursor + valueSize * 0.35);
     }
-
-    // Advance by PITCH_SEC to next label center
     cursor += PITCH_SEC;
+  }
+
+  // ── Review (remarks): reserved bottom space, always last ──
+  if (hasRemarks && coffee.remarks && cursor <= y + h - pad) {
+    ctx.font = '600 ' + labelSize + 'px "IBM Plex Sans", sans-serif';
+    ctx.fillStyle = '#000000';
+    ctx.fillText('REVIEW', x + pad, cursor + labelSize * 0.35);
+    cursor += PITCH_LV;
+
+    ctx.font = '700 ' + valueSize + 'px "IBM Plex Sans", sans-serif';
+    ctx.fillStyle = '#000000';
+    // Allow up to 2 lines, clipped by card bounds
+    wrapText(ctx, String(coffee.remarks), x + pad, cursor, contentW, valueSize);
   }
 
   ctx.restore();
