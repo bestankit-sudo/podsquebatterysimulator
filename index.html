@@ -1279,12 +1279,13 @@ input[type="number"]:focus { border-color: var(--amber); }
           </ul>
         </div>
         <div class="assumption-cat">
-          <h4>Spacing</h4>
+          <h4>Spacing (Center-to-Center)</h4>
           <ul>
-            <li>Brand &rarr; Flavour name: <strong>1 &times; scale</strong> px (min 1 px) &mdash; tight, treated as one unit</li>
-            <li>Label &rarr; Value (e.g. &ldquo;NOTES&rdquo; &rarr; text, &ldquo;INTENSITY&rdquo; &rarr; dots/number): <strong>2 &times; scale</strong> px (min 1 px)</li>
-            <li>Section &rarr; Section (between field blocks): <strong>10 &times; scale</strong> px (min 4 px)</li>
-            <li>All three gaps scale proportionally with card size and field count</li>
+            <li>All vertical spacing is measured <strong>center-to-center</strong> between elements</li>
+            <li>Brand &rarr; Flavour name: tight &mdash; <strong>brandSize/2 + 1&times;scale + nameSize/2</strong> (center-to-center)</li>
+            <li>Label &rarr; Value (e.g. &ldquo;NOTES&rdquo; center &rarr; value center): <strong>20 &times; scale</strong> px (min 12 px)</li>
+            <li>Value &rarr; next Label (section break): <strong>28 &times; scale</strong> px (min 16 px)</li>
+            <li>Both pitches scale proportionally with card size and field count</li>
           </ul>
         </div>
         <div class="assumption-cat">
@@ -2104,40 +2105,35 @@ function getEinkImgResolution() {
   return { w, h };
 }
 
-// ── Spec: wrapText ──
-// Draws text with word-wrap. Uses canvas baseline positioning.
-// cursor is the TOP of the text block. First line baseline = cursor + fontSize.
-// Returns the cursor position at the BOTTOM of the last line (cursor after all lines).
-function wrapText(ctx, text, x, cursor, maxWidth, fontSize) {
+// ── Spec: wrapText (center-to-center model) ──
+// Draws word-wrapped text. Caller passes `center` = vertical center of the first line.
+// Canvas baseline = center + fontSize * 0.35 (approximate cap-height center).
+// Returns the CENTER of the last line drawn, so pitch can be added from there.
+function wrapText(ctx, text, x, center, maxWidth, fontSize) {
   const lineHeight = fontSize + 2;
+  const baselineOff = fontSize * 0.35; // offset from center to baseline
   const words = text.split(' ');
   let line = '';
-  let lineCount = 0;
   for (let i = 0; i < words.length; i++) {
     const test = line + (line ? ' ' : '') + words[i];
     if (ctx.measureText(test).width > maxWidth && line) {
-      ctx.fillText(line, x, cursor + fontSize);
-      cursor += lineHeight;
+      ctx.fillText(line, x, center + baselineOff);
+      center += lineHeight;
       line = words[i];
-      lineCount++;
     } else {
       line = test;
     }
   }
   if (line) {
-    ctx.fillText(line, x, cursor + fontSize);
-    cursor += fontSize; // bottom of last line (not lineHeight — no extra after last)
-    lineCount++;
+    ctx.fillText(line, x, center + baselineOff);
   }
-  return cursor;
+  return center; // center of last line
 }
 
 // ── Spec: drawDotRating ──
-// Draws filled/empty circles. y = TOP of dot row (center = y + dotRadius).
-// Returns nothing; caller advances cursor by dotR * 2 (diameter).
-function drawDotRating(ctx, value, max, x, y, dotRadius, spacing) {
+// Draws filled/empty circles. cy = vertical CENTER of the dot row.
+function drawDotRating(ctx, value, max, x, cy, dotRadius, spacing) {
   const v = Math.min(Math.max(0, value), max);
-  const cy = y + dotRadius; // vertical center
   for (let i = 0; i < max; i++) {
     const cx = x + i * spacing + dotRadius;
     ctx.beginPath();
@@ -2161,18 +2157,16 @@ function drawDotRating(ctx, value, max, x, y, dotRadius, spacing) {
 }
 
 // ══════════════════════════════════════════════════════════════
-// drawCoffeeCard — strict implementation of Rendering Specs
+// drawCoffeeCard — CENTER-TO-CENTER pitch model
 // ══════════════════════════════════════════════════════════════
 //
-// Vertical rhythm (cursor tracks TOP of next element to draw):
+// `cursor` = vertical CENTER of the current element.
 //
-//   BRAND:    draw at cursor + brandSize      → cursor += brandSize + GAP_BRAND_NAME
-//   FLAVOUR:  wrapText from cursor             → cursor = bottom + GAP_SECTION
-//   FIELD:    label at cursor + labelSize      → cursor += labelSize + GAP_LABEL_VALUE
-//             value at cursor + valueSize      → cursor += valueSize + GAP_SECTION
-//        or   dots from cursor (top-aligned)   → cursor += dotR*2 + GAP_SECTION
+// Two pitches control all spacing:
+//   PITCH_LV  — center of label → center of its value (tight)
+//   PITCH_SEC — center of value → center of next label (wider)
 //
-// Every field block ends with exactly GAP_SECTION before the next block starts.
+// Brand → Flavour is special: tight, not pitched.
 // ══════════════════════════════════════════════════════════════
 
 function drawCoffeeCard(ctx, coffee, fields, x, y, w, h, posLabel, numericMode) {
@@ -2182,37 +2176,36 @@ function drawCoffeeCard(ctx, coffee, fields, x, y, w, h, posLabel, numericMode) 
   ctx.clip();
 
   // ── Spec: Scaling ──
-  const pad = Math.round(w * 0.05);                          // 5% card width
+  const pad = Math.round(w * 0.05);
   const contentW = w - pad * 2;
-  const baseScale = Math.min(w / 400, h / 500);              // min(w/400, h/500)
-  const fieldShrink = fields.length <= 4 ? 1.0               // ≤4: 1.0×
-                    : fields.length <= 6 ? 0.82               // 5-6: 0.82×
-                    : 0.7;                                     // 7-8: 0.7×
-  const S = baseScale * fieldShrink;                           // final scale
+  const baseScale = Math.min(w / 400, h / 500);
+  const fieldShrink = fields.length <= 4 ? 1.0
+                    : fields.length <= 6 ? 0.82
+                    : 0.7;
+  const S = baseScale * fieldShrink;
 
   // ── Spec: Typography (all × S) ──
-  const brandSize = Math.max(10, Math.round(16 * S));         // 500 weight, uppercase
-  const nameSize  = Math.max(14, Math.round(32 * S));         // 700 weight (bold)
-  const labelSize = Math.max(8,  Math.round(14 * S));         // 600 weight, uppercase
-  const valueSize = Math.max(9,  Math.round(18 * S));         // 700 weight (bold)
+  const brandSize = Math.max(10, Math.round(16 * S));
+  const nameSize  = Math.max(14, Math.round(32 * S));
+  const labelSize = Math.max(8,  Math.round(14 * S));
+  const valueSize = Math.max(9,  Math.round(18 * S));
 
   // ── Spec: Dots ──
-  const dotR       = Math.max(2, Math.round(5 * S));          // radius
-  const dotSpacing = Math.max(7, Math.round(14 * S));         // center-to-center
+  const dotR       = Math.max(2, Math.round(5 * S));
+  const dotSpacing = Math.max(7, Math.round(14 * S));
 
-  // ── Spec: Spacing (all × S) ──
-  const GAP_BRAND_NAME  = Math.max(1, Math.round(1 * S));     // brand → flavour (tight)
-  const GAP_LABEL_VALUE = Math.max(1, Math.round(2 * S));     // label → value
-  const GAP_SECTION     = Math.max(4, Math.round(10 * S));    // between sections
+  // ── Spec: Center-to-center pitches ──
+  const PITCH_LV  = Math.max(12, Math.round(20 * S));  // label center → value center
+  const PITCH_SEC = Math.max(16, Math.round(28 * S));   // value center → next label center
 
-  // cursor = top of next element to draw
-  let cursor = y + pad;
+  // cursor = center of current element; start at center of first element
+  let cursor = y + pad + brandSize / 2;
 
-  // ── Position label (top-right) ──
+  // ── Position label (top-right, aligned with brand center) ──
   ctx.fillStyle = '#666666';
   ctx.font = '600 ' + labelSize + 'px "IBM Plex Sans", sans-serif';
   ctx.textAlign = 'right';
-  ctx.fillText(posLabel, x + w - pad, cursor + labelSize);
+  ctx.fillText(posLabel, x + w - pad, cursor + labelSize * 0.35);
   ctx.textAlign = 'left';
   ctx.fillStyle = '#000000';
 
@@ -2227,39 +2220,40 @@ function drawCoffeeCard(ctx, coffee, fields, x, y, w, h, posLabel, numericMode) 
     const key = fields[fi];
     const val = coffee[key];
 
-    // ── Brand (no label row, special font) ──
+    // ── Brand ──
     if (key === 'brand') {
       ctx.font = '500 ' + brandSize + 'px "IBM Plex Sans", sans-serif';
       ctx.fillStyle = '#000000';
-      ctx.fillText(String(val).toUpperCase(), x + pad, cursor + brandSize);
-      cursor += brandSize + GAP_BRAND_NAME;
+      ctx.fillText(String(val).toUpperCase(), x + pad, cursor + brandSize * 0.35);
+      // Tight advance: brand center → flavour center
+      cursor += brandSize / 2 + Math.max(1, Math.round(1 * S)) + nameSize / 2;
       continue;
     }
 
-    // ── Flavour name (no label row, large bold, wraps) ──
+    // ── Flavour name (wraps) ──
     if (key === 'flavour') {
       ctx.font = '700 ' + nameSize + 'px "IBM Plex Sans", sans-serif';
       ctx.fillStyle = '#000000';
       cursor = wrapText(ctx, String(val), x + pad, cursor, contentW, nameSize);
-      cursor += GAP_SECTION;
+      // After flavour, pitch to next label center
+      cursor += PITCH_SEC;
       continue;
     }
 
-    // ── All other fields: LABEL row then VALUE row ──
+    // ── All other fields: LABEL then VALUE ──
 
-    // Label
+    // Draw label at cursor (cursor = center of this label)
     ctx.font = '600 ' + labelSize + 'px "IBM Plex Sans", sans-serif';
     ctx.fillStyle = '#000000';
-    ctx.fillText(LABELS[key] || key.toUpperCase(), x + pad, cursor + labelSize);
-    cursor += labelSize + GAP_LABEL_VALUE;
+    ctx.fillText(LABELS[key] || key.toUpperCase(), x + pad, cursor + labelSize * 0.35);
 
-    // Value — dots or text (all use same cursor model)
+    // Advance by PITCH_LV to value center
+    cursor += PITCH_LV;
+
+    // Draw value at cursor (cursor = center of this value)
     if ((key === 'intensity' || key === 'bitterness') && numericMode === 'dots') {
-      // Dots: top of dot row at cursor, height = dotR * 2
       drawDotRating(ctx, val, 10, x + pad, cursor, dotR, dotSpacing);
-      cursor += dotR * 2 + GAP_SECTION;
     } else {
-      // Text value: top of text at cursor, height = valueSize
       ctx.font = '700 ' + valueSize + 'px "IBM Plex Sans", sans-serif';
       ctx.fillStyle = '#000000';
       let text;
@@ -2267,8 +2261,10 @@ function drawCoffeeCard(ctx, coffee, fields, x, y, w, h, posLabel, numericMode) 
       else if (key === 'decaf') text = val ? 'YES' : 'NO';
       else text = String(val);
       cursor = wrapText(ctx, text, x + pad, cursor, contentW, valueSize);
-      cursor += GAP_SECTION;
     }
+
+    // Advance by PITCH_SEC to next label center
+    cursor += PITCH_SEC;
   }
 
   ctx.restore();
