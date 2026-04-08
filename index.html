@@ -1394,9 +1394,9 @@ input[type="number"]:focus { border-color: var(--amber); }
             </tr>
             <tr>
               <td>Padding</td><td>Layout</td>
-              <td><strong>14 px</strong></td>
-              <td><strong>20 px</strong></td><td style="color:var(--amber);">+6</td>
-              <td><strong>40 px</strong></td><td style="color:var(--amber);">+20</td>
+              <td><strong>15 px</strong></td>
+              <td><strong>15 px</strong></td><td style="color:var(--text-dim);">&mdash;</td>
+              <td><strong>15 px</strong></td><td style="color:var(--text-dim);">&mdash;</td>
             </tr>
           </table>
         </div>
@@ -2275,9 +2275,9 @@ function drawCoffeeCard(ctx, coffee, fields, x, y, w, h, posLabel, numericMode, 
 
   // ── Per-layout profiles: fixed pixel values ──
   const PROFILES = {
-    1: { brand:22, name:44, label:16, value:22, dotR:15, dotSp:13, pitchLV:28, pitchSec:38, pad:40 },
-    2: { brand:18, name:36, label:14, value:18, dotR:4, dotSp:11, pitchLV:22, pitchSec:32, pad:20 },
-    4: { brand:12, name:22, label:10, value:12, dotR:3, dotSp:8, pitchLV:16, pitchSec:22, pad:14 }
+    1: { brand:22, name:44, label:16, value:22, dotR:15, dotSp:13, pitchLV:28, pitchSec:38, pad:15 },
+    2: { brand:18, name:36, label:14, value:18, dotR:4, dotSp:11, pitchLV:22, pitchSec:32, pad:15 },
+    4: { brand:12, name:22, label:10, value:12, dotR:3, dotSp:8, pitchLV:16, pitchSec:22, pad:15 }
   };
   const P = PROFILES[coffeeCount] || PROFILES[4];
 
