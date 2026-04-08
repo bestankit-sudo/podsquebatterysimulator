@@ -2060,6 +2060,8 @@ function drawDotRating(ctx, value, max, x, y, dotRadius, spacing) {
     if (i < v) {
       ctx.fillStyle = '#000000';
       ctx.fill();
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
     } else {
       ctx.strokeStyle = '#000000';
       ctx.lineWidth = 1.5;
@@ -2079,12 +2081,12 @@ function drawCoffeeCard(ctx, coffee, fields, x, y, w, h, posLabel, numericMode) 
 
   // Scale fonts to card size
   const scale = Math.min(w / 400, h / 500);
-  const brandSize = Math.max(10, Math.round(14 * scale));
-  const nameSize = Math.max(14, Math.round(28 * scale));
-  const labelSize = Math.max(8, Math.round(11 * scale));
-  const valueSize = Math.max(10, Math.round(16 * scale));
+  const brandSize = Math.max(14, Math.round(16 * scale));
+  const nameSize = Math.max(18, Math.round(32 * scale));
+  const labelSize = Math.max(12, Math.round(18 * scale));
+  const valueSize = Math.max(10, Math.round(20 * scale));
   const dotR = Math.max(3, Math.round(5 * scale));
-  const dotSpacing = Math.max(8, Math.round(13 * scale));
+  const dotSpacing = Math.max(11, Math.round(17 * scale));
 
   // Position label (top-right corner)
   ctx.fillStyle = '#666666';
@@ -2116,16 +2118,17 @@ function drawCoffeeCard(ctx, coffee, fields, x, y, w, h, posLabel, numericMode) 
       ctx.font = '600 ' + labelSize + 'px "IBM Plex Sans", sans-serif';
       ctx.fillStyle = '#000000';
       ctx.fillText(lbl, x + pad, curY + labelSize);
-      curY += labelSize + Math.round(6 * scale);
+      curY += labelSize + Math.round(8 * scale);
 
       if (numericMode === 'dots') {
+        curY += Math.round(10 * scale);
         drawDotRating(ctx, val, 10, x + pad, curY, dotR, dotSpacing);
-        curY += dotR * 2 + Math.round(10 * scale);
+        curY += dotR * 2 + Math.round(24 * scale);
       } else {
         ctx.font = '700 ' + valueSize + 'px "IBM Plex Sans", sans-serif';
         ctx.fillStyle = '#000000';
         ctx.fillText(val + '/10', x + pad, curY + valueSize);
-        curY += valueSize + Math.round(10 * scale);
+        curY += valueSize + Math.round(12 * scale);
       }
     }
     else if (key === 'decaf') {
@@ -2162,9 +2165,17 @@ function generateEinkImage() {
   if (fields.length === 0) { alert('Select at least 1 field.'); return; }
 
   const canvas = document.getElementById('einkimg-canvas');
-  canvas.width = res.w;
-  canvas.height = res.h;
+  const dpr = Math.max(2, window.devicePixelRatio || 1);
+  canvas.width = res.w * dpr;
+  canvas.height = res.h * dpr;
+  canvas.dataset.targetW = res.w;
+  canvas.dataset.targetH = res.h;
+  canvas.style.width = res.w + 'px';
+  canvas.style.height = 'auto';
   const ctx = canvas.getContext('2d');
+  ctx.imageSmoothingEnabled = true;
+  ctx.imageSmoothingQuality = 'high';
+  ctx.scale(dpr, dpr);
 
   document.fonts.ready.then(() => {
     // White background
@@ -2212,9 +2223,18 @@ function generateEinkImage() {
 
 function downloadEinkPNG() {
   const canvas = document.getElementById('einkimg-canvas');
+  const tw = parseInt(canvas.dataset.targetW) || canvas.width;
+  const th = parseInt(canvas.dataset.targetH) || canvas.height;
+  const off = document.createElement('canvas');
+  off.width = tw;
+  off.height = th;
+  const octx = off.getContext('2d');
+  octx.imageSmoothingEnabled = true;
+  octx.imageSmoothingQuality = 'high';
+  octx.drawImage(canvas, 0, 0, tw, th);
   const link = document.createElement('a');
   link.download = 'podsque-eink-' + Date.now() + '.png';
-  link.href = canvas.toDataURL('image/png');
+  link.href = off.toDataURL('image/png');
   link.click();
 }
 
