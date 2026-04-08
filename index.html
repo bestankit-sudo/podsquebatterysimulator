@@ -807,6 +807,25 @@ input[type="number"]:focus { border-color: var(--amber); }
   margin-left: 4px;
 }
 
+.einkimg-spec-tabs { display:flex; gap:4px; margin-bottom:6px; }
+.einkimg-spec-tab {
+  font-family:var(--font-mono); font-size:9px; font-weight:600;
+  padding:3px 10px; border:1px solid var(--border); border-radius:4px;
+  background:transparent; color:var(--text-muted); cursor:pointer; transition:all .15s;
+}
+.einkimg-spec-tab:hover { color:var(--text); border-color:var(--text-dim); }
+.einkimg-spec-tab.active { color:var(--amber); border-color:var(--amber); background:rgba(245,158,11,.08); }
+.einkimg-spec-table {
+  width:100%; font-family:var(--font-mono); font-size:9px; color:var(--text);
+  border-collapse:collapse; margin:4px 0 8px;
+}
+.einkimg-spec-table th {
+  text-align:left; padding:3px 6px; border-bottom:1px solid var(--border);
+  color:var(--text-muted); font-weight:600; font-size:8px; text-transform:uppercase; letter-spacing:.3px;
+}
+.einkimg-spec-table td { padding:3px 6px; border-bottom:1px solid rgba(128,128,128,.1); }
+.einkimg-spec-table td:first-child { font-weight:600; }
+
 .hidden { display: none !important; }
 </style>
 </head>
@@ -1257,111 +1276,111 @@ input[type="number"]:focus { border-color: var(--amber); }
     <section class="assumptions-section">
       <h3>Rendering Specifications</h3>
       <div class="assumption-categories">
+
+        <!-- Common specs (all layouts) -->
         <div class="assumption-cat">
-          <h4>Typography</h4>
+          <h4>Common</h4>
           <ul>
             <li>Font family: <strong>IBM Plex Sans</strong> (Google Fonts CDN)</li>
-            <li>Brand name: <strong>500 weight</strong>, uppercase, <strong>16 &times; scale</strong> px (min 10 px)</li>
-            <li>Flavour name: <strong>700 weight (bold)</strong>, <strong>32 &times; scale</strong> px (min 14 px)</li>
-            <li>Field labels (NOTES, INTENSITY, etc.): <strong>600 weight</strong>, uppercase, <strong>14 &times; scale</strong> px (min 8 px)</li>
-            <li>Field values: <strong>700 weight (bold)</strong>, <strong>18 &times; scale</strong> px (min 9 px)</li>
-            <li>Position label (FRONT L, RIGHT, etc.): <strong>600 weight</strong>, same as field label size, <strong>#666666</strong></li>
+            <li>Font weights: Brand <strong>500</strong>, Labels <strong>600</strong>, Flavour/Values <strong>700</strong></li>
             <li>Text baseline offset from center: <strong>fontSize &times; 0.35</strong></li>
-          </ul>
-        </div>
-        <div class="assumption-cat">
-          <h4>Scaling</h4>
-          <ul>
             <li>Base scale: <strong>min(cardWidth / 400, cardHeight / 500)</strong></li>
-            <li>Layout multiplier &mdash; 1 coffee: <strong>1.6&times;</strong>, 2 coffees: <strong>1.15&times;</strong>, 3&ndash;4 coffees: <strong>1.0&times;</strong></li>
-            <li>Field count shrink &mdash; &le;4 fields: <strong>1.0&times;</strong>, 5&ndash;6 fields: <strong>0.82&times;</strong>, 7&ndash;8 fields: <strong>0.7&times;</strong></li>
-            <li>Final scale = base &times; layout multiplier &times; field shrink &mdash; all sizes are multiplied by this</li>
+            <li>Field shrink &mdash; &le;4 fields: <strong>1.0&times;</strong>, 5&ndash;6: <strong>0.82&times;</strong>, 7&ndash;8: <strong>0.7&times;</strong></li>
+            <li>Final scale (S) = base &times; field shrink &mdash; profile multipliers are applied to S</li>
             <li>Card padding: <strong>5%</strong> of card width on all sides</li>
             <li>Content clipped to card bounds to prevent overflow</li>
           </ul>
         </div>
+
         <div class="assumption-cat">
-          <h4>Spacing (Center-to-Center Pitch Model)</h4>
+          <h4>Spacing Model (Center-to-Center)</h4>
           <ul>
             <li><strong>All</strong> vertical spacing is measured center-to-center, never edge-to-edge</li>
-            <li>Cursor tracks the <strong>vertical center</strong> of the current element at all times</li>
-            <li>Two pitches govern the entire card:</li>
-          </ul>
-          <table style="width:100%; font-family:var(--font-mono); font-size:10px; color:var(--text); margin:4px 0 6px; border-collapse:collapse;">
-            <tr style="border-bottom:1px solid var(--border);">
-              <td style="padding:3px 6px;"><strong>PITCH_LV</strong></td>
-              <td style="padding:3px 6px;">Label center &rarr; Value center</td>
-              <td style="padding:3px 6px;"><strong>20 &times; scale</strong> (min 12 px)</td>
-            </tr>
-            <tr style="border-bottom:1px solid var(--border);">
-              <td style="padding:3px 6px;"><strong>PITCH_SEC</strong></td>
-              <td style="padding:3px 6px;">Value center &rarr; next Label center</td>
-              <td style="padding:3px 6px;"><strong>28 &times; scale</strong> (min 16 px)</td>
-            </tr>
-          </table>
-          <ul>
-            <li>Brand &rarr; Flavour name: tight &mdash; <strong>brandSize/2 + 1&times;scale + nameSize/2</strong></li>
-            <li>Flavour name &rarr; first field label: <strong>PITCH_SEC + (nameSize &minus; valueSize) / 2</strong> &mdash; compensates for larger font to match visual white space of other section breaks</li>
-            <li>Every label &rarr; its value: <strong>PITCH_LV</strong> (NOTES&rarr;text, INTENSITY&rarr;dots, DECAF&rarr;YES/NO, etc.)</li>
-            <li>Every value &rarr; next label: <strong>PITCH_SEC</strong> (notes text&rarr;BEST SERVED AS, dots&rarr;BITTERNESS, etc.)</li>
-            <li>Both pitches scale proportionally with card size and field count</li>
+            <li>Cursor tracks the <strong>vertical center</strong> of the current element</li>
+            <li>Brand &rarr; Flavour: tight &mdash; <strong>brandSize/2 + 1&times;S + nameSize/2</strong></li>
+            <li>Flavour &rarr; first label: <strong>PITCH_SEC + (nameSize &minus; valueSize) / 2</strong> &mdash; compensates for larger font</li>
+            <li>Every label &rarr; its value: <strong>PITCH_LV</strong></li>
+            <li>Every value &rarr; next label: <strong>PITCH_SEC</strong></li>
+            <li>Dots: 10 circles, filled &#x25CF; + 1.5px stroke / empty &#x25CB; 1.5px stroke, number in parens</li>
           </ul>
         </div>
-        <div class="assumption-cat">
-          <h4>Vertical Rhythm Diagram</h4>
-          <pre style="font-family:var(--font-mono); font-size:9px; color:var(--text-dim); line-height:1.5; margin:0; white-space:pre;">
-  NESPRESSO (brand center)
-    &darr; tight (brandSize/2 + 1&times;S + nameSize/2)
-  Arpeggio Decaffeinato (flavour center)
-    &darr; PITCH_SEC + (nameSize-valueSize)/2
-  NOTES (label center)
-    &darr; PITCH_LV (20&times;S)
-  Cocoa, Creamy &amp; Intense (value center)
-    &darr; PITCH_SEC (28&times;S)
-  BEST SERVED AS (label center)
-    &darr; PITCH_LV (20&times;S)
-  Espresso (value center)
-    &darr; PITCH_SEC (28&times;S)
-  INTENSITY (label center)
-    &darr; PITCH_LV (20&times;S)
-  ●●●●●●●●●○ (dot row center)
-    &darr; PITCH_SEC (28&times;S)
-  BITTERNESS (label center)
-    &darr; PITCH_LV (20&times;S)
-  ●●●●●●●○○○ (dot row center)</pre>
-        </div>
-        <div class="assumption-cat">
-          <h4>Intensity / Bitterness Dots</h4>
-          <ul>
-            <li>10 circles total &mdash; filled (&#x25CF;) for value, outlined (&#x25CB;) for remainder</li>
-            <li>Dot radius: <strong>5 &times; scale</strong> px (min 2 px)</li>
-            <li>Dot spacing (center-to-center horizontal): <strong>14 &times; scale</strong> px (min 7 px)</li>
-            <li>Filled dots: black fill <strong>#000</strong> + <strong>1.5 px</strong> stroke</li>
-            <li>Empty dots: <strong>1.5 px</strong> stroke, no fill</li>
-            <li>Number in parentheses after dots, e.g. (7)</li>
-            <li>Dot row center used for vertical PITCH_LV / PITCH_SEC calculations</li>
-            <li>Alternative: plain number mode &mdash; &ldquo;7/10&rdquo; in bold value size</li>
-          </ul>
-        </div>
+
         <div class="assumption-cat">
           <h4>Layout</h4>
           <ul>
             <li>1 coffee: full canvas, label <strong>FRONT</strong></li>
-            <li>2 coffees: left/right split, <strong>2 px</strong> vertical divider, labels <strong>LEFT / RIGHT</strong></li>
-            <li>3&ndash;4 coffees: 2&times;2 grid, <strong>2 px</strong> dividers, labels <strong>FRONT L / FRONT R / BACK L / BACK R</strong></li>
-            <li>Background: <strong>#FFFFFF</strong> (white), all text: <strong>#000000</strong> (black)</li>
-            <li>Divider lines: <strong>#000000</strong>, <strong>2 px</strong> width</li>
+            <li>2 coffees: left/right split, <strong>2 px</strong> divider, labels <strong>LEFT / RIGHT</strong></li>
+            <li>3&ndash;4 coffees: 2&times;2 grid, <strong>2 px</strong> dividers, labels <strong>FRONT L / R / BACK L / R</strong></li>
+            <li>Background: <strong>#FFF</strong>, text: <strong>#000</strong>, position labels: <strong>#666</strong></li>
           </ul>
         </div>
+
         <div class="assumption-cat">
-          <h4>Target Resolutions (Landscape)</h4>
+          <h4>Resolutions (Landscape)</h4>
           <ul>
-            <li>3.68&quot; display: <strong>792 &times; 528</strong> px</li>
-            <li>3.97&quot; display: <strong>800 &times; 480</strong> px (default &mdash; best mechanical fit)</li>
-            <li>3.98&quot; display: <strong>768 &times; 552</strong> px</li>
-            <li>Preview renders at <strong>2&times; DPR</strong> for sharpness, downloads at target resolution</li>
-            <li>Bitmap export: <strong>1 bit per pixel</strong>, MSB first, row-major, white = 1, black = 0</li>
+            <li>3.68&quot;: <strong>792&times;528</strong> &nbsp; 3.97&quot;: <strong>800&times;480</strong> (default) &nbsp; 3.98&quot;: <strong>768&times;552</strong></li>
+            <li>Preview: <strong>2&times; DPR</strong>, download at target resolution</li>
+            <li>Bitmap: <strong>1 bit/px</strong>, MSB first, row-major, white=1 black=0</li>
           </ul>
+        </div>
+
+        <!-- Per-layout profile tabs -->
+        <div class="assumption-cat" style="grid-column: 1 / -1;">
+          <h4>Per-Layout Profiles</h4>
+          <div class="einkimg-spec-tabs">
+            <button class="einkimg-spec-tab active" onclick="switchSpecTab(1)">1 Coffee</button>
+            <button class="einkimg-spec-tab" onclick="switchSpecTab(2)">2 Coffees</button>
+            <button class="einkimg-spec-tab" onclick="switchSpecTab(4)">3&ndash;4 Coffees</button>
+          </div>
+
+          <!-- 1 Coffee -->
+          <div id="spec-tab-1" class="einkimg-spec-content">
+            <p style="font-family:var(--font-mono); font-size:9px; color:var(--text-dim); margin:0 0 4px;">Full canvas (800&times;480), top-aligned, large text</p>
+            <table class="einkimg-spec-table">
+              <tr><th>Property</th><th>Multiplier</th><th>Min</th><th>@800&times;480 (6 fields)</th></tr>
+              <tr><td>Brand</td><td>22 &times; S</td><td>12 px</td><td>18 px</td></tr>
+              <tr><td>Flavour Name</td><td>44 &times; S</td><td>18 px</td><td>35 px</td></tr>
+              <tr><td>Field Label</td><td>16 &times; S</td><td>10 px</td><td>13 px</td></tr>
+              <tr><td>Field Value</td><td>22 &times; S</td><td>12 px</td><td>17 px</td></tr>
+              <tr><td>Dot Radius</td><td>7 &times; S</td><td>3 px</td><td>6 px</td></tr>
+              <tr><td>Dot Spacing</td><td>18 &times; S</td><td>9 px</td><td>14 px</td></tr>
+              <tr><td>PITCH_LV</td><td>28 &times; S</td><td>16 px</td><td>22 px</td></tr>
+              <tr><td>PITCH_SEC</td><td>38 &times; S</td><td>20 px</td><td>30 px</td></tr>
+            </table>
+          </div>
+
+          <!-- 2 Coffees -->
+          <div id="spec-tab-2" class="einkimg-spec-content" style="display:none;">
+            <p style="font-family:var(--font-mono); font-size:9px; color:var(--text-dim); margin:0 0 4px;">Half-width cards (400&times;480 each), LEFT / RIGHT split</p>
+            <table class="einkimg-spec-table">
+              <tr><th>Property</th><th>Multiplier</th><th>Min</th><th>@800&times;480 (6 fields)</th></tr>
+              <tr><td>Brand</td><td>18 &times; S</td><td>10 px</td><td>14 px</td></tr>
+              <tr><td>Flavour Name</td><td>38 &times; S</td><td>16 px</td><td>30 px</td></tr>
+              <tr><td>Field Label</td><td>15 &times; S</td><td>9 px</td><td>12 px</td></tr>
+              <tr><td>Field Value</td><td>20 &times; S</td><td>10 px</td><td>16 px</td></tr>
+              <tr><td>Dot Radius</td><td>6 &times; S</td><td>3 px</td><td>5 px</td></tr>
+              <tr><td>Dot Spacing</td><td>16 &times; S</td><td>8 px</td><td>13 px</td></tr>
+              <tr><td>PITCH_LV</td><td>24 &times; S</td><td>14 px</td><td>19 px</td></tr>
+              <tr><td>PITCH_SEC</td><td>34 &times; S</td><td>18 px</td><td>27 px</td></tr>
+            </table>
+          </div>
+
+          <!-- 3-4 Coffees -->
+          <div id="spec-tab-4" class="einkimg-spec-content" style="display:none;">
+            <p style="font-family:var(--font-mono); font-size:9px; color:var(--text-dim); margin:0 0 4px;">Quadrant cards (400&times;240 each), 2&times;2 grid &mdash; mins dominate at this scale</p>
+            <table class="einkimg-spec-table">
+              <tr><th>Property</th><th>Multiplier</th><th>Min</th><th>@800&times;480 (6 fields)</th></tr>
+              <tr><td>Brand</td><td>16 &times; S</td><td>10 px</td><td>10 px</td></tr>
+              <tr><td>Flavour Name</td><td>32 &times; S</td><td>14 px</td><td>14 px</td></tr>
+              <tr><td>Field Label</td><td>14 &times; S</td><td>8 px</td><td>8 px</td></tr>
+              <tr><td>Field Value</td><td>18 &times; S</td><td>9 px</td><td>9 px</td></tr>
+              <tr><td>Dot Radius</td><td>5 &times; S</td><td>2 px</td><td>2 px</td></tr>
+              <tr><td>Dot Spacing</td><td>14 &times; S</td><td>7 px</td><td>7 px</td></tr>
+              <tr><td>PITCH_LV</td><td>20 &times; S</td><td>12 px</td><td>12 px</td></tr>
+              <tr><td>PITCH_SEC</td><td>28 &times; S</td><td>16 px</td><td>16 px</td></tr>
+            </table>
+          </div>
+
         </div>
       </div>
     </section>
@@ -2081,6 +2100,14 @@ const EINKIMG_FIELDS = [
   { key: 'bitterness', label: 'Bitterness', defaultOn: true }
 ];
 
+function switchSpecTab(n) {
+  document.querySelectorAll('.einkimg-spec-tab').forEach(t => t.classList.toggle('active', parseInt(t.textContent) === n || (n === 4 && t.textContent.includes('3'))));
+  [1, 2, 4].forEach(id => {
+    const el = document.getElementById('spec-tab-' + id);
+    if (el) el.style.display = id === n ? '' : 'none';
+  });
+}
+
 function initEinkImageTab() {
   const listEl = document.getElementById('einkimg-coffee-list');
   COFFEES.forEach((c, i) => {
@@ -2218,6 +2245,17 @@ function drawCoffeeCard(ctx, coffee, fields, x, y, w, h, posLabel, numericMode, 
   ctx.rect(x, y, w, h);
   ctx.clip();
 
+  // ── Spec: Per-layout profiles ──
+  const PROFILES = {
+    1: { brand:22, name:44, label:16, value:22, dR:7, dSp:18, pLV:28, pSec:38,
+         mBrand:12, mName:18, mLabel:10, mValue:12, mDR:3, mDSp:9, mPLV:16, mPSec:20 },
+    2: { brand:18, name:38, label:15, value:20, dR:6, dSp:16, pLV:24, pSec:34,
+         mBrand:10, mName:16, mLabel:9, mValue:10, mDR:3, mDSp:8, mPLV:14, mPSec:18 },
+    4: { brand:16, name:32, label:14, value:18, dR:5, dSp:14, pLV:20, pSec:28,
+         mBrand:10, mName:14, mLabel:8, mValue:9, mDR:2, mDSp:7, mPLV:12, mPSec:16 }
+  };
+  const P = PROFILES[coffeeCount] || PROFILES[4];
+
   // ── Spec: Scaling ──
   const pad = Math.round(w * 0.05);
   const contentW = w - pad * 2;
@@ -2225,25 +2263,21 @@ function drawCoffeeCard(ctx, coffee, fields, x, y, w, h, posLabel, numericMode, 
   const fieldShrink = fields.length <= 4 ? 1.0
                     : fields.length <= 6 ? 0.82
                     : 0.7;
-  // Layout multiplier: fewer coffees → bigger text to fill the space
-  const layoutMult = coffeeCount === 1 ? 1.6
-                   : coffeeCount === 2 ? 1.15
-                   : 1.0;
-  const S = baseScale * fieldShrink * layoutMult;
+  const S = baseScale * fieldShrink;
 
-  // ── Spec: Typography (all × S) ──
-  const brandSize = Math.max(10, Math.round(16 * S));
-  const nameSize  = Math.max(14, Math.round(32 * S));
-  const labelSize = Math.max(8,  Math.round(14 * S));
-  const valueSize = Math.max(9,  Math.round(18 * S));
+  // ── Spec: Typography (profile × S) ──
+  const brandSize = Math.max(P.mBrand, Math.round(P.brand * S));
+  const nameSize  = Math.max(P.mName,  Math.round(P.name * S));
+  const labelSize = Math.max(P.mLabel, Math.round(P.label * S));
+  const valueSize = Math.max(P.mValue, Math.round(P.value * S));
 
-  // ── Spec: Dots ──
-  const dotR       = Math.max(2, Math.round(5 * S));
-  const dotSpacing = Math.max(7, Math.round(14 * S));
+  // ── Spec: Dots (profile × S) ──
+  const dotR       = Math.max(P.mDR,  Math.round(P.dR * S));
+  const dotSpacing = Math.max(P.mDSp, Math.round(P.dSp * S));
 
-  // ── Spec: Center-to-center pitches ──
-  const PITCH_LV  = Math.max(12, Math.round(20 * S));  // label center → value center
-  const PITCH_SEC = Math.max(16, Math.round(28 * S));   // value center → next label center
+  // ── Spec: Center-to-center pitches (profile × S) ──
+  const PITCH_LV  = Math.max(P.mPLV,  Math.round(P.pLV * S));
+  const PITCH_SEC = Math.max(P.mPSec, Math.round(P.pSec * S));
 
   // cursor = center of current element; start at center of first element
   let cursor = y + pad + brandSize / 2;
