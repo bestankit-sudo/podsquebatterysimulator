@@ -1241,17 +1241,8 @@ input[type="number"]:focus { border-color: var(--amber); }
         <h3>Fields to Display (max 6)</h3>
         <div id="einkimg-field-list" class="einkimg-field-list"></div>
 
-        <div class="control-group" style="margin-top: 8px;">
-          <h3>Numeric Display</h3>
-          <div id="einkimgNumericGroup" class="radio-group" data-value="dots">
-            <div class="radio-opt selected" data-val="dots" onclick="selectEinkImgRadio('einkimgNumericGroup','dots')">
-              <span class="radio-dot"></span> Dots (circles out of 10)
-            </div>
-            <div class="radio-opt" data-val="number" onclick="selectEinkImgRadio('einkimgNumericGroup','number')">
-              <span class="radio-dot"></span> Plain number (e.g. 7/10)
-            </div>
-          </div>
-        </div>
+        <!-- Numeric display is always dots (circles out of 10) -->
+        <input type="hidden" id="einkimgNumericGroup" data-value="dots">
       </div>
 
       <!-- Resolution & Settings -->
@@ -2123,8 +2114,8 @@ const EINKIMG_FIELDS = [
   { key: 'brand', label: 'Brand Name', defaultOn: true },
   { key: 'flavour', label: 'Flavour Name', defaultOn: true },
   { key: 'tasting', label: 'Flavour', defaultOn: true },
-  { key: 'remarks', label: 'Your Review', defaultOn: false },
-  { key: 'decaf', label: 'Decaf Yes/No', defaultOn: false },
+  { key: 'remarks', label: 'Your Review', defaultOn: true },
+  { key: 'decaf', label: 'Decaf Yes/No', defaultOn: true },
   { key: 'cupSize', label: 'Cup Size', defaultOn: true },
   { key: 'intensity', label: 'Intensity', defaultOn: true },
   { key: 'bitterness', label: 'Bitterness', defaultOn: true }
@@ -2147,11 +2138,21 @@ function switchSpecTab(n) {
 }
 
 function initEinkImageTab() {
+  // Find longest decaf coffee name for pre-selection
+  let longestDecafIdx = 0, longestLen = 0;
+  COFFEES.forEach((c, i) => {
+    if (c.decaf && (c.brand + c.flavour).length > longestLen) {
+      longestLen = (c.brand + c.flavour).length;
+      longestDecafIdx = i;
+    }
+  });
+
   const listEl = document.getElementById('einkimg-coffee-list');
   COFFEES.forEach((c, i) => {
     const row = document.createElement('label');
     row.className = 'einkimg-coffee-row';
-    row.innerHTML = '<input type="checkbox" data-idx="' + i + '" onchange="enforceCoffeeMax()">' +
+    const preSelected = i === longestDecafIdx ? ' checked' : '';
+    row.innerHTML = '<input type="checkbox" data-idx="' + i + '"' + preSelected + ' onchange="enforceCoffeeMax()">' +
       '<span>' + c.brand + ' — ' + c.flavour + '</span>' +
       (c.decaf ? '<span class="decaf-badge">DECAF</span>' : '');
     listEl.appendChild(row);
@@ -2319,12 +2320,15 @@ function drawCoffeeCard(ctx, coffee, fields, x, y, w, h, posLabel, numericMode, 
     intensity: 'INTENSITY', bitterness: 'BITTERNESS', decaf: 'DECAF'
   };
 
-  // Separate remarks (drawn last in reserved bottom space) and check for
-  // intensity/bitterness pair (drawn side-by-side on one row)
+  // Separate special fields from normal draw order:
+  // - remarks: drawn last in reserved bottom space
+  // - intensity/bitterness: drawn side-by-side
+  // - decaf: drawn inline with cupSize label, right-aligned
   const hasRemarks = fields.includes('remarks');
   const hasIntensity = fields.includes('intensity');
   const hasBitterness = fields.includes('bitterness');
-  const drawFields = fields.filter(k => k !== 'remarks' && k !== 'intensity' && k !== 'bitterness');
+  const hasDecaf = fields.includes('decaf');
+  const drawFields = fields.filter(k => k !== 'remarks' && k !== 'intensity' && k !== 'bitterness' && k !== 'decaf');
   const needsIntBitRow = hasIntensity || hasBitterness;
 
   // Draw normal fields
@@ -2355,14 +2359,19 @@ function drawCoffeeCard(ctx, coffee, fields, x, y, w, h, posLabel, numericMode, 
     ctx.font = '600 ' + labelSize + 'px "IBM Plex Sans", sans-serif';
     ctx.fillStyle = '#000000';
     ctx.fillText(LABELS[key] || key.toUpperCase(), x + pad, cursor + labelSize * 0.35);
+
+    // If this is cupSize and decaf is selected, show "DECAF" right-aligned on same row
+    if (key === 'cupSize' && hasDecaf && coffee.decaf) {
+      ctx.textAlign = 'right';
+      ctx.fillText('DECAF', x + pad + contentW, cursor + labelSize * 0.35);
+      ctx.textAlign = 'left';
+    }
+
     cursor += PITCH_LV;
 
     ctx.font = '700 ' + valueSize + 'px "IBM Plex Sans", sans-serif';
     ctx.fillStyle = '#000000';
-    let text;
-    if (key === 'decaf') text = val ? 'YES' : 'NO';
-    else text = String(val);
-    cursor = wrapText(ctx, text, x + pad, cursor, contentW, valueSize);
+    cursor = wrapText(ctx, String(val), x + pad, cursor, contentW, valueSize);
     cursor += PITCH_SEC;
   }
 
@@ -2473,7 +2482,6 @@ function generateEinkImage() {
     }
 
     document.getElementById('einkimg-download-btns').style.display = 'flex';
-    toggleEinkControls(true); // collapse controls to focus on preview
   });
 }
 
