@@ -1369,8 +1369,8 @@ input[type="number"]:focus { border-color: var(--amber); }
               <tr><td>Flavour Name</td><td>Font size</td><td><strong>44 px</strong></td></tr>
               <tr><td>Field Label</td><td>Font size</td><td><strong>16 px</strong></td></tr>
               <tr><td>Field Value</td><td>Font size</td><td><strong>22 px</strong></td></tr>
-              <tr><td>Dot Radius</td><td>Circle</td><td><strong>7 px</strong></td></tr>
-              <tr><td>Dot Spacing</td><td>Circle</td><td><strong>18 px</strong></td></tr>
+              <tr><td>Dot Radius</td><td>Circle</td><td><strong>5 px</strong></td></tr>
+              <tr><td>Dot Spacing</td><td>Circle</td><td><strong>13 px</strong></td></tr>
               <tr><td>PITCH_LV</td><td>Spacing</td><td><strong>28 px</strong></td></tr>
               <tr><td>PITCH_SEC</td><td>Spacing</td><td><strong>38 px</strong></td></tr>
               <tr><td>Padding</td><td>Layout</td><td><strong>40 px</strong></td></tr>
@@ -1386,8 +1386,8 @@ input[type="number"]:focus { border-color: var(--amber); }
               <tr><td>Flavour Name</td><td>Font size</td><td><strong>36 px</strong></td></tr>
               <tr><td>Field Label</td><td>Font size</td><td><strong>14 px</strong></td></tr>
               <tr><td>Field Value</td><td>Font size</td><td><strong>18 px</strong></td></tr>
-              <tr><td>Dot Radius</td><td>Circle</td><td><strong>6 px</strong></td></tr>
-              <tr><td>Dot Spacing</td><td>Circle</td><td><strong>15 px</strong></td></tr>
+              <tr><td>Dot Radius</td><td>Circle</td><td><strong>4 px</strong></td></tr>
+              <tr><td>Dot Spacing</td><td>Circle</td><td><strong>11 px</strong></td></tr>
               <tr><td>PITCH_LV</td><td>Spacing</td><td><strong>22 px</strong></td></tr>
               <tr><td>PITCH_SEC</td><td>Spacing</td><td><strong>32 px</strong></td></tr>
               <tr><td>Padding</td><td>Layout</td><td><strong>20 px</strong></td></tr>
@@ -1403,8 +1403,8 @@ input[type="number"]:focus { border-color: var(--amber); }
               <tr><td>Flavour Name</td><td>Font size</td><td><strong>22 px</strong></td></tr>
               <tr><td>Field Label</td><td>Font size</td><td><strong>10 px</strong></td></tr>
               <tr><td>Field Value</td><td>Font size</td><td><strong>12 px</strong></td></tr>
-              <tr><td>Dot Radius</td><td>Circle</td><td><strong>4 px</strong></td></tr>
-              <tr><td>Dot Spacing</td><td>Circle</td><td><strong>10 px</strong></td></tr>
+              <tr><td>Dot Radius</td><td>Circle</td><td><strong>3 px</strong></td></tr>
+              <tr><td>Dot Spacing</td><td>Circle</td><td><strong>8 px</strong></td></tr>
               <tr><td>PITCH_LV</td><td>Spacing</td><td><strong>16 px</strong></td></tr>
               <tr><td>PITCH_SEC</td><td>Spacing</td><td><strong>22 px</strong></td></tr>
               <tr><td>Padding</td><td>Layout</td><td><strong>14 px</strong></td></tr>
@@ -2258,10 +2258,10 @@ function drawDotRating(ctx, value, max, x, cy, dotRadius, spacing) {
       ctx.stroke();
     }
   }
-  // Number in parentheses, vertically centered with dots
+  // Number in parentheses, right next to last dot, vertically centered
   ctx.fillStyle = '#000000';
-  const numX = x + max * spacing + dotRadius + 4;
-  ctx.fillText('(' + v + ')', numX, cy + dotRadius * 0.4);
+  const numX = x + max * spacing + dotRadius + 2;
+  ctx.fillText('(' + v + ')', numX, cy + dotRadius * 0.35);
 }
 
 // ══════════════════════════════════════════════════════════════
@@ -2285,9 +2285,9 @@ function drawCoffeeCard(ctx, coffee, fields, x, y, w, h, posLabel, numericMode, 
 
   // ── Per-layout profiles: fixed pixel values ──
   const PROFILES = {
-    1: { brand:22, name:44, label:16, value:22, dotR:7, dotSp:18, pitchLV:28, pitchSec:38, pad:40 },
-    2: { brand:18, name:36, label:14, value:18, dotR:6, dotSp:15, pitchLV:22, pitchSec:32, pad:20 },
-    4: { brand:12, name:22, label:10, value:12, dotR:4, dotSp:10, pitchLV:16, pitchSec:22, pad:14 }
+    1: { brand:22, name:44, label:16, value:22, dotR:5, dotSp:13, pitchLV:28, pitchSec:38, pad:40 },
+    2: { brand:18, name:36, label:14, value:18, dotR:4, dotSp:11, pitchLV:22, pitchSec:32, pad:20 },
+    4: { brand:12, name:22, label:10, value:12, dotR:3, dotSp:8, pitchLV:16, pitchSec:22, pad:14 }
   };
   const P = PROFILES[coffeeCount] || PROFILES[4];
 
@@ -2380,39 +2380,26 @@ function drawCoffeeCard(ctx, coffee, fields, x, y, w, h, posLabel, numericMode, 
     cursor += PITCH_LV;
 
     // Values row
+    ctx.font = '700 ' + valueSize + 'px "IBM Plex Sans", sans-serif';
+    ctx.fillStyle = '#000000';
     if (numericMode === 'dots') {
       if (hasIntensity) drawDotRating(ctx, coffee.intensity, 10, leftX, cursor, dotR, dotSpacing);
       if (hasBitterness) drawDotRating(ctx, coffee.bitterness, 10, rightX, cursor, dotR, dotSpacing);
     } else {
-      ctx.font = '700 ' + valueSize + 'px "IBM Plex Sans", sans-serif';
-      ctx.fillStyle = '#000000';
       if (hasIntensity) ctx.fillText(coffee.intensity + '/10', leftX, cursor + valueSize * 0.35);
       if (hasBitterness) ctx.fillText(coffee.bitterness + '/10', rightX, cursor + valueSize * 0.35);
     }
     cursor += PITCH_SEC;
   }
 
-  // ── Your Review (remarks): reserved 2-line space, always last ──
+  // ── Your Review (remarks): reserved 2-line content space, always last ──
   if (hasRemarks && cursor <= y + h - pad) {
-    const lineH = valueSize + 2;
-
     ctx.font = '600 ' + labelSize + 'px "IBM Plex Sans", sans-serif';
     ctx.fillStyle = '#000000';
     ctx.fillText('YOUR REVIEW', x + pad, cursor + labelSize * 0.35);
     cursor += PITCH_LV;
 
-    // Draw 2 lines for writing area
-    ctx.strokeStyle = '#cccccc';
-    ctx.lineWidth = 0.5;
-    for (let ln = 0; ln < 2; ln++) {
-      const lineY = cursor + valueSize * 0.35 + 2 + ln * lineH;
-      ctx.beginPath();
-      ctx.moveTo(x + pad, lineY);
-      ctx.lineTo(x + pad + contentW, lineY);
-      ctx.stroke();
-    }
-
-    // Render text over the lines (up to 2 lines, clipped by card bounds)
+    // Render remarks text (wraps to 2 lines naturally, card clip handles overflow)
     if (coffee.remarks) {
       ctx.font = '700 ' + valueSize + 'px "IBM Plex Sans", sans-serif';
       ctx.fillStyle = '#000000';
