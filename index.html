@@ -2207,7 +2207,7 @@ function drawCoffeeCard(ctx, coffee, fields, x, y, w, h, posLabel, numericMode) 
       curY += labelSize + GAP_LABEL_VALUE;
 
       if (numericMode === 'dots') {
-        drawDotRating(ctx, val, 10, x + pad, curY, dotR, dotSpacing);
+        drawDotRating(ctx, val, 10, x + pad, curY + dotR, dotR, dotSpacing);
         curY += dotR * 2 + GAP_SECTION;
       } else {
         ctx.font = '700 ' + valueSize + 'px "IBM Plex Sans", sans-serif';
