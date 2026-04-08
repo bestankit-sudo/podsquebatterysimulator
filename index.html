@@ -1282,7 +1282,7 @@ input[type="number"]:focus { border-color: var(--amber); }
           <h4>Spacing</h4>
           <ul>
             <li>Brand &rarr; Flavour name: <strong>1 &times; scale</strong> px (min 1 px) &mdash; tight, treated as one unit</li>
-            <li>Label &rarr; Value (e.g. &ldquo;NOTES&rdquo; &rarr; text): <strong>2 &times; scale</strong> px (min 1 px)</li>
+            <li>Label &rarr; Value (e.g. &ldquo;NOTES&rdquo; &rarr; text, &ldquo;INTENSITY&rdquo; &rarr; dots/number): <strong>2 &times; scale</strong> px (min 1 px)</li>
             <li>Section &rarr; Section (between field blocks): <strong>10 &times; scale</strong> px (min 4 px)</li>
             <li>All three gaps scale proportionally with card size and field count</li>
           </ul>
@@ -2207,7 +2207,6 @@ function drawCoffeeCard(ctx, coffee, fields, x, y, w, h, posLabel, numericMode) 
       curY += labelSize + GAP_LABEL_VALUE;
 
       if (numericMode === 'dots') {
-        curY += Math.round(2 * scale);
         drawDotRating(ctx, val, 10, x + pad, curY, dotR, dotSpacing);
         curY += dotR * 2 + GAP_SECTION;
       } else {
