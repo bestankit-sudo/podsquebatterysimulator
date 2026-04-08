@@ -844,16 +844,18 @@ input[type="number"]:focus { border-color: var(--amber); }
 .einkimg-spec-table td:first-child { font-weight:600; }
 
 /* ── Simulator ── */
-.sim-grid { display:grid; grid-template-columns:280px 1fr; gap:16px; padding:16px; }
-.sim-controls { max-height:75vh; overflow-y:auto; }
 .sim-controls .control-panel { margin-bottom:8px; }
-.sim-preview { display:flex; flex-direction:column; align-items:center; gap:12px; }
+.sim-preview { display:flex; flex-direction:column; align-items:center; gap:12px; padding:16px; }
 .sim-preview canvas { max-width:100%; height:auto; border:1px solid var(--border); }
-.sim-slider-row { display:flex; align-items:center; gap:6px; margin-bottom:4px; }
-.sim-slider-row label { font-family:var(--font-mono); font-size:9px; color:var(--text); min-width:90px; }
-.sim-slider-row input[type="range"] { flex:1; height:4px; }
-.sim-slider-row .sim-val { font-family:var(--font-mono); font-size:10px; font-weight:700; color:var(--amber); min-width:28px; text-align:right; }
-@media (max-width:768px) { .sim-grid { grid-template-columns:1fr; } }
+.sim-input-row { display:flex; align-items:center; gap:6px; margin-bottom:4px; }
+.sim-input-row label { font-family:var(--font-mono); font-size:9px; color:var(--text); min-width:90px; }
+.sim-input-row input[type="number"] {
+  width:60px; padding:3px 4px; font-family:var(--font-mono); font-size:10px; font-weight:600;
+  border:1px solid var(--border); border-radius:4px; background:var(--input-bg); color:var(--text);
+  text-align:center;
+}
+.sim-input-row input[type="number"]:focus { border-color:var(--amber); outline:none; }
+.sim-input-row .sim-unit { font-family:var(--font-mono); font-size:9px; color:var(--text-dim); }
 
 .hidden { display: none !important; }
 </style>
@@ -1421,48 +1423,40 @@ input[type="number"]:focus { border-color: var(--amber); }
       <span class="tag">Live Preview</span>
     </div>
   </header>
-  <div class="sim-grid">
-    <div class="sim-controls">
-      <!-- Layout selector -->
-      <div class="control-panel">
-        <h3>Layout</h3>
-        <div id="simLayoutGroup" class="radio-group" data-value="1">
-          <div class="radio-opt selected" data-val="1" onclick="simSwitchLayout(1)"><span class="radio-dot"></span> 1 Coffee</div>
-          <div class="radio-opt" data-val="2" onclick="simSwitchLayout(2)"><span class="radio-dot"></span> 2 Coffees</div>
-          <div class="radio-opt" data-val="4" onclick="simSwitchLayout(4)"><span class="radio-dot"></span> 3&ndash;4 Coffees</div>
-        </div>
+  <div class="control-grid einkimg-grid" style="padding:4px 16px 8px;">
+    <!-- Layout selector -->
+    <div class="control-panel">
+      <h3>Layout</h3>
+      <div id="simLayoutGroup" class="radio-group" data-value="1">
+        <div class="radio-opt selected" data-val="1" onclick="simSwitchLayout(1)"><span class="radio-dot"></span> 1 Coffee</div>
+        <div class="radio-opt" data-val="2" onclick="simSwitchLayout(2)"><span class="radio-dot"></span> 2 Coffees</div>
+        <div class="radio-opt" data-val="4" onclick="simSwitchLayout(4)"><span class="radio-dot"></span> 3&ndash;4 Coffees</div>
       </div>
-
-      <!-- Typography -->
-      <div class="control-panel">
-        <h3>Typography</h3>
-        <div class="sim-slider-row"><label>Brand</label><input type="range" id="simBrand" min="6" max="50" value="22" oninput="simRender()"><span class="sim-val" id="simBrandVal">22</span></div>
-        <div class="sim-slider-row"><label>Flavour Name</label><input type="range" id="simName" min="8" max="60" value="44" oninput="simRender()"><span class="sim-val" id="simNameVal">44</span></div>
-        <div class="sim-slider-row"><label>Field Label</label><input type="range" id="simLabel" min="4" max="30" value="16" oninput="simRender()"><span class="sim-val" id="simLabelVal">16</span></div>
-        <div class="sim-slider-row"><label>Field Value</label><input type="range" id="simValue" min="4" max="30" value="22" oninput="simRender()"><span class="sim-val" id="simValueVal">22</span></div>
-      </div>
-
-      <!-- Circles -->
-      <div class="control-panel">
-        <h3>Circles</h3>
-        <div class="sim-slider-row"><label>Dot Radius</label><input type="range" id="simDotR" min="1" max="20" value="8" oninput="simRender()"><span class="sim-val" id="simDotRVal">8</span></div>
-        <div class="sim-slider-row"><label>Dot Spacing</label><input type="range" id="simDotSp" min="3" max="30" value="13" oninput="simRender()"><span class="sim-val" id="simDotSpVal">13</span></div>
-      </div>
-
-      <!-- Spacing -->
-      <div class="control-panel">
-        <h3>Spacing (Center-to-Center)</h3>
-        <div class="sim-slider-row"><label>Label-to-Value</label><input type="range" id="simPitchLV" min="4" max="50" value="28" oninput="simRender()"><span class="sim-val" id="simPitchLVVal">28</span></div>
-        <div class="sim-slider-row"><label>Section Break</label><input type="range" id="simPitchSec" min="6" max="60" value="38" oninput="simRender()"><span class="sim-val" id="simPitchSecVal">38</span></div>
-        <div class="sim-slider-row"><label>Padding</label><span style="font-family:var(--font-mono); font-size:10px; color:var(--text-dim);">15 px (fixed)</span></div>
-      </div>
-
-      <button class="einkimg-btn" onclick="simApplyProfile()" style="width:100%;">Apply to E-Ink Image Profile</button>
     </div>
 
-    <div class="sim-preview">
-      <canvas id="sim-canvas" width="800" height="480"></canvas>
+    <!-- Typography -->
+    <div class="control-panel">
+      <h3>Typography</h3>
+      <div class="sim-input-row"><label>Brand</label><input type="number" id="simBrand" min="4" max="60" value="22" oninput="simRender()"><span class="sim-unit">px</span></div>
+      <div class="sim-input-row"><label>Flavour Name</label><input type="number" id="simName" min="6" max="80" value="44" oninput="simRender()"><span class="sim-unit">px</span></div>
+      <div class="sim-input-row"><label>Field Label</label><input type="number" id="simLabel" min="4" max="40" value="16" oninput="simRender()"><span class="sim-unit">px</span></div>
+      <div class="sim-input-row"><label>Field Value</label><input type="number" id="simValue" min="4" max="40" value="22" oninput="simRender()"><span class="sim-unit">px</span></div>
     </div>
+
+    <!-- Circles + Spacing -->
+    <div class="control-panel">
+      <h3>Circles</h3>
+      <div class="sim-input-row"><label>Dot Radius</label><input type="number" id="simDotR" min="1" max="20" value="8" oninput="simRender()"><span class="sim-unit">px</span></div>
+      <div class="sim-input-row"><label>Dot Spacing</label><input type="number" id="simDotSp" min="3" max="40" value="13" oninput="simRender()"><span class="sim-unit">px</span></div>
+      <h3 style="margin-top:6px;">Spacing</h3>
+      <div class="sim-input-row"><label>Label-to-Value (LV)</label><input type="number" id="simPitchLV" min="4" max="60" value="28" oninput="simRender()"><span class="sim-unit">px</span></div>
+      <div class="sim-input-row"><label>Section Break (SEC)</label><input type="number" id="simPitchSec" min="4" max="80" value="38" oninput="simRender()"><span class="sim-unit">px</span></div>
+      <div class="sim-input-row"><label>Padding</label><span class="sim-unit">15 px (fixed)</span></div>
+    </div>
+  </div>
+
+  <div class="sim-preview">
+    <canvas id="sim-canvas" width="800" height="480"></canvas>
   </div>
 </div>
 
@@ -2216,9 +2210,7 @@ function simSwitchLayout(n) {
   // Load profile values into sliders
   const prof = SIM_DEFAULTS[n] || SIM_DEFAULTS[4];
   SIM_FIELDS.forEach((key, i) => {
-    const el = document.getElementById(SIM_IDS[i]);
-    el.value = prof[key];
-    document.getElementById(SIM_IDS[i] + 'Val').textContent = prof[key];
+    document.getElementById(SIM_IDS[i]).value = prof[key];
   });
   simRender();
 }
@@ -2232,12 +2224,6 @@ function simReadProfile() {
 }
 
 function simRender() {
-  // Update value displays
-  SIM_IDS.forEach(id => {
-    const el = document.getElementById(id);
-    document.getElementById(id + 'Val').textContent = el.value;
-  });
-
   const profile = simReadProfile();
   const canvas = document.getElementById('sim-canvas');
   const res = { w: 800, h: 480 };
@@ -2289,12 +2275,6 @@ function simRender() {
     // Clear override after rendering
     PROFILE_OVERRIDES = {};
   });
-}
-
-function simApplyProfile() {
-  const profile = simReadProfile();
-  PROFILE_OVERRIDES[simLayout] = profile;
-  alert('Profile applied for ' + (simLayout === 1 ? '1 coffee' : simLayout === 2 ? '2 coffees' : '3-4 coffees') + ' layout. Generate a new preview in E-Ink Image to see the changes.');
 }
 
 function initEinkImageTab() {
