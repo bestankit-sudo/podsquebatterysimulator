@@ -1372,7 +1372,7 @@ input[type="number"]:focus { border-color: var(--amber); }
               <td>Dot Radius</td><td>Circle</td>
               <td><strong>3 px</strong></td>
               <td><strong>4 px</strong></td><td style="color:var(--amber);">+1</td>
-              <td><strong>5 px</strong></td><td style="color:var(--amber);">+1</td>
+              <td><strong>15 px</strong></td><td style="color:var(--amber);">+11</td>
             </tr>
             <tr>
               <td>Dot Spacing</td><td>Circle</td>
@@ -2275,7 +2275,7 @@ function drawCoffeeCard(ctx, coffee, fields, x, y, w, h, posLabel, numericMode, 
 
   // ── Per-layout profiles: fixed pixel values ──
   const PROFILES = {
-    1: { brand:22, name:44, label:16, value:22, dotR:5, dotSp:13, pitchLV:28, pitchSec:38, pad:40 },
+    1: { brand:22, name:44, label:16, value:22, dotR:15, dotSp:13, pitchLV:28, pitchSec:38, pad:40 },
     2: { brand:18, name:36, label:14, value:18, dotR:4, dotSp:11, pitchLV:22, pitchSec:32, pad:20 },
     4: { brand:12, name:22, label:10, value:12, dotR:3, dotSp:8, pitchLV:16, pitchSec:22, pad:14 }
   };
@@ -2295,8 +2295,8 @@ function drawCoffeeCard(ctx, coffee, fields, x, y, w, h, posLabel, numericMode, 
   // cursor = center of current element; start at center of first element
   let cursor = y + pad + brandSize / 2;
 
-  // ── Position label (top-right, half of label size) ──
-  const posLabelSize = Math.max(5, Math.round(labelSize / 2));
+  // ── Position label (top-right, 75% of label size) ──
+  const posLabelSize = Math.max(5, Math.round(labelSize * 0.75));
   ctx.fillStyle = '#666666';
   ctx.font = '600 ' + posLabelSize + 'px "IBM Plex Sans", sans-serif';
   ctx.textAlign = 'right';
@@ -2414,7 +2414,8 @@ function drawCoffeeCard(ctx, coffee, fields, x, y, w, h, posLabel, numericMode, 
     if (coffee.remarks) {
       ctx.font = '700 ' + valueSize + 'px "IBM Plex Sans", sans-serif';
       ctx.fillStyle = '#000000';
-      wrapText(ctx, String(coffee.remarks), x + pad, cursor, contentW, valueSize);
+      const remarkText = String(coffee.remarks).length > 75 ? String(coffee.remarks).slice(0, 72) + '...' : String(coffee.remarks);
+      wrapText(ctx, remarkText, x + pad, cursor, contentW, valueSize);
     }
   }
 
