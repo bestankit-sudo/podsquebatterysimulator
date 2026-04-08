@@ -1364,49 +1364,55 @@ input[type="number"]:focus { border-color: var(--amber); }
               <td>Brand</td><td>Font size</td>
               <td><strong>12 px</strong></td>
               <td><strong>18 px</strong></td><td style="color:var(--amber);">+6</td>
-              <td><strong>22 px</strong></td><td style="color:var(--amber);">+4</td>
+              <td><strong>27 px</strong></td><td style="color:var(--amber);">+9</td>
             </tr>
             <tr>
               <td>Flavour Name</td><td>Font size</td>
               <td><strong>22 px</strong></td>
               <td><strong>36 px</strong></td><td style="color:var(--amber);">+14</td>
-              <td><strong>44 px</strong></td><td style="color:var(--amber);">+8</td>
+              <td><strong>47 px</strong></td><td style="color:var(--amber);">+11</td>
             </tr>
             <tr>
               <td>Field Label</td><td>Font size</td>
               <td><strong>10 px</strong></td>
               <td><strong>14 px</strong></td><td style="color:var(--amber);">+4</td>
-              <td><strong>16 px</strong></td><td style="color:var(--amber);">+2</td>
+              <td><strong>20 px</strong></td><td style="color:var(--amber);">+6</td>
             </tr>
             <tr>
               <td>Field Value</td><td>Font size</td>
               <td><strong>12 px</strong></td>
               <td><strong>18 px</strong></td><td style="color:var(--amber);">+6</td>
-              <td><strong>22 px</strong></td><td style="color:var(--amber);">+4</td>
+              <td><strong>30 px</strong></td><td style="color:var(--amber);">+12</td>
             </tr>
             <tr>
               <td>Dot Radius</td><td>Circle</td>
               <td><strong>3 px</strong></td>
               <td><strong>4 px</strong></td><td style="color:var(--amber);">+1</td>
-              <td><strong>8 px</strong></td><td style="color:var(--amber);">+4</td>
+              <td><strong>10 px</strong></td><td style="color:var(--amber);">+6</td>
             </tr>
             <tr>
               <td>Dot Spacing</td><td>Circle</td>
               <td><strong>8 px</strong></td>
               <td><strong>11 px</strong></td><td style="color:var(--amber);">+3</td>
-              <td><strong>13 px</strong></td><td style="color:var(--amber);">+2</td>
+              <td><strong>25 px</strong></td><td style="color:var(--amber);">+14</td>
+            </tr>
+            <tr>
+              <td>Dot-to-Number Gap</td><td>Circle</td>
+              <td><strong>16 px</strong></td>
+              <td><strong>22 px</strong></td><td style="color:var(--amber);">+6</td>
+              <td><strong>50 px</strong></td><td style="color:var(--amber);">+28</td>
             </tr>
             <tr>
               <td>Label-to-Value (LV)</td><td>Spacing</td>
               <td><strong>16 px</strong></td>
               <td><strong>22 px</strong></td><td style="color:var(--amber);">+6</td>
-              <td><strong>28 px</strong></td><td style="color:var(--amber);">+6</td>
+              <td><strong>30 px</strong></td><td style="color:var(--amber);">+8</td>
             </tr>
             <tr>
               <td>Section Break (SEC)</td><td>Spacing</td>
               <td><strong>22 px</strong></td>
               <td><strong>32 px</strong></td><td style="color:var(--amber);">+10</td>
-              <td><strong>38 px</strong></td><td style="color:var(--amber);">+6</td>
+              <td><strong>50 px</strong></td><td style="color:var(--amber);">+18</td>
             </tr>
           </table>
         </div>
@@ -1437,20 +1443,21 @@ input[type="number"]:focus { border-color: var(--amber); }
     <!-- Typography -->
     <div class="control-panel">
       <h3>Typography</h3>
-      <div class="sim-input-row"><label>Brand</label><input type="number" id="simBrand" min="4" max="60" value="22" oninput="simRender()"><span class="sim-unit">px</span></div>
-      <div class="sim-input-row"><label>Flavour Name</label><input type="number" id="simName" min="6" max="80" value="44" oninput="simRender()"><span class="sim-unit">px</span></div>
-      <div class="sim-input-row"><label>Field Label</label><input type="number" id="simLabel" min="4" max="40" value="16" oninput="simRender()"><span class="sim-unit">px</span></div>
-      <div class="sim-input-row"><label>Field Value</label><input type="number" id="simValue" min="4" max="40" value="22" oninput="simRender()"><span class="sim-unit">px</span></div>
+      <div class="sim-input-row"><label>Brand</label><input type="number" id="simBrand" min="4" max="60" value="27" oninput="simRender()"><span class="sim-unit">px</span></div>
+      <div class="sim-input-row"><label>Flavour Name</label><input type="number" id="simName" min="6" max="80" value="47" oninput="simRender()"><span class="sim-unit">px</span></div>
+      <div class="sim-input-row"><label>Field Label</label><input type="number" id="simLabel" min="4" max="40" value="20" oninput="simRender()"><span class="sim-unit">px</span></div>
+      <div class="sim-input-row"><label>Field Value</label><input type="number" id="simValue" min="4" max="40" value="30" oninput="simRender()"><span class="sim-unit">px</span></div>
     </div>
 
     <!-- Circles + Spacing -->
     <div class="control-panel">
       <h3>Circles</h3>
-      <div class="sim-input-row"><label>Dot Radius</label><input type="number" id="simDotR" min="1" max="20" value="8" oninput="simRender()"><span class="sim-unit">px</span></div>
-      <div class="sim-input-row"><label>Dot Spacing</label><input type="number" id="simDotSp" min="3" max="40" value="13" oninput="simRender()"><span class="sim-unit">px</span></div>
+      <div class="sim-input-row"><label>Dot Radius</label><input type="number" id="simDotR" min="1" max="20" value="10" oninput="simRender()"><span class="sim-unit">px</span></div>
+      <div class="sim-input-row"><label>Dot Spacing</label><input type="number" id="simDotSp" min="3" max="40" value="25" oninput="simRender()"><span class="sim-unit">px</span></div>
+      <div class="sim-input-row"><label>Dot-to-Number Gap</label><input type="number" id="simDotNumGap" min="2" max="80" value="50" oninput="simRender()"><span class="sim-unit">px</span></div>
       <h3 style="margin-top:6px;">Spacing</h3>
-      <div class="sim-input-row"><label>Label-to-Value (LV)</label><input type="number" id="simPitchLV" min="4" max="60" value="28" oninput="simRender()"><span class="sim-unit">px</span></div>
-      <div class="sim-input-row"><label>Section Break (SEC)</label><input type="number" id="simPitchSec" min="4" max="80" value="38" oninput="simRender()"><span class="sim-unit">px</span></div>
+      <div class="sim-input-row"><label>Label-to-Value (LV)</label><input type="number" id="simPitchLV" min="4" max="60" value="30" oninput="simRender()"><span class="sim-unit">px</span></div>
+      <div class="sim-input-row"><label>Section Break (SEC)</label><input type="number" id="simPitchSec" min="4" max="80" value="50" oninput="simRender()"><span class="sim-unit">px</span></div>
       <div class="sim-input-row"><label>Padding</label><span class="sim-unit">15 px (fixed)</span></div>
     </div>
   </div>
@@ -2192,13 +2199,13 @@ var PROFILE_OVERRIDES = {};  // global override for drawCoffeeCard
 let simLayout = 1;
 
 const SIM_DEFAULTS = {
-  1: { brand:22, name:44, label:16, value:22, dotR:8, dotSp:13, pitchLV:28, pitchSec:38 },
-  2: { brand:18, name:36, label:14, value:18, dotR:4, dotSp:11, pitchLV:22, pitchSec:32 },
-  4: { brand:12, name:22, label:10, value:12, dotR:3, dotSp:8, pitchLV:16, pitchSec:22 }
+  1: { brand:27, name:47, label:20, value:30, dotR:10, dotSp:25, dotNumGap:50, pitchLV:30, pitchSec:50 },
+  2: { brand:18, name:36, label:14, value:18, dotR:4, dotSp:11, dotNumGap:22, pitchLV:22, pitchSec:32 },
+  4: { brand:12, name:22, label:10, value:12, dotR:3, dotSp:8, dotNumGap:16, pitchLV:16, pitchSec:22 }
 };
 
-const SIM_FIELDS = ['brand','name','label','value','dotR','dotSp','pitchLV','pitchSec'];
-const SIM_IDS = ['simBrand','simName','simLabel','simValue','simDotR','simDotSp','simPitchLV','simPitchSec'];
+const SIM_FIELDS = ['brand','name','label','value','dotR','dotSp','dotNumGap','pitchLV','pitchSec'];
+const SIM_IDS = ['simBrand','simName','simLabel','simValue','simDotR','simDotSp','simDotNumGap','simPitchLV','simPitchSec'];
 
 function simSwitchLayout(n) {
   simLayout = n;
@@ -2381,7 +2388,9 @@ function wrapText(ctx, text, x, center, maxWidth, fontSize) {
 
 // ── Spec: drawDotRating ──
 // Draws filled/empty circles. cy = vertical CENTER of the dot row.
-function drawDotRating(ctx, value, max, x, cy, dotRadius, spacing) {
+// numGap = space after last dot before "(N)" text.
+// numFontSize = font size for the "(N)" text (uses label font size).
+function drawDotRating(ctx, value, max, x, cy, dotRadius, spacing, numGap, numFontSize) {
   const v = Math.min(Math.max(0, value), max);
   for (let i = 0; i < max; i++) {
     const cx = x + i * spacing + dotRadius;
@@ -2399,10 +2408,11 @@ function drawDotRating(ctx, value, max, x, cy, dotRadius, spacing) {
       ctx.stroke();
     }
   }
-  // Number in parentheses, right next to last dot, vertically centered
+  // Number in parentheses, using label font size, center-aligned to dot row
   ctx.fillStyle = '#000000';
-  const numX = x + max * spacing + dotRadius + 2;
-  ctx.fillText('(' + v + ')', numX, cy + dotRadius * 0.35);
+  ctx.font = '600 ' + numFontSize + 'px "IBM Plex Sans", sans-serif';
+  const numX = x + max * spacing + dotRadius + numGap;
+  ctx.fillText('(' + v + ')', numX, cy + numFontSize * 0.35);
 }
 
 // ══════════════════════════════════════════════════════════════
@@ -2426,9 +2436,9 @@ function drawCoffeeCard(ctx, coffee, fields, x, y, w, h, posLabel, numericMode, 
 
   // ── Per-layout profiles: fixed pixel values ──
   const DEFAULT_PROFILES = {
-    1: { brand:22, name:44, label:16, value:22, dotR:8, dotSp:13, pitchLV:28, pitchSec:38, pad:15 },
-    2: { brand:18, name:36, label:14, value:18, dotR:4, dotSp:11, pitchLV:22, pitchSec:32, pad:15 },
-    4: { brand:12, name:22, label:10, value:12, dotR:3, dotSp:8, pitchLV:16, pitchSec:22, pad:15 }
+    1: { brand:27, name:47, label:20, value:30, dotR:10, dotSp:25, dotNumGap:50, pitchLV:30, pitchSec:50, pad:15 },
+    2: { brand:18, name:36, label:14, value:18, dotR:4, dotSp:11, dotNumGap:22, pitchLV:22, pitchSec:32, pad:15 },
+    4: { brand:12, name:22, label:10, value:12, dotR:3, dotSp:8, dotNumGap:16, pitchLV:16, pitchSec:22, pad:15 }
   };
   // Check for simulator overrides first
   const profiles = (typeof PROFILE_OVERRIDES !== 'undefined' && PROFILE_OVERRIDES[coffeeCount])
@@ -2443,6 +2453,7 @@ function drawCoffeeCard(ctx, coffee, fields, x, y, w, h, posLabel, numericMode, 
   const valueSize = P.value;
   const dotR       = P.dotR;
   const dotSpacing = P.dotSp;
+  const dotNumGap  = P.dotNumGap || (P.dotSp * 2);
   const PITCH_LV  = P.pitchLV;
   const PITCH_SEC = P.pitchSec;
 
@@ -2548,8 +2559,8 @@ function drawCoffeeCard(ctx, coffee, fields, x, y, w, h, posLabel, numericMode, 
     ctx.font = '700 ' + valueSize + 'px "IBM Plex Sans", sans-serif';
     ctx.fillStyle = '#000000';
     if (numericMode === 'dots') {
-      if (hasIntensity) drawDotRating(ctx, coffee.intensity, 10, leftX, cursor, dotR, dotSpacing);
-      if (hasBitterness) drawDotRating(ctx, coffee.bitterness, 10, rightX, cursor, dotR, dotSpacing);
+      if (hasIntensity) drawDotRating(ctx, coffee.intensity, 10, leftX, cursor, dotR, dotSpacing, dotNumGap, labelSize);
+      if (hasBitterness) drawDotRating(ctx, coffee.bitterness, 10, rightX, cursor, dotR, dotSpacing, dotNumGap, labelSize);
     } else {
       if (hasIntensity) ctx.fillText(coffee.intensity + '/10', leftX, cursor + valueSize * 0.35);
       if (hasBitterness) ctx.fillText(coffee.bitterness + '/10', rightX, cursor + valueSize * 0.35);
