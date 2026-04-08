@@ -2078,18 +2078,29 @@ function drawDotRating(ctx, value, max, x, y, dotRadius, spacing) {
 }
 
 function drawCoffeeCard(ctx, coffee, fields, x, y, w, h, posLabel, numericMode) {
+  // Clip to card bounds so content never overflows into adjacent cards
+  ctx.save();
+  ctx.beginPath();
+  ctx.rect(x, y, w, h);
+  ctx.clip();
+
   const pad = Math.round(w * 0.05);
   const contentW = w - pad * 2;
+  const contentH = h - pad * 2;
   let curY = y + pad;
 
-  // Scale fonts to card size
-  const scale = Math.min(w / 400, h / 500);
-  const brandSize = Math.max(14, Math.round(16 * scale));
-  const nameSize = Math.max(18, Math.round(32 * scale));
-  const labelSize = Math.max(12, Math.round(18 * scale));
-  const valueSize = Math.max(10, Math.round(20 * scale));
-  const dotR = Math.max(3, Math.round(5 * scale));
-  const dotSpacing = Math.max(11, Math.round(17 * scale));
+  // Scale fonts to card size, then shrink further based on field count
+  const baseScale = Math.min(w / 400, h / 500);
+  const fieldShrink = fields.length <= 4 ? 1.0 : fields.length <= 6 ? 0.82 : 0.7;
+  const scale = baseScale * fieldShrink;
+  const brandSize = Math.max(10, Math.round(16 * scale));
+  const nameSize = Math.max(14, Math.round(32 * scale));
+  const labelSize = Math.max(8, Math.round(18 * scale));
+  const valueSize = Math.max(9, Math.round(20 * scale));
+  const dotR = Math.max(2, Math.round(5 * scale));
+  const dotSpacing = Math.max(7, Math.round(17 * scale));
+  const gapSmall = Math.round(3 * scale);
+  const gapMed = Math.round(6 * scale);
 
   // Position label (top-right corner)
   ctx.fillStyle = '#666666';
@@ -2101,6 +2112,7 @@ function drawCoffeeCard(ctx, coffee, fields, x, y, w, h, posLabel, numericMode) 
   ctx.fillStyle = '#000000';
 
   for (let fi = 0; fi < fields.length; fi++) {
+    if (curY > y + h - pad) break; // stop if we've run out of space
     const key = fields[fi];
     const val = coffee[key];
 
@@ -2108,40 +2120,40 @@ function drawCoffeeCard(ctx, coffee, fields, x, y, w, h, posLabel, numericMode) 
       ctx.font = '500 ' + brandSize + 'px "IBM Plex Sans", sans-serif';
       ctx.fillStyle = '#000000';
       ctx.fillText(String(val).toUpperCase(), x + pad, curY + brandSize);
-      curY += brandSize + Math.round(4 * scale);
+      curY += brandSize + gapSmall;
     }
     else if (key === 'flavour') {
       ctx.font = '700 ' + nameSize + 'px "IBM Plex Sans", sans-serif';
       ctx.fillStyle = '#000000';
-      curY = wrapText(ctx, String(val), x + pad, curY + nameSize, contentW, nameSize + 4);
-      curY += Math.round(8 * scale);
+      curY = wrapText(ctx, String(val), x + pad, curY + nameSize, contentW, nameSize + 2);
+      curY += gapMed;
     }
     else if (key === 'intensity' || key === 'bitterness') {
       const lbl = key === 'intensity' ? 'INTENSITY' : 'BITTERNESS';
       ctx.font = '600 ' + labelSize + 'px "IBM Plex Sans", sans-serif';
       ctx.fillStyle = '#000000';
       ctx.fillText(lbl, x + pad, curY + labelSize);
-      curY += labelSize + Math.round(8 * scale);
+      curY += labelSize + gapSmall;
 
       if (numericMode === 'dots') {
-        curY += Math.round(10 * scale);
+        curY += Math.round(4 * scale);
         drawDotRating(ctx, val, 10, x + pad, curY, dotR, dotSpacing);
-        curY += dotR * 2 + Math.round(24 * scale);
+        curY += dotR * 2 + gapMed;
       } else {
         ctx.font = '700 ' + valueSize + 'px "IBM Plex Sans", sans-serif';
         ctx.fillStyle = '#000000';
         ctx.fillText(val + '/10', x + pad, curY + valueSize);
-        curY += valueSize + Math.round(12 * scale);
+        curY += valueSize + gapMed;
       }
     }
     else if (key === 'decaf') {
       ctx.font = '600 ' + labelSize + 'px "IBM Plex Sans", sans-serif';
       ctx.fillStyle = '#000000';
       ctx.fillText('DECAF', x + pad, curY + labelSize);
-      curY += labelSize + Math.round(4 * scale);
+      curY += labelSize + gapSmall;
       ctx.font = '700 ' + valueSize + 'px "IBM Plex Sans", sans-serif';
       ctx.fillText(val ? 'YES' : 'NO', x + pad, curY + valueSize);
-      curY += valueSize + Math.round(10 * scale);
+      curY += valueSize + gapMed;
     }
     else {
       // Generic text field: tasting, remarks, cupSize
@@ -2150,12 +2162,13 @@ function drawCoffeeCard(ctx, coffee, fields, x, y, w, h, posLabel, numericMode) 
       ctx.font = '600 ' + labelSize + 'px "IBM Plex Sans", sans-serif';
       ctx.fillStyle = '#000000';
       ctx.fillText(lbl, x + pad, curY + labelSize);
-      curY += labelSize + Math.round(4 * scale);
+      curY += labelSize + gapSmall;
       ctx.font = '700 ' + valueSize + 'px "IBM Plex Sans", sans-serif';
-      curY = wrapText(ctx, String(val), x + pad, curY + valueSize, contentW, valueSize + 4);
-      curY += Math.round(8 * scale);
+      curY = wrapText(ctx, String(val), x + pad, curY + valueSize, contentW, valueSize + 2);
+      curY += gapMed;
     }
   }
+  ctx.restore(); // remove clip
 }
 
 function generateEinkImage() {
