@@ -2104,33 +2104,48 @@ function getEinkImgResolution() {
   return { w, h };
 }
 
-function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
+// ── Spec: wrapText ──
+// Draws text with word-wrap. Uses canvas baseline positioning.
+// cursor is the TOP of the text block. First line baseline = cursor + fontSize.
+// Returns the cursor position at the BOTTOM of the last line (cursor after all lines).
+function wrapText(ctx, text, x, cursor, maxWidth, fontSize) {
+  const lineHeight = fontSize + 2;
   const words = text.split(' ');
   let line = '';
-  let curY = y;
+  let lineCount = 0;
   for (let i = 0; i < words.length; i++) {
     const test = line + (line ? ' ' : '') + words[i];
     if (ctx.measureText(test).width > maxWidth && line) {
-      ctx.fillText(line, x, curY);
+      ctx.fillText(line, x, cursor + fontSize);
+      cursor += lineHeight;
       line = words[i];
-      curY += lineHeight;
+      lineCount++;
     } else {
       line = test;
     }
   }
-  if (line) { ctx.fillText(line, x, curY); curY += lineHeight; }
-  return curY;
+  if (line) {
+    ctx.fillText(line, x, cursor + fontSize);
+    cursor += fontSize; // bottom of last line (not lineHeight — no extra after last)
+    lineCount++;
+  }
+  return cursor;
 }
 
+// ── Spec: drawDotRating ──
+// Draws filled/empty circles. y = TOP of dot row (center = y + dotRadius).
+// Returns nothing; caller advances cursor by dotR * 2 (diameter).
 function drawDotRating(ctx, value, max, x, y, dotRadius, spacing) {
   const v = Math.min(Math.max(0, value), max);
+  const cy = y + dotRadius; // vertical center
   for (let i = 0; i < max; i++) {
     const cx = x + i * spacing + dotRadius;
     ctx.beginPath();
-    ctx.arc(cx, y, dotRadius, 0, Math.PI * 2);
+    ctx.arc(cx, cy, dotRadius, 0, Math.PI * 2);
     if (i < v) {
       ctx.fillStyle = '#000000';
       ctx.fill();
+      ctx.strokeStyle = '#000000';
       ctx.lineWidth = 1.5;
       ctx.stroke();
     } else {
@@ -2139,11 +2154,26 @@ function drawDotRating(ctx, value, max, x, y, dotRadius, spacing) {
       ctx.stroke();
     }
   }
-  // Draw number after dots
+  // Number in parentheses, vertically centered with dots
   ctx.fillStyle = '#000000';
   const numX = x + max * spacing + dotRadius + 4;
-  ctx.fillText('(' + v + ')', numX, y + dotRadius * 0.4);
+  ctx.fillText('(' + v + ')', numX, cy + dotRadius * 0.4);
 }
+
+// ══════════════════════════════════════════════════════════════
+// drawCoffeeCard — strict implementation of Rendering Specs
+// ══════════════════════════════════════════════════════════════
+//
+// Vertical rhythm (cursor tracks TOP of next element to draw):
+//
+//   BRAND:    draw at cursor + brandSize      → cursor += brandSize + GAP_BRAND_NAME
+//   FLAVOUR:  wrapText from cursor             → cursor = bottom + GAP_SECTION
+//   FIELD:    label at cursor + labelSize      → cursor += labelSize + GAP_LABEL_VALUE
+//             value at cursor + valueSize      → cursor += valueSize + GAP_SECTION
+//        or   dots from cursor (top-aligned)   → cursor += dotR*2 + GAP_SECTION
+//
+// Every field block ends with exactly GAP_SECTION before the next block starts.
+// ══════════════════════════════════════════════════════════════
 
 function drawCoffeeCard(ctx, coffee, fields, x, y, w, h, posLabel, numericMode) {
   ctx.save();
@@ -2151,88 +2181,96 @@ function drawCoffeeCard(ctx, coffee, fields, x, y, w, h, posLabel, numericMode) 
   ctx.rect(x, y, w, h);
   ctx.clip();
 
-  const pad = Math.round(w * 0.05);
+  // ── Spec: Scaling ──
+  const pad = Math.round(w * 0.05);                          // 5% card width
   const contentW = w - pad * 2;
-  let curY = y + pad;
+  const baseScale = Math.min(w / 400, h / 500);              // min(w/400, h/500)
+  const fieldShrink = fields.length <= 4 ? 1.0               // ≤4: 1.0×
+                    : fields.length <= 6 ? 0.82               // 5-6: 0.82×
+                    : 0.7;                                     // 7-8: 0.7×
+  const S = baseScale * fieldShrink;                           // final scale
 
-  // Scale fonts to card size, shrink further by field count
-  const baseScale = Math.min(w / 400, h / 500);
-  const fieldShrink = fields.length <= 4 ? 1.0 : fields.length <= 6 ? 0.82 : 0.7;
-  const scale = baseScale * fieldShrink;
+  // ── Spec: Typography (all × S) ──
+  const brandSize = Math.max(10, Math.round(16 * S));         // 500 weight, uppercase
+  const nameSize  = Math.max(14, Math.round(32 * S));         // 700 weight (bold)
+  const labelSize = Math.max(8,  Math.round(14 * S));         // 600 weight, uppercase
+  const valueSize = Math.max(9,  Math.round(18 * S));         // 700 weight (bold)
 
-  // Font sizes
-  const brandSize = Math.max(10, Math.round(16 * scale));
-  const nameSize = Math.max(14, Math.round(32 * scale));
-  const labelSize = Math.max(8, Math.round(14 * scale));
-  const valueSize = Math.max(9, Math.round(18 * scale));
-  const dotR = Math.max(2, Math.round(5 * scale));
-  const dotSpacing = Math.max(7, Math.round(14 * scale));
+  // ── Spec: Dots ──
+  const dotR       = Math.max(2, Math.round(5 * S));          // radius
+  const dotSpacing = Math.max(7, Math.round(14 * S));         // center-to-center
 
-  // Spacing — three consistent levels
-  const GAP_LABEL_VALUE = Math.max(1, Math.round(2 * scale));   // label → its value (tight)
-  const GAP_SECTION = Math.max(4, Math.round(10 * scale));      // between field sections (uniform)
-  const GAP_BRAND_NAME = Math.max(1, Math.round(1 * scale));    // brand → flavour name (minimal)
+  // ── Spec: Spacing (all × S) ──
+  const GAP_BRAND_NAME  = Math.max(1, Math.round(1 * S));     // brand → flavour (tight)
+  const GAP_LABEL_VALUE = Math.max(1, Math.round(2 * S));     // label → value
+  const GAP_SECTION     = Math.max(4, Math.round(10 * S));    // between sections
 
-  // Position label (top-right corner)
+  // cursor = top of next element to draw
+  let cursor = y + pad;
+
+  // ── Position label (top-right) ──
   ctx.fillStyle = '#666666';
   ctx.font = '600 ' + labelSize + 'px "IBM Plex Sans", sans-serif';
   ctx.textAlign = 'right';
-  ctx.fillText(posLabel, x + w - pad, curY + labelSize);
+  ctx.fillText(posLabel, x + w - pad, cursor + labelSize);
   ctx.textAlign = 'left';
-
   ctx.fillStyle = '#000000';
 
-  // Unified drawing: every field follows the same vertical rhythm.
-  // Brand and Flavour name are special (no label row). All others:
-  //   curY → draw label → advance labelSize + GAP_LABEL_VALUE
-  //        → draw value → advance valueHeight + GAP_SECTION
-  // This ensures GAP_SECTION is always measured from the same
-  // baseline offset, giving visually identical spacing.
+  // ── Field loop ──
+  const LABELS = {
+    tasting: 'NOTES', remarks: 'MY COMMENTS', cupSize: 'BEST SERVED AS',
+    intensity: 'INTENSITY', bitterness: 'BITTERNESS', decaf: 'DECAF'
+  };
 
   for (let fi = 0; fi < fields.length; fi++) {
-    if (curY > y + h - pad) break;
+    if (cursor > y + h - pad) break;
     const key = fields[fi];
     const val = coffee[key];
 
+    // ── Brand (no label row, special font) ──
     if (key === 'brand') {
       ctx.font = '500 ' + brandSize + 'px "IBM Plex Sans", sans-serif';
       ctx.fillStyle = '#000000';
-      ctx.fillText(String(val).toUpperCase(), x + pad, curY + brandSize);
-      curY += brandSize + GAP_BRAND_NAME;
+      ctx.fillText(String(val).toUpperCase(), x + pad, cursor + brandSize);
+      cursor += brandSize + GAP_BRAND_NAME;
+      continue;
     }
-    else if (key === 'flavour') {
+
+    // ── Flavour name (no label row, large bold, wraps) ──
+    if (key === 'flavour') {
       ctx.font = '700 ' + nameSize + 'px "IBM Plex Sans", sans-serif';
       ctx.fillStyle = '#000000';
-      curY = wrapText(ctx, String(val), x + pad, curY + nameSize, contentW, nameSize + 2);
-      curY += GAP_SECTION;
+      cursor = wrapText(ctx, String(val), x + pad, cursor, contentW, nameSize);
+      cursor += GAP_SECTION;
+      continue;
     }
-    else {
-      // ── Label row (same for every remaining field) ──
-      const labels = {
-        tasting: 'NOTES', remarks: 'MY COMMENTS', cupSize: 'BEST SERVED AS',
-        intensity: 'INTENSITY', bitterness: 'BITTERNESS', decaf: 'DECAF'
-      };
-      ctx.font = '600 ' + labelSize + 'px "IBM Plex Sans", sans-serif';
-      ctx.fillStyle = '#000000';
-      ctx.fillText(labels[key] || key.toUpperCase(), x + pad, curY + labelSize);
-      curY += labelSize + GAP_LABEL_VALUE;
 
-      // ── Value row ──
-      if ((key === 'intensity' || key === 'bitterness') && numericMode === 'dots') {
-        drawDotRating(ctx, val, 10, x + pad, curY + dotR, dotR, dotSpacing);
-        curY += dotR * 2 + GAP_SECTION;
-      } else {
-        ctx.font = '700 ' + valueSize + 'px "IBM Plex Sans", sans-serif';
-        ctx.fillStyle = '#000000';
-        let text;
-        if (key === 'intensity' || key === 'bitterness') text = val + '/10';
-        else if (key === 'decaf') text = val ? 'YES' : 'NO';
-        else text = String(val);
-        curY = wrapText(ctx, text, x + pad, curY + valueSize, contentW, valueSize + 2);
-        curY += GAP_SECTION;
-      }
+    // ── All other fields: LABEL row then VALUE row ──
+
+    // Label
+    ctx.font = '600 ' + labelSize + 'px "IBM Plex Sans", sans-serif';
+    ctx.fillStyle = '#000000';
+    ctx.fillText(LABELS[key] || key.toUpperCase(), x + pad, cursor + labelSize);
+    cursor += labelSize + GAP_LABEL_VALUE;
+
+    // Value — dots or text (all use same cursor model)
+    if ((key === 'intensity' || key === 'bitterness') && numericMode === 'dots') {
+      // Dots: top of dot row at cursor, height = dotR * 2
+      drawDotRating(ctx, val, 10, x + pad, cursor, dotR, dotSpacing);
+      cursor += dotR * 2 + GAP_SECTION;
+    } else {
+      // Text value: top of text at cursor, height = valueSize
+      ctx.font = '700 ' + valueSize + 'px "IBM Plex Sans", sans-serif';
+      ctx.fillStyle = '#000000';
+      let text;
+      if (key === 'intensity' || key === 'bitterness') text = val + '/10';
+      else if (key === 'decaf') text = val ? 'YES' : 'NO';
+      else text = String(val);
+      cursor = wrapText(ctx, text, x + pad, cursor, contentW, valueSize);
+      cursor += GAP_SECTION;
     }
   }
+
   ctx.restore();
 }
 
