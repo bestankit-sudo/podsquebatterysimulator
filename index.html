@@ -1266,6 +1266,7 @@ input[type="number"]:focus { border-color: var(--amber); }
             <li>Field labels (NOTES, INTENSITY, etc.): <strong>600 weight</strong>, uppercase, <strong>14 &times; scale</strong> px (min 8 px)</li>
             <li>Field values: <strong>700 weight (bold)</strong>, <strong>18 &times; scale</strong> px (min 9 px)</li>
             <li>Position label (FRONT L, RIGHT, etc.): <strong>600 weight</strong>, same as field label size, <strong>#666666</strong></li>
+            <li>Text baseline offset from center: <strong>fontSize &times; 0.35</strong></li>
           </ul>
         </div>
         <div class="assumption-cat">
@@ -1279,24 +1280,65 @@ input[type="number"]:focus { border-color: var(--amber); }
           </ul>
         </div>
         <div class="assumption-cat">
-          <h4>Spacing (Center-to-Center)</h4>
+          <h4>Spacing (Center-to-Center Pitch Model)</h4>
           <ul>
-            <li>All vertical spacing is measured <strong>center-to-center</strong> between elements</li>
-            <li>Brand &rarr; Flavour name: tight &mdash; <strong>brandSize/2 + 1&times;scale + nameSize/2</strong> (center-to-center)</li>
-            <li>Label &rarr; Value (e.g. &ldquo;NOTES&rdquo; center &rarr; value center): <strong>20 &times; scale</strong> px (min 12 px)</li>
-            <li>Value &rarr; next Label (section break): <strong>28 &times; scale</strong> px (min 16 px)</li>
+            <li><strong>All</strong> vertical spacing is measured center-to-center, never edge-to-edge</li>
+            <li>Cursor tracks the <strong>vertical center</strong> of the current element at all times</li>
+            <li>Two pitches govern the entire card:</li>
+          </ul>
+          <table style="width:100%; font-family:var(--font-mono); font-size:10px; color:var(--text); margin:4px 0 6px; border-collapse:collapse;">
+            <tr style="border-bottom:1px solid var(--border);">
+              <td style="padding:3px 6px;"><strong>PITCH_LV</strong></td>
+              <td style="padding:3px 6px;">Label center &rarr; Value center</td>
+              <td style="padding:3px 6px;"><strong>20 &times; scale</strong> (min 12 px)</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border);">
+              <td style="padding:3px 6px;"><strong>PITCH_SEC</strong></td>
+              <td style="padding:3px 6px;">Value center &rarr; next Label center</td>
+              <td style="padding:3px 6px;"><strong>28 &times; scale</strong> (min 16 px)</td>
+            </tr>
+          </table>
+          <ul>
+            <li>Brand &rarr; Flavour name: tight &mdash; <strong>brandSize/2 + 1&times;scale + nameSize/2</strong></li>
+            <li>Flavour name &rarr; first field label: <strong>PITCH_SEC</strong> (same as all other section breaks)</li>
+            <li>Every label &rarr; its value: <strong>PITCH_LV</strong> (NOTES&rarr;text, INTENSITY&rarr;dots, DECAF&rarr;YES/NO, etc.)</li>
+            <li>Every value &rarr; next label: <strong>PITCH_SEC</strong> (notes text&rarr;BEST SERVED AS, dots&rarr;BITTERNESS, etc.)</li>
             <li>Both pitches scale proportionally with card size and field count</li>
           </ul>
+        </div>
+        <div class="assumption-cat">
+          <h4>Vertical Rhythm Diagram</h4>
+          <pre style="font-family:var(--font-mono); font-size:9px; color:var(--text-dim); line-height:1.5; margin:0; white-space:pre;">
+  NESPRESSO (brand center)
+    &darr; tight (brandSize/2 + 1&times;S + nameSize/2)
+  Arpeggio Decaffeinato (flavour center)
+    &darr; PITCH_SEC (28&times;S)
+  NOTES (label center)
+    &darr; PITCH_LV (20&times;S)
+  Cocoa, Creamy &amp; Intense (value center)
+    &darr; PITCH_SEC (28&times;S)
+  BEST SERVED AS (label center)
+    &darr; PITCH_LV (20&times;S)
+  Espresso (value center)
+    &darr; PITCH_SEC (28&times;S)
+  INTENSITY (label center)
+    &darr; PITCH_LV (20&times;S)
+  ●●●●●●●●●○ (dot row center)
+    &darr; PITCH_SEC (28&times;S)
+  BITTERNESS (label center)
+    &darr; PITCH_LV (20&times;S)
+  ●●●●●●●○○○ (dot row center)</pre>
         </div>
         <div class="assumption-cat">
           <h4>Intensity / Bitterness Dots</h4>
           <ul>
             <li>10 circles total &mdash; filled (&#x25CF;) for value, outlined (&#x25CB;) for remainder</li>
             <li>Dot radius: <strong>5 &times; scale</strong> px (min 2 px)</li>
-            <li>Dot spacing (center-to-center): <strong>14 &times; scale</strong> px (min 7 px)</li>
+            <li>Dot spacing (center-to-center horizontal): <strong>14 &times; scale</strong> px (min 7 px)</li>
             <li>Filled dots: black fill <strong>#000</strong> + <strong>1.5 px</strong> stroke</li>
             <li>Empty dots: <strong>1.5 px</strong> stroke, no fill</li>
             <li>Number in parentheses after dots, e.g. (7)</li>
+            <li>Dot row center used for vertical PITCH_LV / PITCH_SEC calculations</li>
             <li>Alternative: plain number mode &mdash; &ldquo;7/10&rdquo; in bold value size</li>
           </ul>
         </div>
