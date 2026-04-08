@@ -2182,6 +2182,13 @@ function drawCoffeeCard(ctx, coffee, fields, x, y, w, h, posLabel, numericMode) 
 
   ctx.fillStyle = '#000000';
 
+  // Unified drawing: every field follows the same vertical rhythm.
+  // Brand and Flavour name are special (no label row). All others:
+  //   curY → draw label → advance labelSize + GAP_LABEL_VALUE
+  //        → draw value → advance valueHeight + GAP_SECTION
+  // This ensures GAP_SECTION is always measured from the same
+  // baseline offset, giving visually identical spacing.
+
   for (let fi = 0; fi < fields.length; fi++) {
     if (curY > y + h - pad) break;
     const key = fields[fi];
@@ -2199,42 +2206,31 @@ function drawCoffeeCard(ctx, coffee, fields, x, y, w, h, posLabel, numericMode) 
       curY = wrapText(ctx, String(val), x + pad, curY + nameSize, contentW, nameSize + 2);
       curY += GAP_SECTION;
     }
-    else if (key === 'intensity' || key === 'bitterness') {
-      const lbl = key === 'intensity' ? 'INTENSITY' : 'BITTERNESS';
+    else {
+      // ── Label row (same for every remaining field) ──
+      const labels = {
+        tasting: 'NOTES', remarks: 'MY COMMENTS', cupSize: 'BEST SERVED AS',
+        intensity: 'INTENSITY', bitterness: 'BITTERNESS', decaf: 'DECAF'
+      };
       ctx.font = '600 ' + labelSize + 'px "IBM Plex Sans", sans-serif';
       ctx.fillStyle = '#000000';
-      ctx.fillText(lbl, x + pad, curY + labelSize);
+      ctx.fillText(labels[key] || key.toUpperCase(), x + pad, curY + labelSize);
       curY += labelSize + GAP_LABEL_VALUE;
 
-      if (numericMode === 'dots') {
+      // ── Value row ──
+      if ((key === 'intensity' || key === 'bitterness') && numericMode === 'dots') {
         drawDotRating(ctx, val, 10, x + pad, curY + dotR, dotR, dotSpacing);
         curY += dotR * 2 + GAP_SECTION;
       } else {
         ctx.font = '700 ' + valueSize + 'px "IBM Plex Sans", sans-serif';
         ctx.fillStyle = '#000000';
-        ctx.fillText(val + '/10', x + pad, curY + valueSize);
-        curY += valueSize + GAP_SECTION;
+        let text;
+        if (key === 'intensity' || key === 'bitterness') text = val + '/10';
+        else if (key === 'decaf') text = val ? 'YES' : 'NO';
+        else text = String(val);
+        curY = wrapText(ctx, text, x + pad, curY + valueSize, contentW, valueSize + 2);
+        curY += GAP_SECTION;
       }
-    }
-    else if (key === 'decaf') {
-      ctx.font = '600 ' + labelSize + 'px "IBM Plex Sans", sans-serif';
-      ctx.fillStyle = '#000000';
-      ctx.fillText('DECAF', x + pad, curY + labelSize);
-      curY += labelSize + GAP_LABEL_VALUE;
-      ctx.font = '700 ' + valueSize + 'px "IBM Plex Sans", sans-serif';
-      ctx.fillText(val ? 'YES' : 'NO', x + pad, curY + valueSize);
-      curY += valueSize + GAP_SECTION;
-    }
-    else {
-      const labels = { tasting: 'NOTES', remarks: 'MY COMMENTS', cupSize: 'BEST SERVED AS' };
-      const lbl = labels[key] || key.toUpperCase();
-      ctx.font = '600 ' + labelSize + 'px "IBM Plex Sans", sans-serif';
-      ctx.fillStyle = '#000000';
-      ctx.fillText(lbl, x + pad, curY + labelSize);
-      curY += labelSize + GAP_LABEL_VALUE;
-      ctx.font = '700 ' + valueSize + 'px "IBM Plex Sans", sans-serif';
-      curY = wrapText(ctx, String(val), x + pad, curY + valueSize, contentW, valueSize + 2);
-      curY += GAP_SECTION;
     }
   }
   ctx.restore();
