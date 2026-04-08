@@ -1373,7 +1373,7 @@ input[type="number"]:focus { border-color: var(--amber); }
               <td>Dot Radius</td><td>Circle</td>
               <td><strong>3 px</strong></td>
               <td><strong>4 px</strong></td><td style="color:var(--amber);">+1</td>
-              <td><strong>15 px</strong></td><td style="color:var(--amber);">+11</td>
+              <td><strong>8 px</strong></td><td style="color:var(--amber);">+4</td>
             </tr>
             <tr>
               <td>Dot Spacing</td><td>Circle</td>
@@ -1382,13 +1382,13 @@ input[type="number"]:focus { border-color: var(--amber); }
               <td><strong>13 px</strong></td><td style="color:var(--amber);">+2</td>
             </tr>
             <tr>
-              <td>Label-to-Value</td><td>Spacing</td>
+              <td>Label-to-Value (LV)</td><td>Spacing</td>
               <td><strong>16 px</strong></td>
               <td><strong>22 px</strong></td><td style="color:var(--amber);">+6</td>
               <td><strong>28 px</strong></td><td style="color:var(--amber);">+6</td>
             </tr>
             <tr>
-              <td>Section Break</td><td>Spacing</td>
+              <td>Section Break (SEC)</td><td>Spacing</td>
               <td><strong>22 px</strong></td>
               <td><strong>32 px</strong></td><td style="color:var(--amber);">+10</td>
               <td><strong>38 px</strong></td><td style="color:var(--amber);">+6</td>
@@ -2270,7 +2270,7 @@ function drawCoffeeCard(ctx, coffee, fields, x, y, w, h, posLabel, numericMode, 
 
   // ── Per-layout profiles: fixed pixel values ──
   const PROFILES = {
-    1: { brand:22, name:44, label:16, value:22, dotR:15, dotSp:13, pitchLV:28, pitchSec:38, pad:15 },
+    1: { brand:22, name:44, label:16, value:22, dotR:8, dotSp:13, pitchLV:28, pitchSec:38, pad:15 },
     2: { brand:18, name:36, label:14, value:18, dotR:4, dotSp:11, pitchLV:22, pitchSec:32, pad:15 },
     4: { brand:12, name:22, label:10, value:12, dotR:3, dotSp:8, pitchLV:16, pitchSec:22, pad:15 }
   };
