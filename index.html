@@ -832,14 +832,6 @@ input[type="number"]:focus { border-color: var(--amber); }
 }
 .einkimg-toggle:hover { color: var(--text); border-color: var(--text-dim); }
 
-.einkimg-spec-tabs { display:flex; gap:4px; margin-bottom:6px; }
-.einkimg-spec-tab {
-  font-family:var(--font-mono); font-size:9px; font-weight:600;
-  padding:3px 10px; border:1px solid var(--border); border-radius:4px;
-  background:transparent; color:var(--text-muted); cursor:pointer; transition:all .15s;
-}
-.einkimg-spec-tab:hover { color:var(--text); border-color:var(--text-dim); }
-.einkimg-spec-tab.active { color:var(--amber); border-color:var(--amber); background:rgba(245,158,11,.08); }
 .einkimg-spec-table {
   width:100%; font-family:var(--font-mono); font-size:9px; color:var(--text);
   border-collapse:collapse; margin:4px 0 8px;
@@ -1342,66 +1334,71 @@ input[type="number"]:focus { border-color: var(--amber); }
           </ul>
         </div>
 
-        <!-- Per-layout profile tabs -->
+        <!-- Per-layout profile comparison -->
         <div class="assumption-cat" style="grid-column: 1 / -1;">
           <h4>Per-Layout Profiles (Fixed Pixel Values)</h4>
-          <div class="einkimg-spec-tabs">
-            <button class="einkimg-spec-tab active" onclick="switchSpecTab(1)">1 Coffee</button>
-            <button class="einkimg-spec-tab" onclick="switchSpecTab(2)">2 Coffees</button>
-            <button class="einkimg-spec-tab" onclick="switchSpecTab(4)">3&ndash;4 Coffees</button>
-          </div>
-
-          <!-- 1 Coffee -->
-          <div id="spec-tab-1" class="einkimg-spec-content">
-            <p style="font-family:var(--font-mono); font-size:9px; color:var(--text-dim); margin:0 0 4px;">Full canvas &mdash; top-aligned, large text</p>
-            <table class="einkimg-spec-table">
-              <tr><th>Property</th><th>Type</th><th>Value</th></tr>
-              <tr><td>Brand</td><td>Font size</td><td><strong>22 px</strong></td></tr>
-              <tr><td>Flavour Name</td><td>Font size</td><td><strong>44 px</strong></td></tr>
-              <tr><td>Field Label</td><td>Font size</td><td><strong>16 px</strong></td></tr>
-              <tr><td>Field Value</td><td>Font size</td><td><strong>22 px</strong></td></tr>
-              <tr><td>Dot Radius</td><td>Circle</td><td><strong>5 px</strong></td></tr>
-              <tr><td>Dot Spacing</td><td>Circle</td><td><strong>13 px</strong></td></tr>
-              <tr><td>PITCH_LV</td><td>Spacing</td><td><strong>28 px</strong></td></tr>
-              <tr><td>PITCH_SEC</td><td>Spacing</td><td><strong>38 px</strong></td></tr>
-              <tr><td>Padding</td><td>Layout</td><td><strong>40 px</strong></td></tr>
-            </table>
-          </div>
-
-          <!-- 2 Coffees -->
-          <div id="spec-tab-2" class="einkimg-spec-content" style="display:none;">
-            <p style="font-family:var(--font-mono); font-size:9px; color:var(--text-dim); margin:0 0 4px;">Half-width cards &mdash; LEFT / RIGHT split</p>
-            <table class="einkimg-spec-table">
-              <tr><th>Property</th><th>Type</th><th>Value</th></tr>
-              <tr><td>Brand</td><td>Font size</td><td><strong>18 px</strong></td></tr>
-              <tr><td>Flavour Name</td><td>Font size</td><td><strong>36 px</strong></td></tr>
-              <tr><td>Field Label</td><td>Font size</td><td><strong>14 px</strong></td></tr>
-              <tr><td>Field Value</td><td>Font size</td><td><strong>18 px</strong></td></tr>
-              <tr><td>Dot Radius</td><td>Circle</td><td><strong>4 px</strong></td></tr>
-              <tr><td>Dot Spacing</td><td>Circle</td><td><strong>11 px</strong></td></tr>
-              <tr><td>PITCH_LV</td><td>Spacing</td><td><strong>22 px</strong></td></tr>
-              <tr><td>PITCH_SEC</td><td>Spacing</td><td><strong>32 px</strong></td></tr>
-              <tr><td>Padding</td><td>Layout</td><td><strong>20 px</strong></td></tr>
-            </table>
-          </div>
-
-          <!-- 3-4 Coffees -->
-          <div id="spec-tab-4" class="einkimg-spec-content" style="display:none;">
-            <p style="font-family:var(--font-mono); font-size:9px; color:var(--text-dim); margin:0 0 4px;">Quadrant cards &mdash; 2&times;2 grid, compact</p>
-            <table class="einkimg-spec-table">
-              <tr><th>Property</th><th>Type</th><th>Value</th></tr>
-              <tr><td>Brand</td><td>Font size</td><td><strong>12 px</strong></td></tr>
-              <tr><td>Flavour Name</td><td>Font size</td><td><strong>22 px</strong></td></tr>
-              <tr><td>Field Label</td><td>Font size</td><td><strong>10 px</strong></td></tr>
-              <tr><td>Field Value</td><td>Font size</td><td><strong>12 px</strong></td></tr>
-              <tr><td>Dot Radius</td><td>Circle</td><td><strong>3 px</strong></td></tr>
-              <tr><td>Dot Spacing</td><td>Circle</td><td><strong>8 px</strong></td></tr>
-              <tr><td>PITCH_LV</td><td>Spacing</td><td><strong>16 px</strong></td></tr>
-              <tr><td>PITCH_SEC</td><td>Spacing</td><td><strong>22 px</strong></td></tr>
-              <tr><td>Padding</td><td>Layout</td><td><strong>14 px</strong></td></tr>
-            </table>
-          </div>
-
+          <table class="einkimg-spec-table">
+            <tr>
+              <th>Property</th><th>Type</th>
+              <th>3&ndash;4 Coffees</th>
+              <th>2 Coffees</th><th></th>
+              <th>1 Coffee</th><th></th>
+            </tr>
+            <tr>
+              <td>Brand</td><td>Font size</td>
+              <td><strong>12 px</strong></td>
+              <td><strong>18 px</strong></td><td style="color:var(--amber);">+6</td>
+              <td><strong>22 px</strong></td><td style="color:var(--amber);">+4</td>
+            </tr>
+            <tr>
+              <td>Flavour Name</td><td>Font size</td>
+              <td><strong>22 px</strong></td>
+              <td><strong>36 px</strong></td><td style="color:var(--amber);">+14</td>
+              <td><strong>44 px</strong></td><td style="color:var(--amber);">+8</td>
+            </tr>
+            <tr>
+              <td>Field Label</td><td>Font size</td>
+              <td><strong>10 px</strong></td>
+              <td><strong>14 px</strong></td><td style="color:var(--amber);">+4</td>
+              <td><strong>16 px</strong></td><td style="color:var(--amber);">+2</td>
+            </tr>
+            <tr>
+              <td>Field Value</td><td>Font size</td>
+              <td><strong>12 px</strong></td>
+              <td><strong>18 px</strong></td><td style="color:var(--amber);">+6</td>
+              <td><strong>22 px</strong></td><td style="color:var(--amber);">+4</td>
+            </tr>
+            <tr>
+              <td>Dot Radius</td><td>Circle</td>
+              <td><strong>3 px</strong></td>
+              <td><strong>4 px</strong></td><td style="color:var(--amber);">+1</td>
+              <td><strong>5 px</strong></td><td style="color:var(--amber);">+1</td>
+            </tr>
+            <tr>
+              <td>Dot Spacing</td><td>Circle</td>
+              <td><strong>8 px</strong></td>
+              <td><strong>11 px</strong></td><td style="color:var(--amber);">+3</td>
+              <td><strong>13 px</strong></td><td style="color:var(--amber);">+2</td>
+            </tr>
+            <tr>
+              <td>PITCH_LV</td><td>Spacing</td>
+              <td><strong>16 px</strong></td>
+              <td><strong>22 px</strong></td><td style="color:var(--amber);">+6</td>
+              <td><strong>28 px</strong></td><td style="color:var(--amber);">+6</td>
+            </tr>
+            <tr>
+              <td>PITCH_SEC</td><td>Spacing</td>
+              <td><strong>22 px</strong></td>
+              <td><strong>32 px</strong></td><td style="color:var(--amber);">+10</td>
+              <td><strong>38 px</strong></td><td style="color:var(--amber);">+6</td>
+            </tr>
+            <tr>
+              <td>Padding</td><td>Layout</td>
+              <td><strong>14 px</strong></td>
+              <td><strong>20 px</strong></td><td style="color:var(--amber);">+6</td>
+              <td><strong>40 px</strong></td><td style="color:var(--amber);">+20</td>
+            </tr>
+          </table>
         </div>
       </div>
     </section>
@@ -2129,14 +2126,6 @@ function toggleEinkControls(forceCollapse) {
   btn.textContent = collapse ? 'Show Controls' : 'Hide Controls';
 }
 
-function switchSpecTab(n) {
-  document.querySelectorAll('.einkimg-spec-tab').forEach(t => t.classList.toggle('active', parseInt(t.textContent) === n || (n === 4 && t.textContent.includes('3'))));
-  [1, 2, 4].forEach(id => {
-    const el = document.getElementById('spec-tab-' + id);
-    if (el) el.style.display = id === n ? '' : 'none';
-  });
-}
-
 function initEinkImageTab() {
   // Find longest decaf coffee name for pre-selection
   let longestDecafIdx = 0, longestLen = 0;
@@ -2306,11 +2295,12 @@ function drawCoffeeCard(ctx, coffee, fields, x, y, w, h, posLabel, numericMode, 
   // cursor = center of current element; start at center of first element
   let cursor = y + pad + brandSize / 2;
 
-  // ── Position label (top-right, aligned with brand center) ──
+  // ── Position label (top-right, half of label size) ──
+  const posLabelSize = Math.max(5, Math.round(labelSize / 2));
   ctx.fillStyle = '#666666';
-  ctx.font = '600 ' + labelSize + 'px "IBM Plex Sans", sans-serif';
+  ctx.font = '600 ' + posLabelSize + 'px "IBM Plex Sans", sans-serif';
   ctx.textAlign = 'right';
-  ctx.fillText(posLabel, x + w - pad, cursor + labelSize * 0.35);
+  ctx.fillText(posLabel, x + w - pad, cursor + posLabelSize * 0.35);
   ctx.textAlign = 'left';
   ctx.fillStyle = '#000000';
 
@@ -2360,11 +2350,23 @@ function drawCoffeeCard(ctx, coffee, fields, x, y, w, h, posLabel, numericMode, 
     ctx.fillStyle = '#000000';
     ctx.fillText(LABELS[key] || key.toUpperCase(), x + pad, cursor + labelSize * 0.35);
 
-    // If this is cupSize and decaf is selected, show "DECAF" right-aligned on same row
+    // If this is cupSize and decaf is selected, show "DECAF" badge right-aligned
     if (key === 'cupSize' && hasDecaf && coffee.decaf) {
-      ctx.textAlign = 'right';
-      ctx.fillText('DECAF', x + pad + contentW, cursor + labelSize * 0.35);
-      ctx.textAlign = 'left';
+      ctx.font = '600 ' + labelSize + 'px "IBM Plex Sans", sans-serif';
+      const decafText = 'DECAF';
+      const decafW = ctx.measureText(decafText).width;
+      const badgePadH = 4, badgePadV = 2;
+      const badgeX = x + pad + contentW - decafW - badgePadH * 2;
+      const badgeY = cursor - labelSize / 2 - badgePadV;
+      const badgeW = decafW + badgePadH * 2;
+      const badgeH = labelSize + badgePadV * 2;
+      // Square border (no radius)
+      ctx.strokeStyle = '#000000';
+      ctx.lineWidth = 1.5;
+      ctx.strokeRect(badgeX, badgeY, badgeW, badgeH);
+      // Text centered in badge
+      ctx.fillStyle = '#000000';
+      ctx.fillText(decafText, badgeX + badgePadH, cursor + labelSize * 0.35);
     }
 
     cursor += PITCH_LV;
