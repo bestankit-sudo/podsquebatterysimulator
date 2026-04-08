@@ -1273,8 +1273,9 @@ input[type="number"]:focus { border-color: var(--amber); }
           <h4>Scaling</h4>
           <ul>
             <li>Base scale: <strong>min(cardWidth / 400, cardHeight / 500)</strong></li>
+            <li>Layout multiplier &mdash; 1 coffee: <strong>1.6&times;</strong>, 2 coffees: <strong>1.15&times;</strong>, 3&ndash;4 coffees: <strong>1.0&times;</strong></li>
             <li>Field count shrink &mdash; &le;4 fields: <strong>1.0&times;</strong>, 5&ndash;6 fields: <strong>0.82&times;</strong>, 7&ndash;8 fields: <strong>0.7&times;</strong></li>
-            <li>Final scale = base &times; field shrink &mdash; all sizes are multiplied by this</li>
+            <li>Final scale = base &times; layout multiplier &times; field shrink &mdash; all sizes are multiplied by this</li>
             <li>Card padding: <strong>5%</strong> of card width on all sides</li>
             <li>Content clipped to card bounds to prevent overflow</li>
           </ul>
@@ -2211,7 +2212,7 @@ function drawDotRating(ctx, value, max, x, cy, dotRadius, spacing) {
 // Brand → Flavour is special: tight, not pitched.
 // ══════════════════════════════════════════════════════════════
 
-function drawCoffeeCard(ctx, coffee, fields, x, y, w, h, posLabel, numericMode) {
+function drawCoffeeCard(ctx, coffee, fields, x, y, w, h, posLabel, numericMode, coffeeCount) {
   ctx.save();
   ctx.beginPath();
   ctx.rect(x, y, w, h);
@@ -2224,7 +2225,11 @@ function drawCoffeeCard(ctx, coffee, fields, x, y, w, h, posLabel, numericMode) 
   const fieldShrink = fields.length <= 4 ? 1.0
                     : fields.length <= 6 ? 0.82
                     : 0.7;
-  const S = baseScale * fieldShrink;
+  // Layout multiplier: fewer coffees → bigger text to fill the space
+  const layoutMult = coffeeCount === 1 ? 1.6
+                   : coffeeCount === 2 ? 1.15
+                   : 1.0;
+  const S = baseScale * fieldShrink * layoutMult;
 
   // ── Spec: Typography (all × S) ──
   const brandSize = Math.max(10, Math.round(16 * S));
@@ -2345,12 +2350,12 @@ function generateEinkImage() {
     const count = coffees.length;
 
     if (count === 1) {
-      drawCoffeeCard(ctx, coffees[0], fields, 0, 0, res.w, res.h, 'FRONT', numericMode);
+      drawCoffeeCard(ctx, coffees[0], fields, 0, 0, res.w, res.h, 'FRONT', numericMode, count);
     }
     else if (count === 2) {
       const hw = Math.floor(res.w / 2);
-      drawCoffeeCard(ctx, coffees[0], fields, 0, 0, hw, res.h, 'LEFT', numericMode);
-      drawCoffeeCard(ctx, coffees[1], fields, hw, 0, res.w - hw, res.h, 'RIGHT', numericMode);
+      drawCoffeeCard(ctx, coffees[0], fields, 0, 0, hw, res.h, 'LEFT', numericMode, count);
+      drawCoffeeCard(ctx, coffees[1], fields, hw, 0, res.w - hw, res.h, 'RIGHT', numericMode, count);
       // Vertical divider
       ctx.strokeStyle = '#000000';
       ctx.lineWidth = 2;
@@ -2366,7 +2371,7 @@ function generateEinkImage() {
       const labels = ['FRONT L', 'FRONT R', 'BACK L', 'BACK R'];
       const positions = [[0, 0, hw, hh], [hw, 0, res.w - hw, hh], [0, hh, hw, res.h - hh], [hw, hh, res.w - hw, res.h - hh]];
       for (let i = 0; i < count; i++) {
-        drawCoffeeCard(ctx, coffees[i], fields, positions[i][0], positions[i][1], positions[i][2], positions[i][3], labels[i], numericMode);
+        drawCoffeeCard(ctx, coffees[i], fields, positions[i][0], positions[i][1], positions[i][2], positions[i][3], labels[i], numericMode, count);
       }
       // Dividers
       ctx.strokeStyle = '#000000';
