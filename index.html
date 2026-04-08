@@ -1253,6 +1253,74 @@ input[type="number"]:focus { border-color: var(--amber); }
         <button class="einkimg-btn" onclick="downloadEinkBitmap()">Download Bitmap Array (.h)</button>
       </div>
     </div>
+
+    <section class="assumptions-section">
+      <h3>Rendering Specifications</h3>
+      <div class="assumption-categories">
+        <div class="assumption-cat">
+          <h4>Typography</h4>
+          <ul>
+            <li>Font family: <strong>IBM Plex Sans</strong> (Google Fonts CDN)</li>
+            <li>Brand name: <strong>500 weight</strong>, uppercase, <strong>16 &times; scale</strong> px (min 10 px)</li>
+            <li>Flavour name: <strong>700 weight (bold)</strong>, <strong>32 &times; scale</strong> px (min 14 px)</li>
+            <li>Field labels (NOTES, INTENSITY, etc.): <strong>600 weight</strong>, uppercase, <strong>14 &times; scale</strong> px (min 8 px)</li>
+            <li>Field values: <strong>700 weight (bold)</strong>, <strong>18 &times; scale</strong> px (min 9 px)</li>
+            <li>Position label (FRONT L, RIGHT, etc.): <strong>600 weight</strong>, same as field label size, <strong>#666666</strong></li>
+          </ul>
+        </div>
+        <div class="assumption-cat">
+          <h4>Scaling</h4>
+          <ul>
+            <li>Base scale: <strong>min(cardWidth / 400, cardHeight / 500)</strong></li>
+            <li>Field count shrink &mdash; &le;4 fields: <strong>1.0&times;</strong>, 5&ndash;6 fields: <strong>0.82&times;</strong>, 7&ndash;8 fields: <strong>0.7&times;</strong></li>
+            <li>Final scale = base &times; field shrink &mdash; all sizes are multiplied by this</li>
+            <li>Card padding: <strong>5%</strong> of card width on all sides</li>
+            <li>Content clipped to card bounds to prevent overflow</li>
+          </ul>
+        </div>
+        <div class="assumption-cat">
+          <h4>Spacing</h4>
+          <ul>
+            <li>Brand &rarr; Flavour name: <strong>1 &times; scale</strong> px (min 1 px) &mdash; tight, treated as one unit</li>
+            <li>Label &rarr; Value (e.g. &ldquo;NOTES&rdquo; &rarr; text): <strong>2 &times; scale</strong> px (min 1 px)</li>
+            <li>Section &rarr; Section (between field blocks): <strong>10 &times; scale</strong> px (min 4 px)</li>
+            <li>All three gaps scale proportionally with card size and field count</li>
+          </ul>
+        </div>
+        <div class="assumption-cat">
+          <h4>Intensity / Bitterness Dots</h4>
+          <ul>
+            <li>10 circles total &mdash; filled (&#x25CF;) for value, outlined (&#x25CB;) for remainder</li>
+            <li>Dot radius: <strong>5 &times; scale</strong> px (min 2 px)</li>
+            <li>Dot spacing (center-to-center): <strong>14 &times; scale</strong> px (min 7 px)</li>
+            <li>Filled dots: black fill <strong>#000</strong> + <strong>1.5 px</strong> stroke</li>
+            <li>Empty dots: <strong>1.5 px</strong> stroke, no fill</li>
+            <li>Number in parentheses after dots, e.g. (7)</li>
+            <li>Alternative: plain number mode &mdash; &ldquo;7/10&rdquo; in bold value size</li>
+          </ul>
+        </div>
+        <div class="assumption-cat">
+          <h4>Layout</h4>
+          <ul>
+            <li>1 coffee: full canvas, label <strong>FRONT</strong></li>
+            <li>2 coffees: left/right split, <strong>2 px</strong> vertical divider, labels <strong>LEFT / RIGHT</strong></li>
+            <li>3&ndash;4 coffees: 2&times;2 grid, <strong>2 px</strong> dividers, labels <strong>FRONT L / FRONT R / BACK L / BACK R</strong></li>
+            <li>Background: <strong>#FFFFFF</strong> (white), all text: <strong>#000000</strong> (black)</li>
+            <li>Divider lines: <strong>#000000</strong>, <strong>2 px</strong> width</li>
+          </ul>
+        </div>
+        <div class="assumption-cat">
+          <h4>Target Resolutions (Landscape)</h4>
+          <ul>
+            <li>3.68&quot; display: <strong>792 &times; 528</strong> px</li>
+            <li>3.97&quot; display: <strong>800 &times; 480</strong> px (default &mdash; best mechanical fit)</li>
+            <li>3.98&quot; display: <strong>768 &times; 552</strong> px</li>
+            <li>Preview renders at <strong>2&times; DPR</strong> for sharpness, downloads at target resolution</li>
+            <li>Bitmap export: <strong>1 bit per pixel</strong>, MSB first, row-major, white = 1, black = 0</li>
+          </ul>
+        </div>
+      </div>
+    </section>
   </main>
 </div>
 
