@@ -1300,7 +1300,7 @@ input[type="number"]:focus { border-color: var(--amber); }
           </table>
           <ul>
             <li>Brand &rarr; Flavour name: tight &mdash; <strong>brandSize/2 + 1&times;scale + nameSize/2</strong></li>
-            <li>Flavour name &rarr; first field label: <strong>PITCH_SEC</strong> (same as all other section breaks)</li>
+            <li>Flavour name &rarr; first field label: <strong>PITCH_SEC + (nameSize &minus; valueSize) / 2</strong> &mdash; compensates for larger font to match visual white space of other section breaks</li>
             <li>Every label &rarr; its value: <strong>PITCH_LV</strong> (NOTES&rarr;text, INTENSITY&rarr;dots, DECAF&rarr;YES/NO, etc.)</li>
             <li>Every value &rarr; next label: <strong>PITCH_SEC</strong> (notes text&rarr;BEST SERVED AS, dots&rarr;BITTERNESS, etc.)</li>
             <li>Both pitches scale proportionally with card size and field count</li>
@@ -1312,7 +1312,7 @@ input[type="number"]:focus { border-color: var(--amber); }
   NESPRESSO (brand center)
     &darr; tight (brandSize/2 + 1&times;S + nameSize/2)
   Arpeggio Decaffeinato (flavour center)
-    &darr; PITCH_SEC (28&times;S)
+    &darr; PITCH_SEC + (nameSize-valueSize)/2
   NOTES (label center)
     &darr; PITCH_LV (20&times;S)
   Cocoa, Creamy &amp; Intense (value center)
@@ -2277,8 +2277,11 @@ function drawCoffeeCard(ctx, coffee, fields, x, y, w, h, posLabel, numericMode) 
       ctx.font = '700 ' + nameSize + 'px "IBM Plex Sans", sans-serif';
       ctx.fillStyle = '#000000';
       cursor = wrapText(ctx, String(val), x + pad, cursor, contentW, nameSize);
-      // After flavour, pitch to next label center
-      cursor += PITCH_SEC;
+      // Compensate for larger font: match the visual white space of
+      // a normal value→label transition (PITCH_SEC with valueSize font).
+      // White space in normal case = PITCH_SEC - valueSize/2 - labelSize/2
+      // So: advance = nameSize/2 + that white space + labelSize/2
+      cursor += PITCH_SEC + (nameSize - valueSize) / 2;
       continue;
     }
 
