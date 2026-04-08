@@ -2123,7 +2123,7 @@ const EINKIMG_FIELDS = [
   { key: 'brand', label: 'Brand Name', defaultOn: true },
   { key: 'flavour', label: 'Flavour Name', defaultOn: true },
   { key: 'tasting', label: 'Flavour', defaultOn: true },
-  { key: 'remarks', label: 'Review', defaultOn: false },
+  { key: 'remarks', label: 'Your Review', defaultOn: false },
   { key: 'decaf', label: 'Decaf Yes/No', defaultOn: false },
   { key: 'cupSize', label: 'Cup Size', defaultOn: true },
   { key: 'intensity', label: 'Intensity', defaultOn: true },
@@ -2315,7 +2315,7 @@ function drawCoffeeCard(ctx, coffee, fields, x, y, w, h, posLabel, numericMode, 
 
   // ── Field loop ──
   const LABELS = {
-    tasting: 'NOTES', remarks: 'REVIEW', cupSize: 'BEST SERVED AS',
+    tasting: 'NOTES', remarks: 'YOUR REVIEW', cupSize: 'BEST SERVED AS',
     intensity: 'INTENSITY', bitterness: 'BITTERNESS', decaf: 'DECAF'
   };
 
@@ -2392,17 +2392,32 @@ function drawCoffeeCard(ctx, coffee, fields, x, y, w, h, posLabel, numericMode, 
     cursor += PITCH_SEC;
   }
 
-  // ── Review (remarks): reserved bottom space, always last ──
-  if (hasRemarks && coffee.remarks && cursor <= y + h - pad) {
+  // ── Your Review (remarks): reserved 2-line space, always last ──
+  if (hasRemarks && cursor <= y + h - pad) {
+    const lineH = valueSize + 2;
+
     ctx.font = '600 ' + labelSize + 'px "IBM Plex Sans", sans-serif';
     ctx.fillStyle = '#000000';
-    ctx.fillText('REVIEW', x + pad, cursor + labelSize * 0.35);
+    ctx.fillText('YOUR REVIEW', x + pad, cursor + labelSize * 0.35);
     cursor += PITCH_LV;
 
-    ctx.font = '700 ' + valueSize + 'px "IBM Plex Sans", sans-serif';
-    ctx.fillStyle = '#000000';
-    // Allow up to 2 lines, clipped by card bounds
-    wrapText(ctx, String(coffee.remarks), x + pad, cursor, contentW, valueSize);
+    // Draw 2 lines for writing area
+    ctx.strokeStyle = '#cccccc';
+    ctx.lineWidth = 0.5;
+    for (let ln = 0; ln < 2; ln++) {
+      const lineY = cursor + valueSize * 0.35 + 2 + ln * lineH;
+      ctx.beginPath();
+      ctx.moveTo(x + pad, lineY);
+      ctx.lineTo(x + pad + contentW, lineY);
+      ctx.stroke();
+    }
+
+    // Render text over the lines (up to 2 lines, clipped by card bounds)
+    if (coffee.remarks) {
+      ctx.font = '700 ' + valueSize + 'px "IBM Plex Sans", sans-serif';
+      ctx.fillStyle = '#000000';
+      wrapText(ctx, String(coffee.remarks), x + pad, cursor, contentW, valueSize);
+    }
   }
 
   ctx.restore();
