@@ -1180,7 +1180,7 @@ input[type="number"]:focus { border-color: var(--amber); }
   <header class="sticky-header">
     <div class="header-top">
       <h1>E-Ink Image Generator</h1>
-      <span class="tag">PNG Export</span>
+      <span class="tag">PNG + Bitmap Export</span>
     </div>
 
     <div class="control-grid einkimg-grid">
@@ -1248,7 +1248,10 @@ input[type="number"]:focus { border-color: var(--amber); }
   <main style="padding: 16px;">
     <div id="einkimg-preview-wrap">
       <canvas id="einkimg-canvas" width="800" height="480"></canvas>
-      <button id="einkimg-download-btn" class="einkimg-btn" style="display:none;" onclick="downloadEinkPNG()">Download PNG</button>
+      <div id="einkimg-download-btns" style="display:none; gap:8px; flex-wrap:wrap;">
+        <button class="einkimg-btn" onclick="downloadEinkPNG()">Download PNG</button>
+        <button class="einkimg-btn" onclick="downloadEinkBitmap()">Download Bitmap Array (.h)</button>
+      </div>
     </div>
   </main>
 </div>
@@ -2217,7 +2220,7 @@ function generateEinkImage() {
       ctx.stroke();
     }
 
-    document.getElementById('einkimg-download-btn').style.display = 'inline-block';
+    document.getElementById('einkimg-download-btns').style.display = 'flex';
   });
 }
 
@@ -2236,6 +2239,70 @@ function downloadEinkPNG() {
   link.download = 'podsque-eink-' + Date.now() + '.png';
   link.href = off.toDataURL('image/png');
   link.click();
+}
+
+function downloadEinkBitmap() {
+  const canvas = document.getElementById('einkimg-canvas');
+  const tw = parseInt(canvas.dataset.targetW) || canvas.width;
+  const th = parseInt(canvas.dataset.targetH) || canvas.height;
+
+  // Render at target resolution
+  const off = document.createElement('canvas');
+  off.width = tw;
+  off.height = th;
+  const octx = off.getContext('2d');
+  octx.imageSmoothingEnabled = true;
+  octx.imageSmoothingQuality = 'high';
+  octx.drawImage(canvas, 0, 0, tw, th);
+
+  const imageData = octx.getImageData(0, 0, tw, th);
+  const pixels = imageData.data;
+
+  // Convert to monochrome: 1 bit per pixel, MSB first
+  // White (luminance >= 128) = 1, Black = 0
+  const totalPixels = tw * th;
+  const byteCount = Math.ceil(totalPixels / 8);
+  const bitmap = new Uint8Array(byteCount);
+
+  for (let i = 0; i < totalPixels; i++) {
+    const idx = i * 4;
+    const lum = pixels[idx] * 0.299 + pixels[idx + 1] * 0.587 + pixels[idx + 2] * 0.114;
+    if (lum >= 128) {
+      bitmap[Math.floor(i / 8)] |= (0x80 >> (i % 8));
+    }
+  }
+
+  // Generate C header file
+  const arrayName = 'eink_image_' + tw + 'x' + th;
+  let header = '// Podsque E-Ink Monochrome Bitmap\n';
+  header += '// Resolution: ' + tw + ' x ' + th + '\n';
+  header += '// Format: 1 bit per pixel, MSB first, row-major\n';
+  header += '// White = 1, Black = 0\n';
+  header += '// Total bytes: ' + byteCount + '\n';
+  header += '// Generated: ' + new Date().toISOString() + '\n\n';
+  header += '#ifndef EINK_IMAGE_H\n#define EINK_IMAGE_H\n\n';
+  header += '#include <stdint.h>\n\n';
+  header += '#define EINK_IMAGE_WIDTH  ' + tw + '\n';
+  header += '#define EINK_IMAGE_HEIGHT ' + th + '\n';
+  header += '#define EINK_IMAGE_BYTES  ' + byteCount + '\n\n';
+  header += 'static const uint8_t ' + arrayName + '[' + byteCount + '] = {\n';
+
+  const bytesPerLine = 16;
+  for (let i = 0; i < byteCount; i++) {
+    if (i % bytesPerLine === 0) header += '  ';
+    header += '0x' + bitmap[i].toString(16).padStart(2, '0');
+    if (i < byteCount - 1) header += ', ';
+    if ((i + 1) % bytesPerLine === 0) header += '\n';
+  }
+  if (byteCount % bytesPerLine !== 0) header += '\n';
+  header += '};\n\n#endif // EINK_IMAGE_H\n';
+
+  const blob = new Blob([header], { type: 'text/plain' });
+  const link = document.createElement('a');
+  link.download = 'podsque_eink_' + tw + 'x' + th + '.h';
+  link.href = URL.createObjectURL(blob);
+  link.click();
+  URL.revokeObjectURL(link.href);
 }
 
 // ── Auto-setup range sliders with embedded value pill ──
