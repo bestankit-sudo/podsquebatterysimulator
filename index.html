@@ -807,6 +807,31 @@ input[type="number"]:focus { border-color: var(--amber); }
   margin-left: 4px;
 }
 
+.einkimg-accordion {
+  overflow: hidden;
+  transition: max-height .3s ease, opacity .2s ease;
+  max-height: 600px;
+  opacity: 1;
+}
+.einkimg-accordion.collapsed {
+  max-height: 0;
+  opacity: 0;
+}
+.einkimg-toggle {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all .15s;
+  margin-left: auto;
+}
+.einkimg-toggle:hover { color: var(--text); border-color: var(--text-dim); }
+
 .einkimg-spec-tabs { display:flex; gap:4px; margin-bottom:6px; }
 .einkimg-spec-tab {
   font-family:var(--font-mono); font-size:9px; font-weight:600;
@@ -1200,8 +1225,10 @@ input[type="number"]:focus { border-color: var(--amber); }
     <div class="header-top">
       <h1>E-Ink Image Generator</h1>
       <span class="tag">PNG + Bitmap Export</span>
+      <button class="einkimg-toggle" onclick="toggleEinkControls()" id="einkimg-toggle-btn">Hide Controls</button>
     </div>
 
+    <div id="einkimg-accordion" class="einkimg-accordion">
     <div class="control-grid einkimg-grid">
       <!-- Coffee Selection -->
       <div class="control-panel">
@@ -1259,9 +1286,10 @@ input[type="number"]:focus { border-color: var(--amber); }
           </div>
         </div>
 
-        <button class="einkimg-btn" onclick="generateEinkImage()">Generate PNG</button>
+        <button class="einkimg-btn" onclick="generateEinkImage()">Generate Preview</button>
       </div>
     </div>
+    </div><!-- /einkimg-accordion -->
   </header>
 
   <main style="padding: 16px;">
@@ -1336,12 +1364,16 @@ input[type="number"]:focus { border-color: var(--amber); }
           <div id="spec-tab-1" class="einkimg-spec-content">
             <p style="font-family:var(--font-mono); font-size:9px; color:var(--text-dim); margin:0 0 4px;">Full canvas &mdash; top-aligned, large text</p>
             <table class="einkimg-spec-table">
-              <tr><th>Property</th><th>Value</th><th></th><th>Property</th><th>Value</th></tr>
-              <tr><td>Brand</td><td><strong>22 px</strong></td><td></td><td>Dot Radius</td><td><strong>7 px</strong></td></tr>
-              <tr><td>Flavour Name</td><td><strong>44 px</strong></td><td></td><td>Dot Spacing</td><td><strong>18 px</strong></td></tr>
-              <tr><td>Field Label</td><td><strong>16 px</strong></td><td></td><td>PITCH_LV</td><td><strong>28 px</strong></td></tr>
-              <tr><td>Field Value</td><td><strong>22 px</strong></td><td></td><td>PITCH_SEC</td><td><strong>38 px</strong></td></tr>
-              <tr><td>Padding</td><td><strong>40 px</strong></td><td></td><td></td><td></td></tr>
+              <tr><th>Property</th><th>Type</th><th>Value</th></tr>
+              <tr><td>Brand</td><td>Font size</td><td><strong>22 px</strong></td></tr>
+              <tr><td>Flavour Name</td><td>Font size</td><td><strong>44 px</strong></td></tr>
+              <tr><td>Field Label</td><td>Font size</td><td><strong>16 px</strong></td></tr>
+              <tr><td>Field Value</td><td>Font size</td><td><strong>22 px</strong></td></tr>
+              <tr><td>Dot Radius</td><td>Circle</td><td><strong>7 px</strong></td></tr>
+              <tr><td>Dot Spacing</td><td>Circle</td><td><strong>18 px</strong></td></tr>
+              <tr><td>PITCH_LV</td><td>Spacing</td><td><strong>28 px</strong></td></tr>
+              <tr><td>PITCH_SEC</td><td>Spacing</td><td><strong>38 px</strong></td></tr>
+              <tr><td>Padding</td><td>Layout</td><td><strong>40 px</strong></td></tr>
             </table>
           </div>
 
@@ -1349,12 +1381,16 @@ input[type="number"]:focus { border-color: var(--amber); }
           <div id="spec-tab-2" class="einkimg-spec-content" style="display:none;">
             <p style="font-family:var(--font-mono); font-size:9px; color:var(--text-dim); margin:0 0 4px;">Half-width cards &mdash; LEFT / RIGHT split</p>
             <table class="einkimg-spec-table">
-              <tr><th>Property</th><th>Value</th><th></th><th>Property</th><th>Value</th></tr>
-              <tr><td>Brand</td><td><strong>18 px</strong></td><td></td><td>Dot Radius</td><td><strong>6 px</strong></td></tr>
-              <tr><td>Flavour Name</td><td><strong>36 px</strong></td><td></td><td>Dot Spacing</td><td><strong>15 px</strong></td></tr>
-              <tr><td>Field Label</td><td><strong>14 px</strong></td><td></td><td>PITCH_LV</td><td><strong>22 px</strong></td></tr>
-              <tr><td>Field Value</td><td><strong>18 px</strong></td><td></td><td>PITCH_SEC</td><td><strong>32 px</strong></td></tr>
-              <tr><td>Padding</td><td><strong>20 px</strong></td><td></td><td></td><td></td></tr>
+              <tr><th>Property</th><th>Type</th><th>Value</th></tr>
+              <tr><td>Brand</td><td>Font size</td><td><strong>18 px</strong></td></tr>
+              <tr><td>Flavour Name</td><td>Font size</td><td><strong>36 px</strong></td></tr>
+              <tr><td>Field Label</td><td>Font size</td><td><strong>14 px</strong></td></tr>
+              <tr><td>Field Value</td><td>Font size</td><td><strong>18 px</strong></td></tr>
+              <tr><td>Dot Radius</td><td>Circle</td><td><strong>6 px</strong></td></tr>
+              <tr><td>Dot Spacing</td><td>Circle</td><td><strong>15 px</strong></td></tr>
+              <tr><td>PITCH_LV</td><td>Spacing</td><td><strong>22 px</strong></td></tr>
+              <tr><td>PITCH_SEC</td><td>Spacing</td><td><strong>32 px</strong></td></tr>
+              <tr><td>Padding</td><td>Layout</td><td><strong>20 px</strong></td></tr>
             </table>
           </div>
 
@@ -1362,12 +1398,16 @@ input[type="number"]:focus { border-color: var(--amber); }
           <div id="spec-tab-4" class="einkimg-spec-content" style="display:none;">
             <p style="font-family:var(--font-mono); font-size:9px; color:var(--text-dim); margin:0 0 4px;">Quadrant cards &mdash; 2&times;2 grid, compact</p>
             <table class="einkimg-spec-table">
-              <tr><th>Property</th><th>Value</th><th></th><th>Property</th><th>Value</th></tr>
-              <tr><td>Brand</td><td><strong>12 px</strong></td><td></td><td>Dot Radius</td><td><strong>4 px</strong></td></tr>
-              <tr><td>Flavour Name</td><td><strong>22 px</strong></td><td></td><td>Dot Spacing</td><td><strong>10 px</strong></td></tr>
-              <tr><td>Field Label</td><td><strong>10 px</strong></td><td></td><td>PITCH_LV</td><td><strong>16 px</strong></td></tr>
-              <tr><td>Field Value</td><td><strong>12 px</strong></td><td></td><td>PITCH_SEC</td><td><strong>22 px</strong></td></tr>
-              <tr><td>Padding</td><td><strong>14 px</strong></td><td></td><td></td><td></td></tr>
+              <tr><th>Property</th><th>Type</th><th>Value</th></tr>
+              <tr><td>Brand</td><td>Font size</td><td><strong>12 px</strong></td></tr>
+              <tr><td>Flavour Name</td><td>Font size</td><td><strong>22 px</strong></td></tr>
+              <tr><td>Field Label</td><td>Font size</td><td><strong>10 px</strong></td></tr>
+              <tr><td>Field Value</td><td>Font size</td><td><strong>12 px</strong></td></tr>
+              <tr><td>Dot Radius</td><td>Circle</td><td><strong>4 px</strong></td></tr>
+              <tr><td>Dot Spacing</td><td>Circle</td><td><strong>10 px</strong></td></tr>
+              <tr><td>PITCH_LV</td><td>Spacing</td><td><strong>16 px</strong></td></tr>
+              <tr><td>PITCH_SEC</td><td>Spacing</td><td><strong>22 px</strong></td></tr>
+              <tr><td>Padding</td><td>Layout</td><td><strong>14 px</strong></td></tr>
             </table>
           </div>
 
@@ -2090,6 +2130,14 @@ const EINKIMG_FIELDS = [
   { key: 'bitterness', label: 'Bitterness', defaultOn: true }
 ];
 
+function toggleEinkControls(forceCollapse) {
+  const acc = document.getElementById('einkimg-accordion');
+  const btn = document.getElementById('einkimg-toggle-btn');
+  const collapse = forceCollapse === true ? true : !acc.classList.contains('collapsed');
+  acc.classList.toggle('collapsed', collapse);
+  btn.textContent = collapse ? 'Show Controls' : 'Hide Controls';
+}
+
 function switchSpecTab(n) {
   document.querySelectorAll('.einkimg-spec-tab').forEach(t => t.classList.toggle('active', parseInt(t.textContent) === n || (n === 4 && t.textContent.includes('3'))));
   [1, 2, 4].forEach(id => {
@@ -2423,6 +2471,7 @@ function generateEinkImage() {
     }
 
     document.getElementById('einkimg-download-btns').style.display = 'flex';
+    toggleEinkControls(true); // collapse controls to focus on preview
   });
 }
 
