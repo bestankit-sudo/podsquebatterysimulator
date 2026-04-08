@@ -1296,6 +1296,7 @@ input[type="number"]:focus { border-color: var(--amber); }
             <li>Font weights: Brand <strong>500</strong>, Labels <strong>600</strong>, Flavour/Values <strong>700</strong></li>
             <li>Text baseline offset from center: <strong>fontSize &times; 0.35</strong> (canvas baseline positioning)</li>
             <li>All values are <strong>fixed pixels</strong> per layout &mdash; no scaling formulas</li>
+            <li>Padding: <strong>15 px</strong> on all sides (fixed, all layouts)</li>
             <li>Content clipped to card bounds to prevent overflow</li>
             <li>Dot rendering: filled &#x25CF; black + <strong>1.5 px</strong> stroke, empty &#x25CB; <strong>1.5 px</strong> stroke only</li>
             <li>Dot sizes <strong>vary per layout</strong> &mdash; see profile tabs for exact radius and spacing</li>
@@ -1308,9 +1309,9 @@ input[type="number"]:focus { border-color: var(--amber); }
             <li><strong>All</strong> vertical spacing is measured center-to-center, never edge-to-edge</li>
             <li>Cursor tracks the <strong>vertical center</strong> of the current element</li>
             <li>Brand &rarr; Flavour: tight &mdash; <strong>brandSize/2 + 1 + nameSize/2</strong></li>
-            <li>Flavour &rarr; first label: <strong>PITCH_SEC + (nameSize &minus; valueSize) / 2</strong></li>
-            <li>Every label &rarr; its value: <strong>PITCH_LV</strong></li>
-            <li>Every value &rarr; next label: <strong>PITCH_SEC</strong></li>
+            <li>Flavour &rarr; first label: <strong>Section Break + (nameSize &minus; valueSize) / 2</strong></li>
+            <li>Every label &rarr; its value: <strong>Label-to-Value</strong> pitch</li>
+            <li>Every value &rarr; next label: <strong>Section Break</strong> pitch</li>
             <li>Dots: 10 circles, filled &#x25CF; + 1.5px stroke / empty &#x25CB; 1.5px stroke, number in parens</li>
           </ul>
         </div>
@@ -1381,22 +1382,16 @@ input[type="number"]:focus { border-color: var(--amber); }
               <td><strong>13 px</strong></td><td style="color:var(--amber);">+2</td>
             </tr>
             <tr>
-              <td>PITCH_LV</td><td>Spacing</td>
+              <td>Label-to-Value</td><td>Spacing</td>
               <td><strong>16 px</strong></td>
               <td><strong>22 px</strong></td><td style="color:var(--amber);">+6</td>
               <td><strong>28 px</strong></td><td style="color:var(--amber);">+6</td>
             </tr>
             <tr>
-              <td>PITCH_SEC</td><td>Spacing</td>
+              <td>Section Break</td><td>Spacing</td>
               <td><strong>22 px</strong></td>
               <td><strong>32 px</strong></td><td style="color:var(--amber);">+10</td>
               <td><strong>38 px</strong></td><td style="color:var(--amber);">+6</td>
-            </tr>
-            <tr>
-              <td>Padding</td><td>Layout</td>
-              <td><strong>15 px</strong></td>
-              <td><strong>15 px</strong></td><td style="color:var(--text-dim);">&mdash;</td>
-              <td><strong>15 px</strong></td><td style="color:var(--text-dim);">&mdash;</td>
             </tr>
           </table>
         </div>
