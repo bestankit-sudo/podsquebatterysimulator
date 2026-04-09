@@ -2078,7 +2078,8 @@ function toggleEinkControls(forceCollapse) {
 // ── Profile Simulator ──
 // ══════════════════════════════════════
 
-var PROFILE_OVERRIDES = {};  // global override for drawCoffeeCard
+// Load saved profile overrides from localStorage (persists across sessions)
+var PROFILE_OVERRIDES = JSON.parse(localStorage.getItem('einkProfileOverrides') || '{}');
 let simLayout = 1;
 
 const SIM_DEFAULTS = {
@@ -2097,8 +2098,8 @@ function simSwitchLayout(n) {
   document.getElementById('simLayoutGroup').querySelectorAll('.radio-opt').forEach(opt => {
     opt.classList.toggle('selected', opt.dataset.val === String(n));
   });
-  // Load profile values into sliders
-  const prof = SIM_DEFAULTS[n] || SIM_DEFAULTS[4];
+  // Load saved values if they exist, otherwise use defaults
+  const prof = PROFILE_OVERRIDES[n] || SIM_DEFAULTS[n] || SIM_DEFAULTS[4];
   SIM_FIELDS.forEach((key, i) => {
     document.getElementById(SIM_IDS[i]).value = prof[key];
   });
@@ -2171,6 +2172,7 @@ function simRender() {
 function simSaveProfile() {
   const profile = simReadProfile();
   PROFILE_OVERRIDES[simLayout] = profile;
+  localStorage.setItem('einkProfileOverrides', JSON.stringify(PROFILE_OVERRIDES));
   const label = simLayout === 1 ? '1 coffee' : simLayout === 2 ? '2 coffees' : '3-4 coffees';
   const msg = document.getElementById('simSaveMsg');
   msg.textContent = 'Saved ' + label + ' profile to E-Ink Image';
