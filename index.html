@@ -2279,8 +2279,7 @@ function simRender() {
       ctx.beginPath(); ctx.moveTo(hw,0); ctx.lineTo(hw,res.h); ctx.moveTo(0,hh); ctx.lineTo(res.w,hh); ctx.stroke();
     }
 
-    // Clear override after rendering
-    PROFILE_OVERRIDES = {};
+    // Overrides persist — E-Ink Image tab will use these values
   });
 }
 
