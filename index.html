@@ -1299,125 +1299,6 @@ input[type="number"]:focus { border-color: var(--amber); }
       </div>
     </div>
 
-    <section class="assumptions-section">
-      <h3>Rendering Specifications</h3>
-      <div class="assumption-categories">
-
-        <!-- Common specs (all layouts) -->
-        <div class="assumption-cat">
-          <h4>Common</h4>
-          <ul>
-            <li>Font family: <strong>IBM Plex Sans</strong> (Google Fonts CDN)</li>
-            <li>Font weights: Brand <strong>500</strong>, Labels <strong>600</strong>, Flavour/Values <strong>700</strong></li>
-            <li>Text baseline offset from center: <strong>fontSize &times; 0.35</strong> (canvas baseline positioning)</li>
-            <li>All values are <strong>fixed pixels</strong> per layout &mdash; no scaling formulas</li>
-            <li>Padding: <strong>15 px</strong> on all sides (fixed, all layouts)</li>
-            <li>Content clipped to card bounds to prevent overflow</li>
-            <li>Dot rendering: filled &#x25CF; black + <strong>1.5 px</strong> stroke, empty &#x25CB; <strong>1.5 px</strong> stroke only</li>
-            <li>Dot sizes <strong>vary per layout</strong> &mdash; see profile tabs for exact radius and spacing</li>
-          </ul>
-        </div>
-
-        <div class="assumption-cat">
-          <h4>Spacing Model (Center-to-Center)</h4>
-          <ul>
-            <li><strong>All</strong> vertical spacing is measured center-to-center, never edge-to-edge</li>
-            <li>Cursor tracks the <strong>vertical center</strong> of the current element</li>
-            <li>Brand &rarr; Flavour: tight &mdash; <strong>brandSize/2 + 1 + nameSize/2</strong></li>
-            <li>Flavour &rarr; first label: <strong>Section Break + (nameSize &minus; valueSize) / 2</strong></li>
-            <li>Every label &rarr; its value: <strong>Label-to-Value</strong> pitch</li>
-            <li>Every value &rarr; next label: <strong>Section Break</strong> pitch</li>
-            <li>Dots: 10 circles, filled &#x25CF; + 1.5px stroke / empty &#x25CB; 1.5px stroke, number in parens</li>
-          </ul>
-        </div>
-
-        <div class="assumption-cat">
-          <h4>Layout</h4>
-          <ul>
-            <li>1 coffee: full canvas, label <strong>FRONT</strong></li>
-            <li>2 coffees: left/right split, <strong>2 px</strong> divider, labels <strong>LEFT / RIGHT</strong></li>
-            <li>3&ndash;4 coffees: 2&times;2 grid, <strong>2 px</strong> dividers, labels <strong>FRONT L / R / BACK L / R</strong></li>
-            <li>Background: <strong>#FFF</strong>, text: <strong>#000</strong>, position labels: <strong>#666</strong></li>
-          </ul>
-        </div>
-
-        <div class="assumption-cat">
-          <h4>Resolutions (Landscape)</h4>
-          <ul>
-            <li>3.68&quot;: <strong>792&times;528</strong> &nbsp; 3.97&quot;: <strong>800&times;480</strong> (default) &nbsp; 3.98&quot;: <strong>768&times;552</strong></li>
-            <li>Preview: <strong>2&times; DPR</strong>, download at target resolution</li>
-            <li>Bitmap: <strong>1 bit/px</strong>, MSB first, row-major, white=1 black=0</li>
-          </ul>
-        </div>
-
-        <!-- Per-layout profile comparison -->
-        <div class="assumption-cat" style="grid-column: 1 / -1;">
-          <h4>Per-Layout Profiles (Fixed Pixel Values)</h4>
-          <table class="einkimg-spec-table">
-            <tr>
-              <th>Property</th><th>Type</th>
-              <th>3&ndash;4 Coffees</th>
-              <th>2 Coffees</th><th></th>
-              <th>1 Coffee</th><th></th>
-            </tr>
-            <tr>
-              <td>Brand</td><td>Font size</td>
-              <td><strong>12 px</strong></td>
-              <td><strong>18 px</strong></td><td style="color:var(--amber);">+6</td>
-              <td><strong>27 px</strong></td><td style="color:var(--amber);">+9</td>
-            </tr>
-            <tr>
-              <td>Flavour Name</td><td>Font size</td>
-              <td><strong>22 px</strong></td>
-              <td><strong>36 px</strong></td><td style="color:var(--amber);">+14</td>
-              <td><strong>47 px</strong></td><td style="color:var(--amber);">+11</td>
-            </tr>
-            <tr>
-              <td>Field Label</td><td>Font size</td>
-              <td><strong>10 px</strong></td>
-              <td><strong>14 px</strong></td><td style="color:var(--amber);">+4</td>
-              <td><strong>20 px</strong></td><td style="color:var(--amber);">+6</td>
-            </tr>
-            <tr>
-              <td>Field Value</td><td>Font size</td>
-              <td><strong>12 px</strong></td>
-              <td><strong>18 px</strong></td><td style="color:var(--amber);">+6</td>
-              <td><strong>30 px</strong></td><td style="color:var(--amber);">+12</td>
-            </tr>
-            <tr>
-              <td>Dot Radius</td><td>Circle</td>
-              <td><strong>3 px</strong></td>
-              <td><strong>4 px</strong></td><td style="color:var(--amber);">+1</td>
-              <td><strong>10 px</strong></td><td style="color:var(--amber);">+6</td>
-            </tr>
-            <tr>
-              <td>Dot Spacing</td><td>Circle</td>
-              <td><strong>8 px</strong></td>
-              <td><strong>11 px</strong></td><td style="color:var(--amber);">+3</td>
-              <td><strong>25 px</strong></td><td style="color:var(--amber);">+14</td>
-            </tr>
-            <tr>
-              <td>Dot-to-Number Gap</td><td>Circle</td>
-              <td><strong>16 px</strong></td>
-              <td><strong>22 px</strong></td><td style="color:var(--amber);">+6</td>
-              <td><strong>50 px</strong></td><td style="color:var(--amber);">+28</td>
-            </tr>
-            <tr>
-              <td>Label-to-Value (LV)</td><td>Spacing</td>
-              <td><strong>16 px</strong></td>
-              <td><strong>22 px</strong></td><td style="color:var(--amber);">+6</td>
-              <td><strong>30 px</strong></td><td style="color:var(--amber);">+8</td>
-            </tr>
-            <tr>
-              <td>Section Break (SEC)</td><td>Spacing</td>
-              <td><strong>22 px</strong></td>
-              <td><strong>32 px</strong></td><td style="color:var(--amber);">+10</td>
-              <td><strong>50 px</strong></td><td style="color:var(--amber);">+18</td>
-            </tr>
-          </table>
-        </div>
-      </div>
-    </section>
   </main>
 </div>
 
@@ -1459,6 +1340,8 @@ input[type="number"]:focus { border-color: var(--amber); }
       <div class="sim-input-row"><label>Label-to-Value (LV)</label><input type="number" id="simPitchLV" min="4" max="60" value="30" oninput="simRender()"><span class="sim-unit">px</span></div>
       <div class="sim-input-row"><label>Section Break (SEC)</label><input type="number" id="simPitchSec" min="4" max="80" value="50" oninput="simRender()"><span class="sim-unit">px</span></div>
       <div class="sim-input-row"><label>Padding</label><span class="sim-unit">15 px (fixed)</span></div>
+      <button class="einkimg-btn" onclick="simSaveProfile()" style="width:100%; margin-top:8px;">Save to E-Ink Image</button>
+      <div id="simSaveMsg" style="font-family:var(--font-mono); font-size:9px; color:var(--green); display:none; margin-top:4px; text-align:center;"></div>
     </div>
   </div>
 
@@ -2243,8 +2126,8 @@ function simRender() {
     ctx.fillStyle = '#ffffff';
     ctx.fillRect(0, 0, res.w, res.h);
 
-    // Build override for current layout
-    PROFILE_OVERRIDES = {};
+    // Temporarily set override for simulator preview only
+    const savedOverrides = Object.assign({}, PROFILE_OVERRIDES);
     PROFILE_OVERRIDES[simLayout] = profile;
 
     // Find longest decaf coffee for sample data
@@ -2279,8 +2162,20 @@ function simRender() {
       ctx.beginPath(); ctx.moveTo(hw,0); ctx.lineTo(hw,res.h); ctx.moveTo(0,hh); ctx.lineTo(res.w,hh); ctx.stroke();
     }
 
-    // Overrides persist — E-Ink Image tab will use these values
+    // Restore saved overrides (only Save button persists changes)
+    Object.keys(PROFILE_OVERRIDES).forEach(k => delete PROFILE_OVERRIDES[k]);
+    Object.assign(PROFILE_OVERRIDES, savedOverrides);
   });
+}
+
+function simSaveProfile() {
+  const profile = simReadProfile();
+  PROFILE_OVERRIDES[simLayout] = profile;
+  const label = simLayout === 1 ? '1 coffee' : simLayout === 2 ? '2 coffees' : '3-4 coffees';
+  const msg = document.getElementById('simSaveMsg');
+  msg.textContent = 'Saved ' + label + ' profile to E-Ink Image';
+  msg.style.display = 'block';
+  setTimeout(() => { msg.style.display = 'none'; }, 2000);
 }
 
 function initEinkImageTab() {
