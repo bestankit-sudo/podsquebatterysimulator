@@ -2585,13 +2585,15 @@ function downloadEinkBitmap() {
 
   // Convert to monochrome: 1 bit per pixel, MSB first
   // White (luminance >= 128) = 1, Black = 0
+  // Pixels read in reverse order (180° rotation) to match e-ink controller orientation
   const totalPixels = tw * th;
   const byteCount = Math.ceil(totalPixels / 8);
   const bitmap = new Uint8Array(byteCount);
 
   for (let i = 0; i < totalPixels; i++) {
-    const idx = i * 4;
-    const lum = pixels[idx] * 0.299 + pixels[idx + 1] * 0.587 + pixels[idx + 2] * 0.114;
+    // Read from last pixel to first (180° flip)
+    const srcIdx = (totalPixels - 1 - i) * 4;
+    const lum = pixels[srcIdx] * 0.299 + pixels[srcIdx + 1] * 0.587 + pixels[srcIdx + 2] * 0.114;
     if (lum >= 128) {
       bitmap[Math.floor(i / 8)] |= (0x80 >> (i % 8));
     }
@@ -2601,7 +2603,7 @@ function downloadEinkBitmap() {
   const arrayName = 'eink_image_' + tw + 'x' + th;
   let header = '// Podsque E-Ink Monochrome Bitmap\n';
   header += '// Resolution: ' + tw + ' x ' + th + '\n';
-  header += '// Format: 1 bit per pixel, MSB first, row-major\n';
+  header += '// Format: 1 bit per pixel, MSB first, row-major, 180deg rotated for e-ink controller\n';
   header += '// White = 1, Black = 0\n';
   header += '// Total bytes: ' + byteCount + '\n';
   header += '// Generated: ' + new Date().toISOString() + '\n\n';
