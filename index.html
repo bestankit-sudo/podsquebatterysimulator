@@ -1276,11 +1276,11 @@ input[type="number"]:focus { border-color: var(--amber); }
         </div>
 
         <div class="control-group" style="margin-top: 8px;">
-          <h3>Color Mode <span class="coming-soon">Coming Soon</span></h3>
-          <div class="radio-group">
-            <div class="radio-opt disabled-opt selected"><span class="radio-dot"></span> B/W</div>
-            <div class="radio-opt disabled-opt"><span class="radio-dot"></span> 3-Color</div>
-            <div class="radio-opt disabled-opt"><span class="radio-dot"></span> 4-Color</div>
+          <h3>Color Mode</h3>
+          <div id="einkimgColorGroup" class="radio-group" data-value="bw">
+            <div class="radio-opt selected" data-val="bw" onclick="selectEinkImgRadio('einkimgColorGroup','bw')"><span class="radio-dot"></span> B/W</div>
+            <div class="radio-opt disabled-opt" data-val="3color"><span class="radio-dot"></span> 3-Color</div>
+            <div class="radio-opt" data-val="4color" onclick="selectEinkImgRadio('einkimgColorGroup','4color')"><span class="radio-dot"></span> 4-Color</div>
           </div>
         </div>
 
@@ -1318,6 +1318,7 @@ input[type="number"]:focus { border-color: var(--amber); }
         <div class="radio-opt selected" data-val="1" onclick="simSwitchLayout(1)"><span class="radio-dot"></span> 1 Coffee</div>
         <div class="radio-opt" data-val="2" onclick="simSwitchLayout(2)"><span class="radio-dot"></span> 2 Coffees</div>
         <div class="radio-opt" data-val="4" onclick="simSwitchLayout(4)"><span class="radio-dot"></span> 3&ndash;4 Coffees</div>
+        <div class="radio-opt" data-val="4c" onclick="simSwitchLayout('4c')"><span class="radio-dot"></span> 4-Color</div>
       </div>
     </div>
 
@@ -1340,6 +1341,7 @@ input[type="number"]:focus { border-color: var(--amber); }
       <div class="sim-input-row"><label>Label-to-Value (LV)</label><input type="number" id="simPitchLV" min="4" max="60" value="30" oninput="simRender()"><span class="sim-unit">px</span></div>
       <div class="sim-input-row"><label>Section Break (SEC)</label><input type="number" id="simPitchSec" min="4" max="80" value="50" oninput="simRender()"><span class="sim-unit">px</span></div>
       <div class="sim-input-row"><label>Padding</label><span class="sim-unit">15 px (fixed)</span></div>
+      <div id="simImgSizeRow" class="sim-input-row" style="display:none;"><label>Pod Image Size</label><input type="number" id="simImgSize" min="10" max="90" value="40" oninput="simRender()"><span class="sim-unit">%</span></div>
       <button class="einkimg-btn" onclick="simSaveProfile()" style="width:100%; margin-top:8px;">Save to E-Ink Image</button>
       <div id="simSaveMsg" style="font-family:var(--font-mono); font-size:9px; color:var(--green); display:none; margin-top:4px; text-align:center;"></div>
     </div>
@@ -2041,7 +2043,7 @@ const COFFEES = [
   { brand: 'Nespresso', flavour: 'Firenze Arpeggio', tasting: 'Roasted & Chocolatey', remarks: 'Use lungo button', decaf: false, cupSize: 'Espresso', intensity: 9, bitterness: 7 },
   { brand: 'Nespresso', flavour: 'Alto Ambrato', tasting: 'Caramel, Balanced & Fruit', remarks: 'Best served black', decaf: false, cupSize: 'Alto', intensity: 4, bitterness: 3 },
   { brand: 'Nespresso', flavour: 'Melozio', tasting: 'Nutty & Balanced, Milk', remarks: 'Froth milk, then brew', decaf: false, cupSize: 'Espresso, Latte', intensity: 6, bitterness: 4 },
-  { brand: 'Nespresso', flavour: 'Stormio', tasting: 'Cereal & Intense', remarks: 'Strong morning coffee', decaf: false, cupSize: 'Espresso, Americano', intensity: 8, bitterness: 6 },
+  { brand: 'Nespresso', flavour: 'Stormio', tasting: 'Cereal & Intense', remarks: 'Strong morning coffee', decaf: false, cupSize: 'Espresso, Americano', intensity: 8, bitterness: 6, podImage: 'pod_images/137_1.png', podColor: '#3A6B35' },
   { brand: 'Nespresso', flavour: 'Odacio', tasting: 'Cereal & Intense', remarks: 'Pair with dark chocolate', decaf: false, cupSize: 'Espresso, Cappuccino', intensity: 8, bitterness: 5 },
   { brand: 'Nespresso', flavour: 'Caramello', tasting: 'Caramel & Nutty', remarks: 'Skim milk only and a dash of caramel syrup', decaf: false, cupSize: 'Cappuccino, Latte Macchiato', intensity: 8, bitterness: 5 },
   { brand: 'KopiHouse', flavour: 'Gula Melaka Kopi', tasting: 'Chocolate, Spice', remarks: 'Traditional Southeast Asian brew', decaf: false, cupSize: 'Espresso, Cappuccino, Latte Macchiato', intensity: 7, bitterness: 5 },
@@ -2052,7 +2054,11 @@ const COFFEES = [
   { brand: 'Blue Bottle', flavour: 'Hayes Valley Espresso Blend', tasting: 'Cocoa, Citrus & Berry', remarks: 'Pull short for maximum sweetness', decaf: false, cupSize: 'Espresso', intensity: 6, bitterness: 4 },
   { brand: 'Counter Culture', flavour: 'Big Trouble Blend', tasting: 'Chocolate, Caramel & Smooth', remarks: 'Versatile for any milk drink', decaf: false, cupSize: 'Espresso, Latte, Cappuccino', intensity: 6, bitterness: 4 },
   { brand: 'Nespresso', flavour: 'Mexico Single Origin Roast', tasting: 'Woody & Earthy', remarks: 'Use lungo button', decaf: false, cupSize: 'Espresso', intensity: 7, bitterness: 5 },
-  { brand: 'Nespresso', flavour: 'Tanzania Kilimanjaro Reserve', tasting: 'Citrus & Cereal', remarks: 'Skim milk only and a dash of caramel syrup', decaf: false, cupSize: 'Cappuccino, Latte Macchiato', intensity: 5, bitterness: 3 }
+  { brand: 'Nespresso', flavour: 'Tanzania Kilimanjaro Reserve', tasting: 'Citrus & Cereal', remarks: 'Skim milk only and a dash of caramel syrup', decaf: false, cupSize: 'Cappuccino, Latte Macchiato', intensity: 5, bitterness: 3 },
+  { brand: 'Nespresso', flavour: 'Hawaii Kona', tasting: 'Tropical & Nutty', remarks: 'Full-bodied and balanced cup', decaf: false, cupSize: 'Gran Lungo', intensity: 6, bitterness: 3, podImage: 'pod_images/420_1.png', podColor: '#7BA8B8' },
+  { brand: 'Nespresso', flavour: 'Ethiopia', tasting: 'Fruity & Floral', remarks: 'Ripe blueberry notes and a hint of musk', decaf: false, cupSize: 'Gran Lungo', intensity: 4, bitterness: 2, podImage: 'pod_images/421_1.png', podColor: '#B07040' },
+  { brand: 'Nespresso', flavour: 'Costa Rica', tasting: 'Malty & Sweet', remarks: 'Full-bodied but mellow, crystal clarity', decaf: false, cupSize: 'Gran Lungo', intensity: 7, bitterness: 5, podImage: 'pod_images/422_1.png', podColor: '#0088B0' },
+  { brand: 'Nespresso', flavour: 'Cafecito de Puerto Rico', tasting: 'Cocoa & Intense', remarks: 'Dark cocoa, pepper and brown spice', decaf: false, cupSize: 'Double Espresso', intensity: 10, bitterness: 7, podImage: 'pod_images/423_1.png', podColor: '#3A3A3A' }
 ];
 
 const EINKIMG_FIELDS = [
@@ -2085,7 +2091,8 @@ let simLayout = 1;
 const SIM_DEFAULTS = {
   1: { brand:27, name:47, label:20, value:30, dotR:10, dotSp:25, dotNumGap:50, pitchLV:30, pitchSec:50 },
   2: { brand:18, name:36, label:14, value:18, dotR:4, dotSp:11, dotNumGap:22, pitchLV:22, pitchSec:32 },
-  4: { brand:12, name:22, label:10, value:12, dotR:3, dotSp:8, dotNumGap:16, pitchLV:16, pitchSec:22 }
+  4: { brand:12, name:22, label:10, value:12, dotR:3, dotSp:8, dotNumGap:16, pitchLV:16, pitchSec:22 },
+  '4c': { brand:12, name:22, label:10, value:12, dotR:3, dotSp:8, dotNumGap:16, pitchLV:16, pitchSec:22, imgSize:40 }
 };
 
 const SIM_FIELDS = ['brand','name','label','value','dotR','dotSp','dotNumGap','pitchLV','pitchSec'];
@@ -2103,6 +2110,14 @@ function simSwitchLayout(n) {
   SIM_FIELDS.forEach((key, i) => {
     document.getElementById(SIM_IDS[i]).value = prof[key];
   });
+  // Show/hide image size control for 4-color mode
+  const imgRow = document.getElementById('simImgSizeRow');
+  if (n === '4c') {
+    imgRow.style.display = '';
+    document.getElementById('simImgSize').value = prof.imgSize || 40;
+  } else {
+    imgRow.style.display = 'none';
+  }
   simRender();
 }
 
@@ -2111,6 +2126,9 @@ function simReadProfile() {
   SIM_FIELDS.forEach((key, i) => {
     p[key] = parseInt(document.getElementById(SIM_IDS[i]).value) || 0;
   });
+  if (simLayout === '4c') {
+    p.imgSize = parseInt(document.getElementById('simImgSize').value) || 40;
+  }
   return p;
 }
 
@@ -2123,15 +2141,17 @@ function simRender() {
   canvas.height = res.h;
   const ctx = canvas.getContext('2d');
 
-  document.fonts.ready.then(() => {
-    ctx.fillStyle = '#ffffff';
-    ctx.fillRect(0, 0, res.w, res.h);
+  // For 4-color mode, find coffees with pod images and pre-load them
+  const is4c = simLayout === '4c';
+  const colorMode = is4c ? '4color' : 'bw';
 
-    // Temporarily set override for simulator preview only
-    const savedOverrides = Object.assign({}, PROFILE_OVERRIDES);
-    PROFILE_OVERRIDES[simLayout] = profile;
-
-    // Find longest decaf coffee for sample data
+  // Pick sample coffees: for 4c use pods with images, otherwise longest decaf
+  let sampleCoffees;
+  if (is4c) {
+    sampleCoffees = COFFEES.filter(c => c.podImage);
+    if (sampleCoffees.length === 0) sampleCoffees = [COFFEES[0]];
+    sampleCoffees = sampleCoffees.slice(0, 4);
+  } else {
     let sampleIdx = 0, longest = 0;
     COFFEES.forEach((c, i) => {
       if (c.decaf && (c.brand + c.flavour).length > longest) {
@@ -2139,17 +2159,54 @@ function simRender() {
         sampleIdx = i;
       }
     });
+    sampleCoffees = [COFFEES[sampleIdx]];
+  }
+
+  // Pre-load images for 4c mode
+  const imagePromises = [];
+  if (is4c) {
+    sampleCoffees.forEach(c => {
+      if (c.podImage && !c._loadedImg) {
+        const img = new Image();
+        const p = new Promise(resolve => {
+          img.onload = () => { c._loadedImg = img; resolve(); };
+          img.onerror = () => { c._loadedImg = null; resolve(); };
+        });
+        img.src = c.podImage;
+        imagePromises.push(p);
+      }
+    });
+  }
+
+  Promise.all(imagePromises).then(() => {
+  document.fonts.ready.then(() => {
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, res.w, res.h);
+
+    // Temporarily set override for simulator preview only
+    const savedOverrides = Object.assign({}, PROFILE_OVERRIDES);
+    const layoutKey = is4c ? '4c' : simLayout;
+    PROFILE_OVERRIDES[layoutKey] = profile;
 
     const allFields = EINKIMG_FIELDS.map(f => f.key);
-    const coffee = COFFEES[sampleIdx];
     const numericMode = 'dots';
 
-    if (simLayout === 1) {
-      drawCoffeeCard(ctx, coffee, allFields, 0, 0, res.w, res.h, 'FRONT', numericMode, 1);
+    if (is4c) {
+      // 4-Color: always 2×2 grid with pod images and colors
+      const hw = Math.floor(res.w / 2), hh = Math.floor(res.h / 2);
+      const labels = ['FRONT L','FRONT R','BACK L','BACK R'];
+      const pos = [[0,0,hw,hh],[hw,0,res.w-hw,hh],[0,hh,hw,res.h-hh],[hw,hh,res.w-hw,res.h-hh]];
+      for (let i = 0; i < sampleCoffees.length; i++) {
+        drawCoffeeCard(ctx, sampleCoffees[i], allFields, pos[i][0], pos[i][1], pos[i][2], pos[i][3], labels[i], numericMode, 4, '4color');
+      }
+      ctx.strokeStyle = '#000000'; ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.moveTo(hw,0); ctx.lineTo(hw,res.h); ctx.moveTo(0,hh); ctx.lineTo(res.w,hh); ctx.stroke();
+    } else if (simLayout === 1) {
+      drawCoffeeCard(ctx, sampleCoffees[0], allFields, 0, 0, res.w, res.h, 'FRONT', numericMode, 1, 'bw');
     } else if (simLayout === 2) {
       const hw = Math.floor(res.w / 2);
-      drawCoffeeCard(ctx, coffee, allFields, 0, 0, hw, res.h, 'LEFT', numericMode, 2);
-      drawCoffeeCard(ctx, coffee, allFields, hw, 0, res.w - hw, res.h, 'RIGHT', numericMode, 2);
+      drawCoffeeCard(ctx, sampleCoffees[0], allFields, 0, 0, hw, res.h, 'LEFT', numericMode, 2, 'bw');
+      drawCoffeeCard(ctx, sampleCoffees[0], allFields, hw, 0, res.w - hw, res.h, 'RIGHT', numericMode, 2, 'bw');
       ctx.strokeStyle = '#000000'; ctx.lineWidth = 2;
       ctx.beginPath(); ctx.moveTo(hw, 0); ctx.lineTo(hw, res.h); ctx.stroke();
     } else {
@@ -2157,7 +2214,7 @@ function simRender() {
       const labels = ['FRONT L','FRONT R','BACK L','BACK R'];
       const pos = [[0,0,hw,hh],[hw,0,res.w-hw,hh],[0,hh,hw,res.h-hh],[hw,hh,res.w-hw,res.h-hh]];
       for (let i = 0; i < 4; i++) {
-        drawCoffeeCard(ctx, coffee, allFields, pos[i][0], pos[i][1], pos[i][2], pos[i][3], labels[i], numericMode, 4);
+        drawCoffeeCard(ctx, sampleCoffees[0], allFields, pos[i][0], pos[i][1], pos[i][2], pos[i][3], labels[i], numericMode, 4, 'bw');
       }
       ctx.strokeStyle = '#000000'; ctx.lineWidth = 2;
       ctx.beginPath(); ctx.moveTo(hw,0); ctx.lineTo(hw,res.h); ctx.moveTo(0,hh); ctx.lineTo(res.w,hh); ctx.stroke();
@@ -2167,13 +2224,14 @@ function simRender() {
     Object.keys(PROFILE_OVERRIDES).forEach(k => delete PROFILE_OVERRIDES[k]);
     Object.assign(PROFILE_OVERRIDES, savedOverrides);
   });
+  }); // end Promise.all
 }
 
 function simSaveProfile() {
   const profile = simReadProfile();
   PROFILE_OVERRIDES[simLayout] = profile;
   localStorage.setItem('einkProfileOverrides', JSON.stringify(PROFILE_OVERRIDES));
-  const label = simLayout === 1 ? '1 coffee' : simLayout === 2 ? '2 coffees' : '3-4 coffees';
+  const label = simLayout === 1 ? '1 coffee' : simLayout === 2 ? '2 coffees' : simLayout === '4c' ? '4-color' : '3-4 coffees';
   const msg = document.getElementById('simSaveMsg');
   msg.textContent = 'Saved ' + label + ' profile to E-Ink Image';
   msg.style.display = 'block';
@@ -2286,26 +2344,27 @@ function wrapText(ctx, text, x, center, maxWidth, fontSize) {
 // Draws filled/empty circles. cy = vertical CENTER of the dot row.
 // numGap = space after last dot before "(N)" text.
 // numFontSize = font size for the "(N)" text (uses label font size).
-function drawDotRating(ctx, value, max, x, cy, dotRadius, spacing, numGap, numFontSize) {
+function drawDotRating(ctx, value, max, x, cy, dotRadius, spacing, numGap, numFontSize, color) {
+  const dotColor = color || '#000000';
   const v = Math.min(Math.max(0, value), max);
   for (let i = 0; i < max; i++) {
     const cx = x + i * spacing + dotRadius;
     ctx.beginPath();
     ctx.arc(cx, cy, dotRadius, 0, Math.PI * 2);
     if (i < v) {
-      ctx.fillStyle = '#000000';
+      ctx.fillStyle = dotColor;
       ctx.fill();
-      ctx.strokeStyle = '#000000';
+      ctx.strokeStyle = dotColor;
       ctx.lineWidth = 1.5;
       ctx.stroke();
     } else {
-      ctx.strokeStyle = '#000000';
+      ctx.strokeStyle = dotColor;
       ctx.lineWidth = 1.5;
       ctx.stroke();
     }
   }
   // Number in parentheses, using label font size, center-aligned to dot row
-  ctx.fillStyle = '#000000';
+  ctx.fillStyle = dotColor;
   ctx.font = '600 ' + numFontSize + 'px "IBM Plex Sans", sans-serif';
   const numX = x + max * spacing + dotRadius + numGap;
   ctx.fillText('(' + v + ')', numX, cy + numFontSize * 0.35);
@@ -2324,7 +2383,7 @@ function drawDotRating(ctx, value, max, x, cy, dotRadius, spacing, numGap, numFo
 // Brand → Flavour is special: tight, not pitched.
 // ══════════════════════════════════════════════════════════════
 
-function drawCoffeeCard(ctx, coffee, fields, x, y, w, h, posLabel, numericMode, coffeeCount) {
+function drawCoffeeCard(ctx, coffee, fields, x, y, w, h, posLabel, numericMode, coffeeCount, colorMode) {
   ctx.save();
   ctx.beginPath();
   ctx.rect(x, y, w, h);
@@ -2337,12 +2396,13 @@ function drawCoffeeCard(ctx, coffee, fields, x, y, w, h, posLabel, numericMode, 
     4: { brand:12, name:22, label:10, value:12, dotR:3, dotSp:8, dotNumGap:16, pitchLV:16, pitchSec:22, pad:15 }
   };
   // Check for simulator overrides first
-  const profiles = (typeof PROFILE_OVERRIDES !== 'undefined' && PROFILE_OVERRIDES[coffeeCount])
+  // 4-color mode uses the '4c' profile key if available, falling back to coffeeCount
+  const profileKey = (colorMode === '4color' && typeof PROFILE_OVERRIDES !== 'undefined' && PROFILE_OVERRIDES['4c']) ? '4c' : coffeeCount;
+  const profiles = (typeof PROFILE_OVERRIDES !== 'undefined' && PROFILE_OVERRIDES[profileKey])
     ? PROFILE_OVERRIDES : DEFAULT_PROFILES;
-  const P = profiles[coffeeCount] || DEFAULT_PROFILES[4];
+  const P = profiles[profileKey] || DEFAULT_PROFILES[4];
 
   const pad = P.pad;
-  const contentW = w - pad * 2;
   const brandSize = P.brand;
   const nameSize  = P.name;
   const labelSize = P.label;
@@ -2352,6 +2412,23 @@ function drawCoffeeCard(ctx, coffee, fields, x, y, w, h, posLabel, numericMode, 
   const dotNumGap  = P.dotNumGap || (P.dotSp * 2);
   const PITCH_LV  = P.pitchLV;
   const PITCH_SEC = P.pitchSec;
+
+  // ── 4-Color mode: draw pod image on the left, shift text right ──
+  const is4Color = colorMode === '4color';
+  const podColor = (is4Color && coffee.podColor) ? coffee.podColor : '#000000';
+  const imgSizePct = (P.imgSize || 40) / 100; // percentage of card height
+  let textOffsetX = 0;
+
+  if (is4Color && coffee._loadedImg) {
+    const imgH = Math.floor(h * imgSizePct);
+    const imgW = Math.floor(imgH * (coffee._loadedImg.width / coffee._loadedImg.height));
+    const imgX = x + pad;
+    const imgY = y + Math.floor((h - imgH) / 2);
+    ctx.drawImage(coffee._loadedImg, imgX, imgY, imgW, imgH);
+    textOffsetX = imgW + pad;
+  }
+
+  const contentW = w - pad * 2 - textOffsetX;
 
   // cursor = center of current element; start at center of first element
   let cursor = y + pad + brandSize / 2;
@@ -2363,7 +2440,7 @@ function drawCoffeeCard(ctx, coffee, fields, x, y, w, h, posLabel, numericMode, 
   ctx.textAlign = 'right';
   ctx.fillText(posLabel, x + w - pad, cursor + posLabelSize * 0.35);
   ctx.textAlign = 'left';
-  ctx.fillStyle = '#000000';
+  ctx.fillStyle = podColor;
 
   // ── Field loop ──
   const LABELS = {
@@ -2382,6 +2459,8 @@ function drawCoffeeCard(ctx, coffee, fields, x, y, w, h, posLabel, numericMode, 
   const drawFields = fields.filter(k => k !== 'remarks' && k !== 'intensity' && k !== 'bitterness' && k !== 'decaf');
   const needsIntBitRow = hasIntensity || hasBitterness;
 
+  const textX = x + pad + textOffsetX;
+
   // Draw normal fields
   for (let fi = 0; fi < drawFields.length; fi++) {
     if (cursor > y + h - pad) break;
@@ -2391,8 +2470,8 @@ function drawCoffeeCard(ctx, coffee, fields, x, y, w, h, posLabel, numericMode, 
     // ── Brand ──
     if (key === 'brand') {
       ctx.font = '500 ' + brandSize + 'px "IBM Plex Sans", sans-serif';
-      ctx.fillStyle = '#000000';
-      ctx.fillText(String(val).toUpperCase(), x + pad, cursor + brandSize * 0.35);
+      ctx.fillStyle = podColor;
+      ctx.fillText(String(val).toUpperCase(), textX, cursor + brandSize * 0.35);
       cursor += brandSize / 2 + 1 + nameSize / 2;
       continue;
     }
@@ -2400,16 +2479,16 @@ function drawCoffeeCard(ctx, coffee, fields, x, y, w, h, posLabel, numericMode, 
     // ── Flavour name (wraps) ──
     if (key === 'flavour') {
       ctx.font = '700 ' + nameSize + 'px "IBM Plex Sans", sans-serif';
-      ctx.fillStyle = '#000000';
-      cursor = wrapText(ctx, String(val), x + pad, cursor, contentW, nameSize);
+      ctx.fillStyle = podColor;
+      cursor = wrapText(ctx, String(val), textX, cursor, contentW, nameSize);
       cursor += PITCH_SEC + (nameSize - valueSize) / 2;
       continue;
     }
 
     // ── Standard field: LABEL then VALUE ──
     ctx.font = '600 ' + labelSize + 'px "IBM Plex Sans", sans-serif';
-    ctx.fillStyle = '#000000';
-    ctx.fillText(LABELS[key] || key.toUpperCase(), x + pad, cursor + labelSize * 0.35);
+    ctx.fillStyle = podColor;
+    ctx.fillText(LABELS[key] || key.toUpperCase(), textX, cursor + labelSize * 0.35);
 
     // If this is cupSize and decaf is selected, show "DECAF" badge right-aligned
     if (key === 'cupSize' && hasDecaf && coffee.decaf) {
@@ -2417,46 +2496,44 @@ function drawCoffeeCard(ctx, coffee, fields, x, y, w, h, posLabel, numericMode, 
       const decafText = 'DECAF';
       const decafW = ctx.measureText(decafText).width;
       const badgePadH = 4, badgePadV = 2;
-      const badgeX = x + pad + contentW - decafW - badgePadH * 2;
+      const badgeX = textX + contentW - decafW - badgePadH * 2;
       const badgeY = cursor - labelSize / 2 - badgePadV;
       const badgeW = decafW + badgePadH * 2;
       const badgeH = labelSize + badgePadV * 2;
-      // Square border (no radius)
-      ctx.strokeStyle = '#000000';
+      ctx.strokeStyle = podColor;
       ctx.lineWidth = 1.5;
       ctx.strokeRect(badgeX, badgeY, badgeW, badgeH);
-      // Text centered in badge
-      ctx.fillStyle = '#000000';
+      ctx.fillStyle = podColor;
       ctx.fillText(decafText, badgeX + badgePadH, cursor + labelSize * 0.35);
     }
 
     cursor += PITCH_LV;
 
     ctx.font = '700 ' + valueSize + 'px "IBM Plex Sans", sans-serif';
-    ctx.fillStyle = '#000000';
-    cursor = wrapText(ctx, String(val), x + pad, cursor, contentW, valueSize);
+    ctx.fillStyle = podColor;
+    cursor = wrapText(ctx, String(val), textX, cursor, contentW, valueSize);
     cursor += PITCH_SEC;
   }
 
   // ── Intensity / Bitterness: side-by-side on one row ──
   if (needsIntBitRow && cursor <= y + h - pad) {
     const halfW = Math.floor(contentW / 2);
-    const leftX = x + pad;
-    const rightX = x + pad + halfW;
+    const leftX = textX;
+    const rightX = textX + halfW;
 
     // Labels row
     ctx.font = '600 ' + labelSize + 'px "IBM Plex Sans", sans-serif';
-    ctx.fillStyle = '#000000';
+    ctx.fillStyle = podColor;
     if (hasIntensity) ctx.fillText('INTENSITY', leftX, cursor + labelSize * 0.35);
     if (hasBitterness) ctx.fillText('BITTERNESS', rightX, cursor + labelSize * 0.35);
     cursor += PITCH_LV;
 
     // Values row
     ctx.font = '700 ' + valueSize + 'px "IBM Plex Sans", sans-serif';
-    ctx.fillStyle = '#000000';
+    ctx.fillStyle = podColor;
     if (numericMode === 'dots') {
-      if (hasIntensity) drawDotRating(ctx, coffee.intensity, 10, leftX, cursor, dotR, dotSpacing, dotNumGap, labelSize);
-      if (hasBitterness) drawDotRating(ctx, coffee.bitterness, 10, rightX, cursor, dotR, dotSpacing, dotNumGap, labelSize);
+      if (hasIntensity) drawDotRating(ctx, coffee.intensity, 10, leftX, cursor, dotR, dotSpacing, dotNumGap, labelSize, podColor);
+      if (hasBitterness) drawDotRating(ctx, coffee.bitterness, 10, rightX, cursor, dotR, dotSpacing, dotNumGap, labelSize, podColor);
     } else {
       if (hasIntensity) ctx.fillText(coffee.intensity + '/10', leftX, cursor + valueSize * 0.35);
       if (hasBitterness) ctx.fillText(coffee.bitterness + '/10', rightX, cursor + valueSize * 0.35);
@@ -2467,16 +2544,15 @@ function drawCoffeeCard(ctx, coffee, fields, x, y, w, h, posLabel, numericMode, 
   // ── Your Review (remarks): reserved 2-line content space, always last ──
   if (hasRemarks && cursor <= y + h - pad) {
     ctx.font = '600 ' + labelSize + 'px "IBM Plex Sans", sans-serif';
-    ctx.fillStyle = '#000000';
-    ctx.fillText('YOUR REVIEW', x + pad, cursor + labelSize * 0.35);
+    ctx.fillStyle = podColor;
+    ctx.fillText('YOUR REVIEW', textX, cursor + labelSize * 0.35);
     cursor += PITCH_LV;
 
-    // Render remarks text (wraps to 2 lines naturally, card clip handles overflow)
     if (coffee.remarks) {
       ctx.font = '700 ' + valueSize + 'px "IBM Plex Sans", sans-serif';
-      ctx.fillStyle = '#000000';
+      ctx.fillStyle = podColor;
       const remarkText = String(coffee.remarks).length > 75 ? String(coffee.remarks).slice(0, 72) + '...' : String(coffee.remarks);
-      wrapText(ctx, remarkText, x + pad, cursor, contentW, valueSize);
+      wrapText(ctx, remarkText, textX, cursor, contentW, valueSize);
     }
   }
 
@@ -2488,10 +2564,28 @@ function generateEinkImage() {
   const fields = getSelectedFields();
   const res = getEinkImgResolution();
   const numericMode = document.getElementById('einkimgNumericGroup').dataset.value;
+  const colorMode = document.getElementById('einkimgColorGroup').dataset.value;
 
   if (coffees.length === 0) { alert('Select at least 1 coffee.'); return; }
   if (fields.length === 0) { alert('Select at least 1 field.'); return; }
 
+  // Pre-load pod images if 4-color mode
+  const imagePromises = [];
+  if (colorMode === '4color') {
+    coffees.forEach(c => {
+      if (c.podImage) {
+        const img = new Image();
+        const p = new Promise((resolve) => {
+          img.onload = () => { c._loadedImg = img; resolve(); };
+          img.onerror = () => { c._loadedImg = null; resolve(); };
+        });
+        img.src = c.podImage;
+        imagePromises.push(p);
+      }
+    });
+  }
+
+  Promise.all(imagePromises).then(() => {
   const canvas = document.getElementById('einkimg-canvas');
   const dpr = Math.max(2, window.devicePixelRatio || 1);
   canvas.width = res.w * dpr;
@@ -2513,12 +2607,12 @@ function generateEinkImage() {
     const count = coffees.length;
 
     if (count === 1) {
-      drawCoffeeCard(ctx, coffees[0], fields, 0, 0, res.w, res.h, 'FRONT', numericMode, count);
+      drawCoffeeCard(ctx, coffees[0], fields, 0, 0, res.w, res.h, 'FRONT', numericMode, count, colorMode);
     }
     else if (count === 2) {
       const hw = Math.floor(res.w / 2);
-      drawCoffeeCard(ctx, coffees[0], fields, 0, 0, hw, res.h, 'LEFT', numericMode, count);
-      drawCoffeeCard(ctx, coffees[1], fields, hw, 0, res.w - hw, res.h, 'RIGHT', numericMode, count);
+      drawCoffeeCard(ctx, coffees[0], fields, 0, 0, hw, res.h, 'LEFT', numericMode, count, colorMode);
+      drawCoffeeCard(ctx, coffees[1], fields, hw, 0, res.w - hw, res.h, 'RIGHT', numericMode, count, colorMode);
       // Vertical divider
       ctx.strokeStyle = '#000000';
       ctx.lineWidth = 2;
@@ -2534,7 +2628,7 @@ function generateEinkImage() {
       const labels = ['FRONT L', 'FRONT R', 'BACK L', 'BACK R'];
       const positions = [[0, 0, hw, hh], [hw, 0, res.w - hw, hh], [0, hh, hw, res.h - hh], [hw, hh, res.w - hw, res.h - hh]];
       for (let i = 0; i < count; i++) {
-        drawCoffeeCard(ctx, coffees[i], fields, positions[i][0], positions[i][1], positions[i][2], positions[i][3], labels[i], numericMode, count);
+        drawCoffeeCard(ctx, coffees[i], fields, positions[i][0], positions[i][1], positions[i][2], positions[i][3], labels[i], numericMode, count, colorMode);
       }
       // Dividers
       ctx.strokeStyle = '#000000';
@@ -2547,6 +2641,7 @@ function generateEinkImage() {
 
     document.getElementById('einkimg-download-btns').style.display = 'flex';
   });
+  }); // end Promise.all
 }
 
 function downloadEinkPNG() {
