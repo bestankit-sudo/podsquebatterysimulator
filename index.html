@@ -736,6 +736,13 @@ input[type="number"]:focus { border-color: var(--amber); }
   font-weight: 600;
   margin-left: auto;
 }
+.einkimg-coffee-row .color-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-left: 4px;
+  flex-shrink: 0;
+}
 
 .einkimg-field-list { display: flex; flex-direction: column; gap: 3px; }
 
@@ -1236,10 +1243,23 @@ input[type="number"]:focus { border-color: var(--amber); }
     </div>
 
     <div id="einkimg-accordion" class="einkimg-accordion">
+
+    <!-- Color Mode — first choice, drives coffee list filtering -->
+    <div style="padding:4px 16px 0;">
+      <div class="control-group">
+        <h3>Display Mode</h3>
+        <div id="einkimgColorGroup" class="radio-group" data-value="bw">
+          <div class="radio-opt selected" data-val="bw" onclick="switchColorMode('bw')"><span class="radio-dot"></span> B/W</div>
+          <div class="radio-opt disabled-opt" data-val="3color"><span class="radio-dot"></span> 3-Color</div>
+          <div class="radio-opt" data-val="4color" onclick="switchColorMode('4color')"><span class="radio-dot"></span> 4-Color</div>
+        </div>
+      </div>
+    </div>
+
     <div class="control-grid einkimg-grid">
       <!-- Coffee Selection -->
       <div class="control-panel">
-        <h3>Select Coffees (max 4)</h3>
+        <h3 id="einkimg-coffee-heading">Select Coffees (max 4)</h3>
         <div id="einkimg-coffee-list" class="einkimg-coffee-list"></div>
       </div>
 
@@ -1273,15 +1293,6 @@ input[type="number"]:focus { border-color: var(--amber); }
           <label>H</label><input type="number" id="einkimgCustomW" value="400" min="100" max="2000">
           <label>&times;</label>
           <label>V</label><input type="number" id="einkimgCustomH" value="300" min="100" max="2000">
-        </div>
-
-        <div class="control-group" style="margin-top: 8px;">
-          <h3>Color Mode</h3>
-          <div id="einkimgColorGroup" class="radio-group" data-value="bw">
-            <div class="radio-opt selected" data-val="bw" onclick="selectEinkImgRadio('einkimgColorGroup','bw')"><span class="radio-dot"></span> B/W</div>
-            <div class="radio-opt disabled-opt" data-val="3color"><span class="radio-dot"></span> 3-Color</div>
-            <div class="radio-opt" data-val="4color" onclick="selectEinkImgRadio('einkimgColorGroup','4color')"><span class="radio-dot"></span> 4-Color</div>
-          </div>
         </div>
 
         <button class="einkimg-btn" onclick="generateEinkImage()">Generate Preview</button>
@@ -2238,26 +2249,76 @@ function simSaveProfile() {
   setTimeout(() => { msg.style.display = 'none'; }, 2000);
 }
 
-function initEinkImageTab() {
-  // Find longest decaf coffee name for pre-selection
-  let longestDecafIdx = 0, longestLen = 0;
+function getColorMode() {
+  return document.getElementById('einkimgColorGroup').dataset.value;
+}
+
+function switchColorMode(mode) {
+  selectEinkImgRadio('einkimgColorGroup', mode);
+  populateCoffeeList();
+}
+
+function populateCoffeeList() {
+  const mode = getColorMode();
+  const is4c = mode === '4color';
+  const listEl = document.getElementById('einkimg-coffee-list');
+  listEl.innerHTML = '';
+
+  // Filter coffees based on mode
+  const filtered = [];
   COFFEES.forEach((c, i) => {
-    if (c.decaf && (c.brand + c.flavour).length > longestLen) {
-      longestLen = (c.brand + c.flavour).length;
-      longestDecafIdx = i;
+    if (is4c) {
+      // 4-Color: only show coffees with pod images
+      if (c.podImage) filtered.push(i);
+    } else {
+      // B/W: show all coffees
+      filtered.push(i);
     }
   });
 
-  const listEl = document.getElementById('einkimg-coffee-list');
-  COFFEES.forEach((c, i) => {
+  // Determine pre-selection
+  let preSelectSet;
+  if (is4c) {
+    // Pre-select up to 4 coffees with pod images
+    preSelectSet = new Set(filtered.slice(0, 4));
+  } else {
+    // Pre-select longest decaf coffee name
+    let longestIdx = filtered[0] || 0, longestLen = 0;
+    filtered.forEach(i => {
+      const c = COFFEES[i];
+      if (c.decaf && (c.brand + c.flavour).length > longestLen) {
+        longestLen = (c.brand + c.flavour).length;
+        longestIdx = i;
+      }
+    });
+    preSelectSet = new Set([longestIdx]);
+  }
+
+  // Build checkbox rows
+  filtered.forEach(i => {
+    const c = COFFEES[i];
     const row = document.createElement('label');
     row.className = 'einkimg-coffee-row';
-    const preSelected = i === longestDecafIdx ? ' checked' : '';
-    row.innerHTML = '<input type="checkbox" data-idx="' + i + '"' + preSelected + ' onchange="enforceCoffeeMax()">' +
-      '<span>' + c.brand + ' — ' + c.flavour + '</span>' +
-      (c.decaf ? '<span class="decaf-badge">DECAF</span>' : '');
+    const checked = preSelectSet.has(i) ? ' checked' : '';
+    let badges = '';
+    if (c.decaf) badges += '<span class="decaf-badge">DECAF</span>';
+    if (is4c && c.podColor) {
+      badges += '<span class="color-dot" style="background:' + c.podColor + ';"></span>';
+    }
+    row.innerHTML = '<input type="checkbox" data-idx="' + i + '"' + checked + ' onchange="enforceCoffeeMax()">' +
+      '<span>' + c.brand + ' — ' + c.flavour + '</span>' + badges;
     listEl.appendChild(row);
   });
+
+  // Update heading
+  document.getElementById('einkimg-coffee-heading').textContent =
+    is4c ? 'Select Pods (max 4)' : 'Select Coffees (max 4)';
+
+  enforceCoffeeMax();
+}
+
+function initEinkImageTab() {
+  populateCoffeeList();
 
   const fieldEl = document.getElementById('einkimg-field-list');
   EINKIMG_FIELDS.forEach(f => {
