@@ -2525,11 +2525,23 @@ function drawCoffeeCard(ctx, coffee, fields, x, y, w, h, posLabel, numericMode, 
 
   // ── 4-Color mode: draw pod image on the left, shift text right ──
   const is4Color = colorMode === '4color';
-  const podColor = is4Color
-    ? (einkPreview && coffee.podColorEink ? coffee.podColorEink : (coffee.podColor || '#000000'))
-    : '#000000';
   const imgSizePct = (P.imgSize || 40) / 100; // percentage of card height
   let textOffsetX = 0;
+
+  // E-Ink preview: colored background + black text (matches real hardware)
+  // Original preview: white background + colored text
+  let podColor;
+  if (!is4Color) {
+    podColor = '#000000';
+  } else if (einkPreview) {
+    // Fill card background with the e-ink display color
+    const bgColor = coffee.podColorEink || coffee.podColor || '#C8A84E';
+    ctx.fillStyle = bgColor;
+    ctx.fillRect(x, y, w, h);
+    podColor = '#000000'; // text always black on colored background
+  } else {
+    podColor = coffee.podColor || '#000000';
+  }
 
   if (is4Color && coffee._loadedImg) {
     const imgH = Math.floor(h * imgSizePct);
