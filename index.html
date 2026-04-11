@@ -702,12 +702,21 @@ input[type="number"]:focus { border-color: var(--amber); }
 /* ── E-Ink Image Generator ── */
 .einkimg-grid { grid-template-columns: 1fr 1fr 1fr 1fr; }
 
+/* Coffee panel: match grid row height (driven by Fields col), scroll internally */
+.einkimg-grid > .control-panel:nth-child(3) {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;    /* prevent this column from stretching the grid row */
+}
+
 .einkimg-coffee-list {
   overflow-y: auto;
   border: 1px solid var(--border);
   border-radius: 4px;
   padding: 4px;
   background: var(--input-bg);
+  flex: 1 1 0;         /* fill remaining panel height, scroll if needed */
+  min-height: 0;
 }
 
 .einkimg-coffee-row, .einkimg-field-row {
@@ -1244,7 +1253,7 @@ input[type="number"]:focus { border-color: var(--amber); }
     <div id="einkimg-accordion" class="einkimg-accordion">
     <div class="control-grid einkimg-grid">
 
-      <!-- 1. Display Mode — first choice, drives coffee list filtering -->
+      <!-- Col 1: Display Mode -->
       <div class="control-panel">
         <h3>Display Mode</h3>
         <div id="einkimgColorGroup" class="radio-group" data-value="bw">
@@ -1252,8 +1261,12 @@ input[type="number"]:focus { border-color: var(--amber); }
           <div class="radio-opt disabled-opt" data-val="3color"><span class="radio-dot"></span> 3-Color</div>
           <div class="radio-opt" data-val="4color" onclick="switchColorMode('4color')"><span class="radio-dot"></span> 4-Color</div>
         </div>
+        <button class="einkimg-btn" onclick="generateEinkImage()" style="margin-top:12px;">Generate Preview</button>
+      </div>
 
-        <h3 style="margin-top:8px;">Resolution</h3>
+      <!-- Col 2: Resolution -->
+      <div class="control-panel">
+        <h3>Resolution</h3>
         <div id="einkimgResGroup" class="radio-group" data-value="800x480">
           <div class="radio-opt" data-val="792x528" onclick="selectEinkImgRadio('einkimgResGroup','792x528')">
             <span class="radio-dot"></span> 3.68&quot; <span class="einkimg-res-label">792&times;528</span>
@@ -1273,29 +1286,21 @@ input[type="number"]:focus { border-color: var(--amber); }
           <label>&times;</label>
           <label>V</label><input type="number" id="einkimgCustomH" value="300" min="100" max="2000">
         </div>
-
-        <button class="einkimg-btn" onclick="generateEinkImage()" style="margin-top:8px;">Generate Preview</button>
       </div>
 
-      <!-- 2. Coffee Selection -->
+      <!-- Col 3: Coffee Selection -->
       <div class="control-panel">
         <h3 id="einkimg-coffee-heading">Select Coffees (max 4)</h3>
         <div id="einkimg-coffee-list" class="einkimg-coffee-list"></div>
       </div>
 
-      <!-- 3. Field Selection -->
+      <!-- Col 4: Field Selection -->
       <div class="control-panel">
         <h3>Fields to Display (max 6)</h3>
         <div id="einkimg-field-list" class="einkimg-field-list"></div>
 
         <!-- Numeric display is always dots (circles out of 10) -->
         <input type="hidden" id="einkimgNumericGroup" data-value="dots">
-      </div>
-
-      <!-- 4. Preview thumbnail (empty until generated) -->
-      <div class="control-panel">
-        <h3>Preview</h3>
-        <canvas id="einkimg-thumb" style="width:100%; border:1px solid var(--border); border-radius:4px; background:#fff;"></canvas>
       </div>
 
     </div>
