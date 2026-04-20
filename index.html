@@ -1374,6 +1374,108 @@ input[type="number"]:focus { border-color: var(--amber); }
   <div class="sim-preview">
     <canvas id="sim-canvas" width="800" height="480"></canvas>
   </div>
+
+  <!-- Fixed Specs & Developer Notes -->
+  <section class="assumptions-section">
+    <h3>Fixed Specs &amp; Developer Notes</h3>
+    <div class="assumption-categories">
+
+      <div class="assumption-cat">
+        <h4>Typography (Fixed)</h4>
+        <ul>
+          <li>Font family: <strong>IBM Plex Sans</strong></li>
+          <li>Brand: <strong>500 weight</strong>, uppercase</li>
+          <li>Flavour Name: <strong>700 weight</strong> (bold)</li>
+          <li>Field Labels: <strong>600 weight</strong>, uppercase</li>
+          <li>Field Values: <strong>700 weight</strong> (bold)</li>
+          <li>Position labels: <strong>600 weight</strong>, 75% of label size</li>
+          <li>Baseline offset from center: <strong>fontSize &times; 0.35</strong></li>
+        </ul>
+      </div>
+
+      <div class="assumption-cat">
+        <h4>Layout (Fixed)</h4>
+        <ul>
+          <li>Padding: <strong>15 px</strong> on all sides</li>
+          <li>Background: <strong>#FFFFFF</strong>, Text: <strong>#000000</strong>, Pos labels: <strong>#666666</strong></li>
+          <li>Dividers: <strong>2 px</strong> black between cards</li>
+          <li>Content clipped to card bounds (no overflow)</li>
+          <li>1 coffee: full canvas, label <strong>FRONT</strong></li>
+          <li>2 coffees: L/R split, labels <strong>LEFT / RIGHT</strong></li>
+          <li>3&ndash;4: 2&times;2 grid, labels <strong>FRONT L/R, BACK L/R</strong></li>
+        </ul>
+      </div>
+
+      <div class="assumption-cat">
+        <h4>Dot Rendering</h4>
+        <ul>
+          <li>Always <strong>10 circles</strong> for intensity/bitterness</li>
+          <li>Filled &#x25CF;: black fill + <strong>1.5 px</strong> stroke</li>
+          <li>Empty &#x25CB;: <strong>1.5 px</strong> stroke only</li>
+          <li>&ldquo;(N)&rdquo; number: label font size, centered to dot row</li>
+          <li>Dot center Y = cursor (drawn top-aligned at cursor)</li>
+        </ul>
+      </div>
+
+      <div class="assumption-cat">
+        <h4>DECAF Badge</h4>
+        <ul>
+          <li>Shown right-aligned on <strong>BEST SERVED AS</strong> row</li>
+          <li>Only when coffee.decaf = true AND decaf field selected</li>
+          <li>Badge padding: <strong>4 px</strong> horizontal, <strong>2 px</strong> vertical</li>
+          <li>Border: <strong>1.5 px</strong> black, square corners (no radius)</li>
+          <li>Text: same font/size as field labels (600 weight)</li>
+        </ul>
+      </div>
+
+      <div class="assumption-cat">
+        <h4>Spacing Rules (Derived)</h4>
+        <ul>
+          <li>All vertical spacing is <strong>center-to-center</strong></li>
+          <li>Cursor tracks center of current element</li>
+          <li>Brand &rarr; Flavour: tight &mdash; <strong>brandSize/2 + 1 + nameSize/2</strong></li>
+          <li>Flavour &rarr; first label: <strong>SEC + (nameSize &minus; valueSize) / 2</strong> (compensates for larger font)</li>
+          <li>Label &rarr; Value: <strong>LV pitch</strong></li>
+          <li>Value &rarr; next Label: <strong>SEC pitch</strong></li>
+          <li>Intensity &amp; Bitterness rendered side-by-side (contentW / 2 split)</li>
+        </ul>
+      </div>
+
+      <div class="assumption-cat">
+        <h4>Field Ordering</h4>
+        <ul>
+          <li>Draw order: <strong>Brand &rarr; Flavour &rarr; Notes &rarr; Best Served As &rarr; Intensity/Bitterness row &rarr; Your Review</strong></li>
+          <li>Decaf: inline badge on BEST SERVED AS row (not its own block)</li>
+          <li>Intensity/Bitterness: always on same row (left/right split)</li>
+          <li>Your Review: always last, text wraps to 2 lines, 75 char cap</li>
+        </ul>
+      </div>
+
+      <div class="assumption-cat">
+        <h4>Resolutions (Landscape)</h4>
+        <ul>
+          <li>3.68&quot;: <strong>792 &times; 528</strong> px</li>
+          <li>3.97&quot;: <strong>800 &times; 480</strong> px (default)</li>
+          <li>3.98&quot;: <strong>768 &times; 552</strong> px</li>
+          <li>Preview canvas renders at target resolution (1&times;)</li>
+          <li>E-Ink Image preview uses <strong>2&times; DPR</strong> for sharper onscreen display, then downscales for export</li>
+        </ul>
+      </div>
+
+      <div class="assumption-cat">
+        <h4>Bitmap Array Format (for firmware)</h4>
+        <ul>
+          <li><strong>1 bit per pixel</strong>, MSB first, row-major</li>
+          <li>White = <strong>1</strong>, Black = <strong>0</strong></li>
+          <li>Luminance threshold: <strong>0.299R + 0.587G + 0.114B &ge; 128</strong></li>
+          <li>Total bytes = <strong>ceil(width &times; height / 8)</strong></li>
+          <li><strong>180&deg; rotated</strong> to match e-ink controller orientation (pixels read from bottom-right to top-left)</li>
+          <li>C header exports include <code>WIDTH</code>, <code>HEIGHT</code>, <code>BYTES</code> defines</li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
 </div>
 
 <div id="weighing-content" class="coming-soon-page">
