@@ -31,6 +31,9 @@ Generates PNG images for Podsque e-ink displays to test readability at target re
 - Position labels (FRONT, LEFT/RIGHT, FRONT L/R, BACK L/R) match physical pod holder slots
 - Color mode (B/W, 3-Color, 4-Color) — coming soon
 - Download as PNG for testing on physical e-ink panels
+- Download as monochrome bitmap C header (`.h`) for direct firmware use
+
+See [RENDERING_SPEC.md](RENDERING_SPEC.md) for the complete rendering specification — typography, spacing, dot rendering, bitmap format, and per-layout profiles for firmware developers.
 
 ## Counting + Hub
 
