@@ -2023,5 +2023,716 @@
     "intensity": 5,
     "bitterness": 2,
     "decaf": false
+  },
+  {
+    "brand": "Keurig",
+    "flavour": "Dark Magic Coffee",
+    "tasting": "Bold, deep, intense",
+    "cupSize": "Small - Travel",
+    "intensity": 8,
+    "bitterness": 4,
+    "decaf": false
+  },
+  {
+    "brand": "The Coffee Folks",
+    "flavour": "Single Coffee xPods",
+    "tasting": "Varies by selection",
+    "cupSize": "Espresso",
+    "intensity": 1,
+    "bitterness": 1,
+    "decaf": true
+  },
+  {
+    "brand": "Perla",
+    "flavour": "Decaffeinated Coffee Pads",
+    "tasting": "Smooth, Balanced",
+    "cupSize": "Coffee/Mug",
+    "intensity": 5,
+    "bitterness": null,
+    "decaf": true
+  },
+  {
+    "brand": "Kanis & Gunnink",
+    "flavour": "Regular Coffee Pads",
+    "tasting": "Smooth, Balanced",
+    "cupSize": "Coffee/Mug",
+    "intensity": 5,
+    "bitterness": null,
+    "decaf": false
+  },
+  {
+    "brand": "Fresh Brew Co.",
+    "flavour": "Iced Coffee",
+    "tasting": "Spicy and Cocoa",
+    "cupSize": "Espresso",
+    "intensity": 9,
+    "bitterness": null,
+    "decaf": false
+  },
+  {
+    "brand": "Coffeeza",
+    "flavour": "Filter Coffee 80/20",
+    "tasting": "Caramel, chocolate",
+    "cupSize": "Espresso",
+    "intensity": null,
+    "bitterness": null,
+    "decaf": false
+  },
+  {
+    "brand": "Great Value",
+    "flavour": "Medium Roast Coffee Pods",
+    "tasting": "Balanced, smooth",
+    "cupSize": "Coffee/Mug",
+    "intensity": 7,
+    "bitterness": 5,
+    "decaf": false
+  },
+  {
+    "brand": "Great Value",
+    "flavour": "Dark Roast Coffee Pods",
+    "tasting": "Bold, intense",
+    "cupSize": "Coffee/Mug",
+    "intensity": 9,
+    "bitterness": 7,
+    "decaf": false
+  },
+  {
+    "brand": "Nabob",
+    "flavour": "100% Colombian Coffee Pods",
+    "tasting": "Balanced, smooth",
+    "cupSize": "Coffee/Mug",
+    "intensity": 7,
+    "bitterness": 5,
+    "decaf": false
+  },
+  {
+    "brand": "Perla",
+    "flavour": "Mild Roast Coffee Pads",
+    "tasting": "Mild, Smooth",
+    "cupSize": "Coffee/Mug",
+    "intensity": 4,
+    "bitterness": null,
+    "decaf": false
+  },
+  {
+    "brand": "Perla",
+    "flavour": "Mokka Coffee Pads",
+    "tasting": "Fruity, Light",
+    "cupSize": "Coffee/Mug",
+    "intensity": 3,
+    "bitterness": null,
+    "decaf": false
+  },
+  {
+    "brand": "Nespresso",
+    "flavour": "Cold Brew Style",
+    "tasting": "Caramel, Cereal",
+    "cupSize": "Alto / XL",
+    "intensity": null,
+    "bitterness": 2,
+    "decaf": false
+  },
+  {
+    "brand": "Nabob",
+    "flavour": "Bold Midnight Eclipse Coffee 100% Compostable Pods",
+    "tasting": "Bold, intense dark roast",
+    "cupSize": "Coffee/Mug",
+    "intensity": null,
+    "bitterness": null,
+    "decaf": false
+  },
+  {
+    "brand": "Fresh Brew Co.",
+    "flavour": "Hazelnut",
+    "tasting": "Nutty and Sweet",
+    "cupSize": "Espresso",
+    "intensity": 6,
+    "bitterness": null,
+    "decaf": false
+  },
+  {
+    "brand": "Fresh Brew Co.",
+    "flavour": "DASHA",
+    "tasting": "Nutty and Sweet",
+    "cupSize": "Espresso",
+    "intensity": 8,
+    "bitterness": null,
+    "decaf": false
+  },
+  {
+    "brand": "Fresh Brew Co.",
+    "flavour": "Vanilla",
+    "tasting": "Floral and Sweet",
+    "cupSize": "Espresso",
+    "intensity": 6,
+    "bitterness": null,
+    "decaf": false
+  },
+  {
+    "brand": "Fresh Brew Co.",
+    "flavour": "Chocolate",
+    "tasting": "Chocolate and Sweet",
+    "cupSize": "Espresso",
+    "intensity": 6,
+    "bitterness": null,
+    "decaf": false
+  },
+  {
+    "brand": "Fresh Brew Co.",
+    "flavour": "African Collection Tanzania",
+    "tasting": "Toasted almond, apricot",
+    "cupSize": "Espresso",
+    "intensity": 6,
+    "bitterness": null,
+    "decaf": false
+  },
+  {
+    "brand": "Fresh Brew Co.",
+    "flavour": "Monsooned Malabar",
+    "tasting": "Woody, Chocolate and nuts",
+    "cupSize": "Espresso",
+    "intensity": 7,
+    "bitterness": null,
+    "decaf": false
+  },
+  {
+    "brand": "Fresh Brew Co.",
+    "flavour": "Caramel",
+    "tasting": "Caramel",
+    "cupSize": "Espresso",
+    "intensity": 6,
+    "bitterness": null,
+    "decaf": false
+  },
+  {
+    "brand": "Fresh Brew Co.",
+    "flavour": "Decaf",
+    "tasting": "Milk Chocolate",
+    "cupSize": "Espresso",
+    "intensity": 6,
+    "bitterness": null,
+    "decaf": true
+  },
+  {
+    "brand": "Fresh Brew Co.",
+    "flavour": "African Collection Ethiopia",
+    "tasting": "Berry, mild acidity",
+    "cupSize": "Espresso",
+    "intensity": 6,
+    "bitterness": null,
+    "decaf": false
+  },
+  {
+    "brand": "Caribou Coffee",
+    "flavour": "Caribou Blend Medium Roast",
+    "tasting": "Balanced blend with woodsy, spicy notes and bright berry highlights — smooth and approachable cup",
+    "cupSize": "Small - Travel",
+    "intensity": 5,
+    "bitterness": 3,
+    "decaf": false
+  },
+  {
+    "brand": "Fresh Brew Co.",
+    "flavour": "African Collection Kenya",
+    "tasting": "Grape, pear, citrus",
+    "cupSize": "Espresso",
+    "intensity": 6,
+    "bitterness": null,
+    "decaf": false
+  },
+  {
+    "brand": "Fresh Brew Co.",
+    "flavour": "Fateh",
+    "tasting": "Bittersweet, Spicy and Cocoa",
+    "cupSize": "Espresso",
+    "intensity": null,
+    "bitterness": null,
+    "decaf": false
+  },
+  {
+    "brand": "Fresh Brew Co.",
+    "flavour": "Noor Ristretto",
+    "tasting": "Spicy and Cocoa",
+    "cupSize": "Espresso",
+    "intensity": null,
+    "bitterness": null,
+    "decaf": false
+  },
+  {
+    "brand": "Fresh Brew Co.",
+    "flavour": "Javas",
+    "tasting": "Cocoa",
+    "cupSize": "Espresso",
+    "intensity": 10,
+    "bitterness": null,
+    "decaf": false
+  },
+  {
+    "brand": "Maxwell House",
+    "flavour": "House Blend Coffee Certified Compostable K-Cup Coffee Pods",
+    "tasting": "Smooth, strong flavour",
+    "cupSize": "Coffee/Mug",
+    "intensity": null,
+    "bitterness": null,
+    "decaf": false
+  },
+  {
+    "brand": "Maxwell House",
+    "flavour": "100% Colombian Coffee Certified Compostable K-Cup Coffee Pods",
+    "tasting": "Colombian profile",
+    "cupSize": "Coffee/Mug",
+    "intensity": null,
+    "bitterness": null,
+    "decaf": false
+  },
+  {
+    "brand": "My Coffee Cup",
+    "flavour": "Single Origin Ethiopia",
+    "tasting": "Floral, fruity",
+    "cupSize": "Espresso",
+    "intensity": null,
+    "bitterness": null,
+    "decaf": false
+  },
+  {
+    "brand": "My Coffee Cup",
+    "flavour": "Single Origin Colombia",
+    "tasting": "Balanced, mild acidity",
+    "cupSize": "Espresso",
+    "intensity": null,
+    "bitterness": null,
+    "decaf": false
+  },
+  {
+    "brand": "Starbucks",
+    "flavour": "Single-Origin Colombia",
+    "tasting": "Nutty, balanced cocoa",
+    "cupSize": "Espresso",
+    "intensity": 7,
+    "bitterness": 5,
+    "decaf": false
+  },
+  {
+    "brand": "Jacobs",
+    "flavour": "Single Origins Colombia",
+    "tasting": "Fruity origin coffee",
+    "cupSize": "Espresso",
+    "intensity": 9,
+    "bitterness": null,
+    "decaf": false
+  },
+  {
+    "brand": "Jacobs",
+    "flavour": "Single Origins Guatemala",
+    "tasting": "Origin coffee, aromatic",
+    "cupSize": "Espresso",
+    "intensity": 7,
+    "bitterness": null,
+    "decaf": false
+  },
+  {
+    "brand": "Nespresso",
+    "flavour": "Colombia",
+    "tasting": "RedFruit, Fruity",
+    "cupSize": "Coffee/Mug",
+    "intensity": 5,
+    "bitterness": 1,
+    "decaf": false
+  },
+  {
+    "brand": "Starbucks",
+    "flavour": "Sumatra",
+    "tasting": "Earthy, herbal, spicy",
+    "cupSize": "French Press, Drip",
+    "intensity": 8,
+    "bitterness": 5,
+    "decaf": false
+  },
+  {
+    "brand": "Nespresso",
+    "flavour": "Indonesia",
+    "tasting": "Intense, Cereal, Woody",
+    "cupSize": "Espresso, Lungo",
+    "intensity": 8,
+    "bitterness": 3,
+    "decaf": false
+  },
+  {
+    "brand": "Suzuki Coffee (SG)",
+    "flavour": "Sumatra",
+    "tasting": "Spice",
+    "cupSize": "Espresso",
+    "intensity": 8,
+    "bitterness": null,
+    "decaf": false
+  },
+  {
+    "brand": "Nespresso",
+    "flavour": "Costa Rica",
+    "tasting": "Nutty And Balanced",
+    "cupSize": "Gran Lungo",
+    "intensity": 7,
+    "bitterness": 3,
+    "decaf": false
+  },
+  {
+    "brand": "Wogan",
+    "flavour": "Kenya Kariti Kianjege AA",
+    "tasting": "Honeydew melon, black cherry",
+    "cupSize": "Espresso",
+    "intensity": null,
+    "bitterness": 2,
+    "decaf": false
+  },
+  {
+    "brand": "Halo Coffee",
+    "flavour": "Honduras Whole Bean Coffee",
+    "tasting": "Walnuts, malt, milk chocolate",
+    "cupSize": "Espresso, Filter, French Press",
+    "intensity": null,
+    "bitterness": null,
+    "decaf": false
+  },
+  {
+    "brand": "Nespresso",
+    "flavour": "Nicaragua",
+    "tasting": "Nutty And Balanced",
+    "cupSize": "Espresso, Lungo",
+    "intensity": 5,
+    "bitterness": 2,
+    "decaf": false
+  },
+  {
+    "brand": "Counter Culture",
+    "flavour": "La Golondrina",
+    "tasting": "Nutty, chocolate, balanced",
+    "cupSize": "Pour-over, Drip",
+    "intensity": 6,
+    "bitterness": 3,
+    "decaf": false
+  },
+  {
+    "brand": "Blue Bottle",
+    "flavour": "Balanced Whole Bean Coffee",
+    "tasting": "Cocoa, smooth",
+    "cupSize": "Drip, Pour-over",
+    "intensity": 6,
+    "bitterness": 3,
+    "decaf": false
+  },
+  {
+    "brand": "Caribou Coffee",
+    "flavour": "Daybreak Morning Blend Whole Bean Coffee",
+    "tasting": "Bright acidity with floral overtones, subtly sweet fruitiness and caramel finish",
+    "cupSize": "Drip, Pour-over, French Press",
+    "intensity": 5,
+    "bitterness": 2,
+    "decaf": false
+  },
+  {
+    "brand": "Caribou Coffee",
+    "flavour": "Caribou Blend Medium Roast Whole Bean Coffee",
+    "tasting": "Well-rounded and sweet with woodsy spice and caramel notes",
+    "cupSize": "Drip, Pour-over, French Press",
+    "intensity": 5,
+    "bitterness": 5,
+    "decaf": false
+  },
+  {
+    "brand": "Colonna Coffee",
+    "flavour": "Foundation Beans – Pico Mirante",
+    "tasting": "Nutty, sweet, balanced",
+    "cupSize": "Espresso, Filter",
+    "intensity": null,
+    "bitterness": null,
+    "decaf": false
+  },
+  {
+    "brand": "Colonna Coffee",
+    "flavour": "Discovery Beans – Filadelfia",
+    "tasting": "Green fruit, spice, sweet",
+    "cupSize": "Espresso, Filter",
+    "intensity": null,
+    "bitterness": null,
+    "decaf": false
+  },
+  {
+    "brand": "Colonna Coffee",
+    "flavour": "Rare Beans – Los Aguacatones",
+    "tasting": "Complex aromatics, fruity",
+    "cupSize": "Filter, Espresso",
+    "intensity": null,
+    "bitterness": null,
+    "decaf": false
+  },
+  {
+    "brand": "Volcano Coffee Works",
+    "flavour": "Hermosa Costa Rica",
+    "tasting": "Honey, peach, almond",
+    "cupSize": "Filter, Espresso",
+    "intensity": null,
+    "bitterness": null,
+    "decaf": false
+  },
+  {
+    "brand": "Volcano Coffee Works",
+    "flavour": "Kamavindi",
+    "tasting": "Raspberry, elderflower, red wine",
+    "cupSize": "Filter, Espresso",
+    "intensity": null,
+    "bitterness": null,
+    "decaf": false
+  },
+  {
+    "brand": "Cowpresso",
+    "flavour": "Colombia Cola Blend",
+    "tasting": "Chocolate bar with dried fruit and chopped sweet nuts",
+    "cupSize": "Espresso",
+    "intensity": 7,
+    "bitterness": 2,
+    "decaf": false
+  },
+  {
+    "brand": "Dunkin’",
+    "flavour": "Apple Cider Donut",
+    "tasting": "Apple, cinnamon, baked donut sweetness",
+    "cupSize": "Small - Travel",
+    "intensity": null,
+    "bitterness": null,
+    "decaf": false
+  },
+  {
+    "brand": "Tanamera Coffee (SG)",
+    "flavour": "Aceh Gayo",
+    "tasting": "Tropical fruits, green apple, caramel",
+    "cupSize": "Espresso",
+    "intensity": null,
+    "bitterness": null,
+    "decaf": false
+  },
+  {
+    "brand": "Nespresso",
+    "flavour": "Pour-Over Style",
+    "tasting": "Smoky Notes, Woody",
+    "cupSize": "Alto / XL",
+    "intensity": null,
+    "bitterness": 3,
+    "decaf": false
+  },
+  {
+    "brand": "Peet’s Coffee",
+    "flavour": "Café Domingo",
+    "tasting": "Smooth, balanced, gently sweet with a clean finish",
+    "cupSize": "Drip, Pour-over",
+    "intensity": 5,
+    "bitterness": 2,
+    "decaf": false
+  },
+  {
+    "brand": "Nespresso",
+    "flavour": "Pistachio Vanilla Flavour Over Ice",
+    "tasting": "Pistachio, vanilla, caramel, biscuit, almond notes",
+    "cupSize": "Double Espresso",
+    "intensity": null,
+    "bitterness": 2,
+    "decaf": false
+  },
+  {
+    "brand": "Nespresso",
+    "flavour": "Pistachio Vanilla Flavor Over Ice",
+    "tasting": "Caramel, Biscuity",
+    "cupSize": "Alto / XL",
+    "intensity": null,
+    "bitterness": null,
+    "decaf": false
+  },
+  {
+    "brand": "Day to Day Coffee",
+    "flavour": "Colombian Supreme Light Roast",
+    "tasting": "Bright and lively with citrus and berry undertones",
+    "cupSize": "Small - Travel",
+    "intensity": 4,
+    "bitterness": 2,
+    "decaf": false
+  },
+  {
+    "brand": "Nespresso",
+    "flavour": "Ethiopia",
+    "tasting": "Fruity",
+    "cupSize": "Gran Lungo",
+    "intensity": 4,
+    "bitterness": 1,
+    "decaf": false
+  },
+  {
+    "brand": "illy",
+    "flavour": "Iperespresso Ethiopia",
+    "tasting": "Floral",
+    "cupSize": "Espresso",
+    "intensity": 3,
+    "bitterness": 2,
+    "decaf": false
+  },
+  {
+    "brand": "illy",
+    "flavour": "Iperespresso Brazil",
+    "tasting": "Chocolate, sweet",
+    "cupSize": "Espresso",
+    "intensity": 5,
+    "bitterness": 5,
+    "decaf": false
+  },
+  {
+    "brand": "Segafredo",
+    "flavour": "Le Origini Brasile",
+    "tasting": "Honey, balanced",
+    "cupSize": "Espresso",
+    "intensity": 6,
+    "bitterness": null,
+    "decaf": false
+  },
+  {
+    "brand": "Barista Prima",
+    "flavour": "Colombia",
+    "tasting": "Balanced, smooth",
+    "cupSize": "Small - Travel",
+    "intensity": 7,
+    "bitterness": 5,
+    "decaf": false
+  },
+  {
+    "brand": "Nespresso",
+    "flavour": "Master Origin Colombia",
+    "tasting": "Fruity red berries, candied apple",
+    "cupSize": "Coffee/Mug",
+    "intensity": 5,
+    "bitterness": 2,
+    "decaf": false
+  },
+  {
+    "brand": "Nespresso",
+    "flavour": "Late Harvest Arabica Colombia",
+    "tasting": "Fruity and wine-like acidity",
+    "cupSize": "Espresso",
+    "intensity": null,
+    "bitterness": null,
+    "decaf": false
+  },
+  {
+    "brand": "Green Mountain",
+    "flavour": "Colombian Select",
+    "tasting": "Rich, smooth",
+    "cupSize": "Small - Travel",
+    "intensity": 7,
+    "bitterness": 5,
+    "decaf": false
+  },
+  {
+    "brand": "Segafredo",
+    "flavour": "Le Origini Peru",
+    "tasting": "Chocolate, caramel",
+    "cupSize": "Espresso",
+    "intensity": 6,
+    "bitterness": null,
+    "decaf": false
+  },
+  {
+    "brand": "Victor Allen’s Coffee",
+    "flavour": "Organic Peruvian",
+    "tasting": "Smooth and mild with subtle nutty notes and gentle acidity",
+    "cupSize": "Small - Travel",
+    "intensity": 6,
+    "bitterness": 2,
+    "decaf": false
+  },
+  {
+    "brand": "Fresh Brew Co.",
+    "flavour": "Anagh",
+    "tasting": "Sweet, toffied caramel",
+    "cupSize": "Espresso",
+    "intensity": 8,
+    "bitterness": null,
+    "decaf": false
+  },
+  {
+    "brand": "Maxwell House",
+    "flavour": "Original Roast Coffee Certified Compostable K-Cup Coffee Pods",
+    "tasting": "Classic roast",
+    "cupSize": "Coffee/Mug",
+    "intensity": null,
+    "bitterness": null,
+    "decaf": false
+  },
+  {
+    "brand": "Starbucks",
+    "flavour": "Single-Origin Guatemala Coffee Capsules",
+    "tasting": "Floral, citrus",
+    "cupSize": "Espresso",
+    "intensity": 6,
+    "bitterness": null,
+    "decaf": false
+  },
+  {
+    "brand": "Starbucks",
+    "flavour": "Single-Origin Colombia Coffee Capsules",
+    "tasting": "Nutty, balanced",
+    "cupSize": "Espresso",
+    "intensity": 7,
+    "bitterness": null,
+    "decaf": false
+  },
+  {
+    "brand": "Starbucks",
+    "flavour": "Single-Origin Sumatra Coffee Capsules",
+    "tasting": "Earthy, herbal",
+    "cupSize": "Espresso",
+    "intensity": 10,
+    "bitterness": null,
+    "decaf": false
+  },
+  {
+    "brand": "L'OR",
+    "flavour": "Espresso Colombia Coffee Capsules",
+    "tasting": "Fruity, lively acidity",
+    "cupSize": "Espresso",
+    "intensity": 6,
+    "bitterness": null,
+    "decaf": false
+  },
+  {
+    "brand": "L'OR",
+    "flavour": "Espresso Brazil Coffee Capsules",
+    "tasting": "Nutty, mild, smooth",
+    "cupSize": "Espresso",
+    "intensity": 8,
+    "bitterness": null,
+    "decaf": false
+  },
+  {
+    "brand": "Suzuki Coffee (SG)",
+    "flavour": "Apricot Bloom",
+    "tasting": "Apricot, Floral",
+    "cupSize": "Espresso",
+    "intensity": 5,
+    "bitterness": null,
+    "decaf": false
+  },
+  {
+    "brand": "L'OR",
+    "flavour": "Espresso Guatemala Coffee Capsules",
+    "tasting": "Spicy, cocoa notes",
+    "cupSize": "Espresso",
+    "intensity": 7,
+    "bitterness": null,
+    "decaf": false
+  },
+  {
+    "brand": "L'OR",
+    "flavour": "Espresso India Coffee Capsules",
+    "tasting": "Spicy, intense",
+    "cupSize": "Espresso",
+    "intensity": 8,
+    "bitterness": null,
+    "decaf": false
   }
 ]
