@@ -2504,16 +2504,8 @@ function populateCoffeeList() {
     // Pre-select up to 4 coffees with pod images
     preSelectSet = new Set(filtered.slice(0, 4));
   } else {
-    // Pre-select longest decaf coffee name
-    let longestIdx = filtered[0] || 0, longestLen = 0;
-    filtered.forEach(i => {
-      const c = COFFEES[i];
-      if (c.decaf && (c.brand + c.flavour).length > longestLen) {
-        longestLen = (c.brand + c.flavour).length;
-        longestIdx = i;
-      }
-    });
-    preSelectSet = new Set([longestIdx]);
+    // No pre-selection in B/W mode — user picks
+    preSelectSet = new Set();
   }
 
   // Build checkbox rows
