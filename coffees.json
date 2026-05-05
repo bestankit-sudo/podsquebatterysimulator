@@ -1,0 +1,1244 @@
+[
+  {
+    "brand": "Nespresso",
+    "flavour": "Arpeggio Decaffeinato",
+    "tasting": "Cocoa, dense",
+    "cupSize": "Espresso",
+    "intensity": null,
+    "bitterness": null,
+    "decaf": true
+  },
+  {
+    "brand": "Segafredo",
+    "flavour": "Intenso",
+    "tasting": "",
+    "cupSize": "Espresso",
+    "intensity": 8,
+    "bitterness": null,
+    "decaf": false
+  },
+  {
+    "brand": "Peet’s Coffee",
+    "flavour": "Brazil Minas Naturais",
+    "tasting": "Nutty, smooth, chocolate-forward",
+    "cupSize": "Drip, Pour-over",
+    "intensity": 5,
+    "bitterness": 2,
+    "decaf": false
+  },
+  {
+    "brand": "Good & Gather",
+    "flavour": "Naturally Flavored Vanilla Bean Brulee Light Roast Coffee",
+    "tasting": "Sweet vanilla bean with creamy notes",
+    "cupSize": "Small - Travel",
+    "intensity": 4,
+    "bitterness": 2,
+    "decaf": false
+  },
+  {
+    "brand": "Day to Day Coffee",
+    "flavour": "Breakfast Blend Medium Roast",
+    "tasting": "Rich and mellow with balanced flavor – perfect morning cup",
+    "cupSize": "Small - Travel",
+    "intensity": 5,
+    "bitterness": 2,
+    "decaf": false
+  },
+  {
+    "brand": "Day to Day Coffee",
+    "flavour": "Italian Classico",
+    "tasting": "Classic Italian style roast with balanced body and bold notes",
+    "cupSize": "Small - Travel",
+    "intensity": 6,
+    "bitterness": 5,
+    "decaf": false
+  },
+  {
+    "brand": "Dunkin",
+    "flavour": "Original Blend Medium Roast Whole Bean Coffee",
+    "tasting": "Classic balanced roast with smooth flavor",
+    "cupSize": "Drip, Pour-over, French Press",
+    "intensity": 5,
+    "bitterness": 5,
+    "decaf": false
+  },
+  {
+    "brand": "Lavazza",
+    "flavour": "Decaf",
+    "tasting": "Chocolate, dried fruit",
+    "cupSize": "Espresso",
+    "intensity": 7,
+    "bitterness": 5,
+    "decaf": true
+  },
+  {
+    "brand": "Lavazza",
+    "flavour": "Espresso Gourmet Chocolate",
+    "tasting": "Chocolate, vanilla, nutty notes",
+    "cupSize": "Espresso",
+    "intensity": 10,
+    "bitterness": 5,
+    "decaf": false
+  },
+  {
+    "brand": "Lavazza",
+    "flavour": "Qualità Rossa",
+    "tasting": "Chocolatey, full-bodied with smooth finish",
+    "cupSize": "Espresso",
+    "intensity": 7,
+    "bitterness": 5,
+    "decaf": false
+  },
+  {
+    "brand": "Starbucks",
+    "flavour": "Caramel Flavored Coffee",
+    "tasting": "Rich caramel, smooth finish.",
+    "cupSize": "Small - Travel",
+    "intensity": 4,
+    "bitterness": 2,
+    "decaf": false
+  },
+  {
+    "brand": "Dunkin’",
+    "flavour": "Midnight Coffee",
+    "tasting": "Extra-bold, smoky, intense dark roast",
+    "cupSize": "Small - Travel",
+    "intensity": null,
+    "bitterness": null,
+    "decaf": false
+  },
+  {
+    "brand": "TAG Espresso",
+    "flavour": "Midnight Blue, Dark roast with bold flavors",
+    "tasting": "Rich, bold flavor with chocolate undertones",
+    "cupSize": "Espresso",
+    "intensity": 8,
+    "bitterness": 3,
+    "decaf": false
+  },
+  {
+    "brand": "illy",
+    "flavour": "X‑CAPS Forte Roast",
+    "tasting": "Toasted bread, dark chocolate",
+    "cupSize": "Espresso",
+    "intensity": 9,
+    "bitterness": null,
+    "decaf": false
+  },
+  {
+    "brand": "Starbucks",
+    "flavour": "Caramel Macchiato",
+    "tasting": "Caramel, milk, espresso",
+    "cupSize": "Latte",
+    "intensity": null,
+    "bitterness": null,
+    "decaf": false
+  },
+  {
+    "brand": "Halo Coffee",
+    "flavour": "Nepalese Everest Whole Bean Coffee",
+    "tasting": "Cinnamon, ginger, citrus",
+    "cupSize": "Espresso, Filter",
+    "intensity": null,
+    "bitterness": null,
+    "decaf": false
+  },
+  {
+    "brand": "L’OR Espresso",
+    "flavour": "Ristretto",
+    "tasting": "Bold, powerful",
+    "cupSize": "Ristretto",
+    "intensity": 10,
+    "bitterness": null,
+    "decaf": false
+  },
+  {
+    "brand": "Intelligentsia",
+    "flavour": "Organic Decaf House Blend",
+    "tasting": "Smooth decaf",
+    "cupSize": "Drip, Pour-over",
+    "intensity": 5,
+    "bitterness": 3,
+    "decaf": true
+  },
+  {
+    "brand": "Keurig",
+    "flavour": "Breakfast Blend Max Brew",
+    "tasting": "Bright, clean, rich flavor for larger cups",
+    "cupSize": "Small - Travel",
+    "intensity": 4,
+    "bitterness": 2,
+    "decaf": false
+  },
+  {
+    "brand": "Blue Bottle",
+    "flavour": "Extra Bold Organic",
+    "tasting": "Deep roast",
+    "cupSize": "French Press, Espresso",
+    "intensity": 9,
+    "bitterness": 7,
+    "decaf": false
+  },
+  {
+    "brand": "Colonna Coffee",
+    "flavour": "SOLO Coffee Beans",
+    "tasting": "Molasses, berry, syrupy",
+    "cupSize": "Espresso, Filter",
+    "intensity": null,
+    "bitterness": null,
+    "decaf": false
+  },
+  {
+    "brand": "Huggs Coffee",
+    "flavour": "h-blend",
+    "tasting": "Smooth and balanced, capturing the essence of Huggs' signature notes",
+    "cupSize": "Espresso",
+    "intensity": 7,
+    "bitterness": 3,
+    "decaf": false
+  },
+  {
+    "brand": "Lavazza",
+    "flavour": "A Modo Mio Lungo Dolce",
+    "tasting": "Floral, fruity, dried fruit, sweet",
+    "cupSize": "Lungo",
+    "intensity": 6,
+    "bitterness": 2,
+    "decaf": false
+  },
+  {
+    "brand": "Fresh Roasted Coffee – Espresso Capsules",
+    "flavour": "Kenya AA",
+    "tasting": "Bright berry acidity with wine-like complexity",
+    "cupSize": "Espresso",
+    "intensity": 7,
+    "bitterness": 4,
+    "decaf": false
+  },
+  {
+    "brand": "Costa",
+    "flavour": "Latte",
+    "tasting": "Smooth latte, velvety foam",
+    "cupSize": "Latte",
+    "intensity": null,
+    "bitterness": null,
+    "decaf": false
+  },
+  {
+    "brand": "Blue Bottle",
+    "flavour": "Decaf Whole Bean Coffee",
+    "tasting": "Almond, vanilla",
+    "cupSize": "Pour-over, Drip",
+    "intensity": 5,
+    "bitterness": 3,
+    "decaf": true
+  },
+  {
+    "brand": "Victor Allen’s Coffee",
+    "flavour": "Hawaiian Blend",
+    "tasting": "Smooth and mellow with subtle tropical and nutty notes",
+    "cupSize": "Small - Travel",
+    "intensity": 5,
+    "bitterness": 2,
+    "decaf": false
+  },
+  {
+    "brand": "Volcano Coffee Works",
+    "flavour": "Decaf Coffee",
+    "tasting": "Maple syrup, green grape, dark chocolate",
+    "cupSize": "Espresso, Filter",
+    "intensity": null,
+    "bitterness": null,
+    "decaf": true
+  },
+  {
+    "brand": "Colonna Coffee",
+    "flavour": "Decaf Beans – Yirgacheffe",
+    "tasting": "Floral, stone fruit",
+    "cupSize": "Espresso",
+    "intensity": null,
+    "bitterness": null,
+    "decaf": true
+  },
+  {
+    "brand": "Fresh Roasted Coffee – Espresso Capsules",
+    "flavour": "Costa Rican Tarrazu",
+    "tasting": "Bright acidity with honey sweetness and clean finish",
+    "cupSize": "Espresso",
+    "intensity": 6,
+    "bitterness": 4,
+    "decaf": false
+  },
+  {
+    "brand": "Halo Coffee",
+    "flavour": "Decaf Peruvian Andes Whole Bean Coffee",
+    "tasting": "Chocolate, nuts, citrus",
+    "cupSize": "Espresso, Filter",
+    "intensity": null,
+    "bitterness": null,
+    "decaf": true
+  },
+  {
+    "brand": "Nespresso",
+    "flavour": "Rich Chocolate",
+    "tasting": "Dark chocolate, caramel, almond",
+    "cupSize": "Coffee/Mug",
+    "intensity": null,
+    "bitterness": 2,
+    "decaf": false
+  },
+  {
+    "brand": "Starbucks",
+    "flavour": "House Blend Americano",
+    "tasting": "Balanced roasted coffee",
+    "cupSize": "Americano",
+    "intensity": null,
+    "bitterness": 5,
+    "decaf": false
+  },
+  {
+    "brand": "Starbucks",
+    "flavour": "Caffè Verona",
+    "tasting": "Dark cocoa, toasted sugar",
+    "cupSize": "Drip, French Press",
+    "intensity": 7,
+    "bitterness": 5,
+    "decaf": false
+  },
+  {
+    "brand": "Cafe Bustelo",
+    "flavour": "Café Bustelo Medium Roast Coffee",
+    "tasting": "Smooth and balanced medium roast coffee",
+    "cupSize": "Small - Travel",
+    "intensity": 6,
+    "bitterness": 4,
+    "decaf": false
+  },
+  {
+    "brand": "Lavazza",
+    "flavour": "Espresso Italiano Classico",
+    "tasting": "Sweet and aromatic with floral and fruity notes; long-lasting crema and rich, smooth flavor",
+    "cupSize": "Moka Pot, Espresso",
+    "intensity": 5,
+    "bitterness": 3,
+    "decaf": false
+  },
+  {
+    "brand": "Lavazza",
+    "flavour": "Espresso Barista Intenso Coffee Beans",
+    "tasting": "Cocoa, wood",
+    "cupSize": "Espresso",
+    "intensity": 9,
+    "bitterness": null,
+    "decaf": false
+  },
+  {
+    "brand": "Eight O’Clock Coffee",
+    "flavour": "Iced Dark Italian Espresso",
+    "tasting": "Intense espresso profile optimized for iced brew, bold and smoky",
+    "cupSize": "Small - Travel",
+    "intensity": 9,
+    "bitterness": 8,
+    "decaf": false
+  },
+  {
+    "brand": "Lavazza",
+    "flavour": "A Modo Mio ¡Tierra! For Planet",
+    "tasting": "Fruity, floral, biscuit, chocolate aftertaste",
+    "cupSize": "Espresso",
+    "intensity": 7,
+    "bitterness": 2,
+    "decaf": false
+  },
+  {
+    "brand": "Starbucks",
+    "flavour": "White Mocha",
+    "tasting": "White chocolate mocha",
+    "cupSize": "Mocha",
+    "intensity": null,
+    "bitterness": 2,
+    "decaf": false
+  },
+  {
+    "brand": "Fresh Roasted Coffee – envipods",
+    "flavour": "French Vanilla envipods",
+    "tasting": "Creamy vanilla sweetness with smooth finish",
+    "cupSize": "Small - Travel",
+    "intensity": 5,
+    "bitterness": 2,
+    "decaf": false
+  },
+  {
+    "brand": "Dunkin’",
+    "flavour": "Colombian Coffee",
+    "tasting": "Smooth, balanced flavor with mild acidity",
+    "cupSize": "Small - Travel",
+    "intensity": null,
+    "bitterness": null,
+    "decaf": false
+  },
+  {
+    "brand": "Dunkin’",
+    "flavour": "White Chocolate",
+    "tasting": "Sweet white chocolate flavor with smooth coffee base",
+    "cupSize": "Small - Travel",
+    "intensity": null,
+    "bitterness": null,
+    "decaf": false
+  },
+  {
+    "brand": "Lavazza",
+    "flavour": "Tierra for Bio-Organic",
+    "tasting": "Floral, fruity, sweet with clean finish",
+    "cupSize": "Espresso",
+    "intensity": 6,
+    "bitterness": 3,
+    "decaf": false
+  },
+  {
+    "brand": "Lavazza",
+    "flavour": "¡Tierra! For Planet Coffee Beans",
+    "tasting": "Fruity, balanced",
+    "cupSize": "Espresso, Filter",
+    "intensity": 6,
+    "bitterness": null,
+    "decaf": false
+  },
+  {
+    "brand": "Costa",
+    "flavour": "Cappuccino",
+    "tasting": "Espresso with frothy milk",
+    "cupSize": "Cappuccino",
+    "intensity": null,
+    "bitterness": null,
+    "decaf": false
+  },
+  {
+    "brand": "Lavazza",
+    "flavour": "Qualità Rossa Coffee Beans",
+    "tasting": "Chocolate, dried fruit",
+    "cupSize": "Espresso, Moka Pot, Bean-to-cup",
+    "intensity": 5,
+    "bitterness": null,
+    "decaf": false
+  },
+  {
+    "brand": "Peet’s",
+    "flavour": "Big Bang K-Cup",
+    "tasting": "Full-bodied with rich flavor notes, deeper roast profile",
+    "cupSize": "Small - Travel",
+    "intensity": 7,
+    "bitterness": 4,
+    "decaf": false
+  },
+  {
+    "brand": "Keurig",
+    "flavour": "Nantucket Blend Coffee",
+    "tasting": "Mild, smooth, balanced with subtle sweetness",
+    "cupSize": "Small - Travel",
+    "intensity": 5,
+    "bitterness": 5,
+    "decaf": false
+  },
+  {
+    "brand": "Peet’s",
+    "flavour": "House Blend K-Cup",
+    "tasting": "Balanced, rich Latin American coffee",
+    "cupSize": "Small - Travel",
+    "intensity": 6,
+    "bitterness": 3,
+    "decaf": false
+  },
+  {
+    "brand": "Lavazza",
+    "flavour": "A Modo Mio Passionale",
+    "tasting": "Caramel, chocolate",
+    "cupSize": "Espresso",
+    "intensity": 7,
+    "bitterness": 7,
+    "decaf": false
+  },
+  {
+    "brand": "TAG Espresso",
+    "flavour": "TAG Blue",
+    "tasting": "smooth with a balanced flavor profile",
+    "cupSize": "Espresso",
+    "intensity": 7,
+    "bitterness": 3,
+    "decaf": false
+  },
+  {
+    "brand": "Starbucks",
+    "flavour": "House Blend",
+    "tasting": "Toffee, cocoa, light spice",
+    "cupSize": "Drip, Pour-over, French Press",
+    "intensity": 6,
+    "bitterness": 5,
+    "decaf": false
+  },
+  {
+    "brand": "Caribou Coffee",
+    "flavour": "Cross Fox Espresso Whole Bean Coffee",
+    "tasting": "Bold with rich dark chocolate and caramel notes",
+    "cupSize": "Espresso, Moka Pot, Drip",
+    "intensity": 7,
+    "bitterness": 5,
+    "decaf": false
+  },
+  {
+    "brand": "Cowpresso",
+    "flavour": "Ethiopian Yirgacheffe Blend",
+    "tasting": "Strawberry, Floral, Juicy Plums, Citrus",
+    "cupSize": "Ristretto, Espresso",
+    "intensity": 7,
+    "bitterness": 2,
+    "decaf": false
+  },
+  {
+    "brand": "Starbucks",
+    "flavour": "Toffeenut Flavored Coffee",
+    "tasting": "Buttery toffee, sweet finish.",
+    "cupSize": "Small - Travel",
+    "intensity": 4,
+    "bitterness": 2,
+    "decaf": false
+  },
+  {
+    "brand": "Wogan",
+    "flavour": "Honduras Aldea Capucas",
+    "tasting": "Butter, golden syrup, praline",
+    "cupSize": "Espresso",
+    "intensity": null,
+    "bitterness": 2,
+    "decaf": false
+  },
+  {
+    "brand": "L’OR Espresso",
+    "flavour": "Brazil Coffee Beans",
+    "tasting": "Hazelnut, caramel, nutty, smooth",
+    "cupSize": "Espresso, Bean-to-cup, Filter",
+    "intensity": 6,
+    "bitterness": null,
+    "decaf": false
+  },
+  {
+    "brand": "Caribou Coffee",
+    "flavour": "Mahogany Blend Dark Roast",
+    "tasting": "Smooth earthy notes with balanced dark body — classic bold cup.",
+    "cupSize": "Small - Travel",
+    "intensity": 7,
+    "bitterness": 5,
+    "decaf": false
+  },
+  {
+    "brand": "Nespresso",
+    "flavour": "Ristretto Original",
+    "tasting": "Intense, roasted, cocoa, slightly fruity",
+    "cupSize": "Ristretto",
+    "intensity": 10,
+    "bitterness": 8,
+    "decaf": false
+  },
+  {
+    "brand": "L’OR Espresso",
+    "flavour": "Espresso Vanilla",
+    "tasting": "Vanilla aroma",
+    "cupSize": "Espresso",
+    "intensity": 5,
+    "bitterness": null,
+    "decaf": false
+  },
+  {
+    "brand": "L’OR Espresso",
+    "flavour": "Onyx Coffee Beans",
+    "tasting": "Dark chocolate, spicy",
+    "cupSize": "Espresso, Bean-to-cup",
+    "intensity": 10,
+    "bitterness": null,
+    "decaf": false
+  },
+  {
+    "brand": "Nespresso",
+    "flavour": "Odacio",
+    "tasting": "Fruity, lively, balanced",
+    "cupSize": "Coffee/Mug",
+    "intensity": 7,
+    "bitterness": 4,
+    "decaf": false
+  },
+  {
+    "brand": "Wogan",
+    "flavour": "Honduras Swiss Water Decaf",
+    "tasting": "Maple syrup, praline, milk chocolate",
+    "cupSize": "Espresso",
+    "intensity": null,
+    "bitterness": 2,
+    "decaf": true
+  },
+  {
+    "brand": "Fresh Roasted Coffee – Espresso Capsules",
+    "flavour": "Italian Roast",
+    "tasting": "Smoky and intense with classic Italian espresso bitterness",
+    "cupSize": "Espresso",
+    "intensity": 8,
+    "bitterness": 6,
+    "decaf": false
+  },
+  {
+    "brand": "Counter Culture",
+    "flavour": "Slow Motion Decaf",
+    "tasting": "Sweet, chocolatey decaf",
+    "cupSize": "Drip",
+    "intensity": 5,
+    "bitterness": 3,
+    "decaf": true
+  },
+  {
+    "brand": "Nespresso",
+    "flavour": "Stormio",
+    "tasting": "Spicy, woody cereal",
+    "cupSize": "Coffee/Mug",
+    "intensity": 8,
+    "bitterness": 7,
+    "decaf": false
+  },
+  {
+    "brand": "Wogan",
+    "flavour": "Colombia Excelso Medellin",
+    "tasting": "Zesty, marzipan, cherry",
+    "cupSize": "Espresso",
+    "intensity": null,
+    "bitterness": 2,
+    "decaf": false
+  },
+  {
+    "brand": "Peet’s Coffee",
+    "flavour": "Decaf House Blend",
+    "tasting": "Smooth, mellow, balanced",
+    "cupSize": "Small - Travel",
+    "intensity": 5,
+    "bitterness": 4,
+    "decaf": true
+  },
+  {
+    "brand": "Wogan",
+    "flavour": "Basic Espresso",
+    "tasting": "Praline, dark chocolate",
+    "cupSize": "Espresso",
+    "intensity": null,
+    "bitterness": 7,
+    "decaf": false
+  },
+  {
+    "brand": "L’OR Espresso",
+    "flavour": "Lungo Elegante",
+    "tasting": "Smooth, elegant",
+    "cupSize": "Lungo",
+    "intensity": 6,
+    "bitterness": null,
+    "decaf": false
+  },
+  {
+    "brand": "La Colombe",
+    "flavour": "All Dark",
+    "tasting": "Chocolate Truffle; Toasted Walnut; Caramel",
+    "cupSize": "French Press, Drip, Espresso",
+    "intensity": 9,
+    "bitterness": 8,
+    "decaf": false
+  },
+  {
+    "brand": "Nespresso",
+    "flavour": "Arpeggio – Original",
+    "tasting": "Creamy, cocoa, roasted cereal",
+    "cupSize": "Espresso",
+    "intensity": 9,
+    "bitterness": 7,
+    "decaf": false
+  },
+  {
+    "brand": "UCC Coffee Singapore",
+    "flavour": "UCC Gourmet Coffee Lungo Forte",
+    "tasting": "Well- balanced & loghty caramelised",
+    "cupSize": "Lungo",
+    "intensity": 6,
+    "bitterness": null,
+    "decaf": false
+  },
+  {
+    "brand": "Volcano Coffee Works",
+    "flavour": "Rise Up Blend",
+    "tasting": "Milk chocolate, orange rind, raspberry candy",
+    "cupSize": "Espresso, Filter",
+    "intensity": null,
+    "bitterness": null,
+    "decaf": false
+  },
+  {
+    "brand": "Blue Bottle",
+    "flavour": "Bold Whole Bean Coffee",
+    "tasting": "Dark chocolate",
+    "cupSize": "French Press, Espresso",
+    "intensity": 8,
+    "bitterness": 6,
+    "decaf": false
+  },
+  {
+    "brand": "Fresh Roasted Coffee – Classic Pods",
+    "flavour": "Breakfast Blend Classic",
+    "tasting": "Plastic cup with foil lid",
+    "cupSize": "Small - Travel",
+    "intensity": 4,
+    "bitterness": 2,
+    "decaf": false
+  },
+  {
+    "brand": "Starbucks",
+    "flavour": "Cappuccino",
+    "tasting": "Espresso with milk foam",
+    "cupSize": "Cappuccino",
+    "intensity": null,
+    "bitterness": 5,
+    "decaf": false
+  },
+  {
+    "brand": "Blue Bottle",
+    "flavour": "Giant Steps",
+    "tasting": "Chocolate, marshmallow",
+    "cupSize": "French Press, Drip",
+    "intensity": 8,
+    "bitterness": 6,
+    "decaf": false
+  },
+  {
+    "brand": "Eight O’Clock Coffee",
+    "flavour": "Caramel",
+    "tasting": "Sweet caramel flavor with smooth coffee base",
+    "cupSize": "Small - Travel",
+    "intensity": 6,
+    "bitterness": 3,
+    "decaf": false
+  },
+  {
+    "brand": "Grind",
+    "flavour": "House Decaf",
+    "tasting": "Smooth, chocolate notes",
+    "cupSize": "Espresso",
+    "intensity": null,
+    "bitterness": null,
+    "decaf": true
+  },
+  {
+    "brand": "La Colombe",
+    "flavour": "Nizza",
+    "tasting": "Honey-sweet; roasted nuttiness; milk chocolate, nuts, brownie",
+    "cupSize": "Espresso, Drip",
+    "intensity": 6,
+    "bitterness": 4,
+    "decaf": false
+  },
+  {
+    "brand": "Keurig",
+    "flavour": "Breakfast Blend Decaf Coffee",
+    "tasting": "Smooth, mellow body with gentle flavor",
+    "cupSize": "Small - Travel",
+    "intensity": 3,
+    "bitterness": 2,
+    "decaf": true
+  },
+  {
+    "brand": "Wogan",
+    "flavour": "Colombia Continental Dark Roast",
+    "tasting": "Dark chocolate, bold roast",
+    "cupSize": "Espresso",
+    "intensity": null,
+    "bitterness": 7,
+    "decaf": false
+  },
+  {
+    "brand": "Keurig",
+    "flavour": "Breakfast Blend",
+    "tasting": "Bright, crisp, citrusy",
+    "cupSize": "Small - Travel",
+    "intensity": 4,
+    "bitterness": 2,
+    "decaf": false
+  },
+  {
+    "brand": "Nespresso",
+    "flavour": "French Lavender & Vanilla Decaffeinato",
+    "tasting": "Vanilla sweetness with delicate lavender floral notes",
+    "cupSize": "Coffee/Mug",
+    "intensity": null,
+    "bitterness": 2,
+    "decaf": true
+  },
+  {
+    "brand": "Good & Gather",
+    "flavour": "Dark Roast",
+    "tasting": "Roasted, bold, smoky",
+    "cupSize": "Small - Travel",
+    "intensity": 7,
+    "bitterness": 6,
+    "decaf": false
+  },
+  {
+    "brand": "Caribou Coffee",
+    "flavour": "Colombia Flor del Huila",
+    "tasting": "Buttery smooth body with hints of hazelnut, lime, and sweet papaya",
+    "cupSize": "Drip, Pour-over, French Press",
+    "intensity": 5,
+    "bitterness": 2,
+    "decaf": false
+  },
+  {
+    "brand": "Common mam coffee roasters",
+    "flavour": "Ethiopia Aricha",
+    "tasting": "",
+    "cupSize": "",
+    "intensity": null,
+    "bitterness": null,
+    "decaf": false
+  },
+  {
+    "brand": "Costa",
+    "flavour": "Skinny Latte",
+    "tasting": "Light milk latte",
+    "cupSize": "Latte",
+    "intensity": null,
+    "bitterness": null,
+    "decaf": false
+  },
+  {
+    "brand": "TAG Espresso",
+    "flavour": "Fantasy Grapefruit",
+    "tasting": "Citrus notes with a zesty kick",
+    "cupSize": "Espresso",
+    "intensity": 7,
+    "bitterness": 3,
+    "decaf": false
+  },
+  {
+    "brand": "Nespresso",
+    "flavour": "Sweet Vanilla Decaffeinato",
+    "tasting": "Vanilla, biscuit, candied cereal",
+    "cupSize": "Coffee/Mug",
+    "intensity": null,
+    "bitterness": 2,
+    "decaf": true
+  },
+  {
+    "brand": "Lavazza",
+    "flavour": "Espresso Italiano Aromatico Coffee Beans",
+    "tasting": "Floral, fruity",
+    "cupSize": "Espresso",
+    "intensity": 7,
+    "bitterness": null,
+    "decaf": false
+  },
+  {
+    "brand": "Peet’s Coffee",
+    "flavour": "Colombia Luminosa",
+    "tasting": "Bright citrus, lively sweetness",
+    "cupSize": "Pour-over, Drip",
+    "intensity": 5,
+    "bitterness": 2,
+    "decaf": false
+  },
+  {
+    "brand": "Peet’s Coffee",
+    "flavour": "Big Bang",
+    "tasting": "Bright, lively, citrus-forward cup",
+    "cupSize": "Pour-over, Drip",
+    "intensity": 4,
+    "bitterness": 2,
+    "decaf": false
+  },
+  {
+    "brand": "Grind",
+    "flavour": "Dark Decaf",
+    "tasting": "Rich, bold decaf",
+    "cupSize": "Espresso",
+    "intensity": null,
+    "bitterness": null,
+    "decaf": true
+  },
+  {
+    "brand": "La Colombe",
+    "flavour": "Colombia - San Roque",
+    "tasting": "Smooth, balanced with exceptional sweetness",
+    "cupSize": "Drip, Pour-over",
+    "intensity": 6,
+    "bitterness": 3,
+    "decaf": false
+  },
+  {
+    "brand": "Dunkin’",
+    "flavour": "Caramel Me Crazy",
+    "tasting": "Extra-sweet caramel flavor with creamy finish",
+    "cupSize": "Small - Travel",
+    "intensity": null,
+    "bitterness": null,
+    "decaf": false
+  },
+  {
+    "brand": "Eight O’Clock Coffee",
+    "flavour": "The Original",
+    "tasting": "Smooth, balanced medium roast with a complex finish",
+    "cupSize": "Small - Travel",
+    "intensity": 6,
+    "bitterness": 4,
+    "decaf": false
+  },
+  {
+    "brand": "UCC Coffee Singapore",
+    "flavour": "UCC Gourmet Coffee Espresso Forte",
+    "tasting": "Rich and cereal like",
+    "cupSize": "Espresso",
+    "intensity": 9,
+    "bitterness": null,
+    "decaf": false
+  },
+  {
+    "brand": "Counter Culture",
+    "flavour": "Hologram",
+    "tasting": "Fruity, creamy, sweet",
+    "cupSize": "Pour-over, Drip",
+    "intensity": 6,
+    "bitterness": 3,
+    "decaf": false
+  },
+  {
+    "brand": "Lavazza",
+    "flavour": "Espresso Keurig",
+    "tasting": "Classic Italian espresso with roasted intensity",
+    "cupSize": "Small - Travel",
+    "intensity": 7,
+    "bitterness": 6,
+    "decaf": false
+  },
+  {
+    "brand": "Black Rifle Coffee Company",
+    "flavour": "CAF Coffee Rounds",
+    "tasting": "High-caffeine coffee with bold notes",
+    "cupSize": "Small - Travel",
+    "intensity": 8,
+    "bitterness": 6,
+    "decaf": false
+  },
+  {
+    "brand": "Fresh Roasted Coffee – envipods",
+    "flavour": "Organic Ethiopian Yirgacheffe envipods",
+    "tasting": "Bright citrus, floral aroma, tea-like finish",
+    "cupSize": "Small - Travel",
+    "intensity": 4,
+    "bitterness": 2,
+    "decaf": false
+  },
+  {
+    "brand": "Eight O’Clock Coffee",
+    "flavour": "Dark Italian Espresso",
+    "tasting": "Bold, rich espresso-style coffee",
+    "cupSize": "Small - Travel",
+    "intensity": 8,
+    "bitterness": 8,
+    "decaf": false
+  },
+  {
+    "brand": "Lavazza",
+    "flavour": "Dolcevita Classico Keurig",
+    "tasting": "Rich, aromatic with dried fruit and cocoa",
+    "cupSize": "Small - Travel",
+    "intensity": 7,
+    "bitterness": 5,
+    "decaf": false
+  },
+  {
+    "brand": "Eight O’Clock Coffee",
+    "flavour": "The Original Decaf",
+    "tasting": "Smooth decaf with classic balanced profile",
+    "cupSize": "Small - Travel",
+    "intensity": 4,
+    "bitterness": 3,
+    "decaf": true
+  },
+  {
+    "brand": "Starbucks",
+    "flavour": "Veranda Blend Decaf K-Cup",
+    "tasting": "Mild, mellow, light-bodied",
+    "cupSize": "Small - Travel",
+    "intensity": null,
+    "bitterness": 2,
+    "decaf": true
+  },
+  {
+    "brand": "Lavazza",
+    "flavour": "Espresso Italiano Cremoso Coffee Beans",
+    "tasting": "Chocolate, spices",
+    "cupSize": "Espresso",
+    "intensity": 8,
+    "bitterness": null,
+    "decaf": false
+  },
+  {
+    "brand": "UCC Coffee Singapore",
+    "flavour": "UCC Gourmet Coffee Espresso",
+    "tasting": "Bright and Floral",
+    "cupSize": "Espresso",
+    "intensity": 7,
+    "bitterness": null,
+    "decaf": false
+  },
+  {
+    "brand": "Cafe Bustelo",
+    "flavour": "Café Bustelo Light Roast Coffee",
+    "tasting": "Bright and vibrant light roast coffee",
+    "cupSize": "Small - Travel",
+    "intensity": 5,
+    "bitterness": 3,
+    "decaf": false
+  },
+  {
+    "brand": "Dunkin’",
+    "flavour": "Dark Roast",
+    "tasting": "Full body with rich roasted flavor",
+    "cupSize": "Small - Travel",
+    "intensity": 9,
+    "bitterness": 7,
+    "decaf": false
+  },
+  {
+    "brand": "Nespresso",
+    "flavour": "Volluto Original",
+    "tasting": "Fruity, Cereal, Nutty And Balanced",
+    "cupSize": "Espresso, Lungo",
+    "intensity": 4,
+    "bitterness": 2,
+    "decaf": false
+  },
+  {
+    "brand": "La Colombe",
+    "flavour": "Brazil Nossa Mesa",
+    "tasting": "Hospitality-driven Brazilian profile; nutty chocolate",
+    "cupSize": "Drip, French Press",
+    "intensity": 6,
+    "bitterness": 3,
+    "decaf": false
+  },
+  {
+    "brand": "Tanamera Coffee (SG)",
+    "flavour": "Toraja Sapan",
+    "tasting": "Lime juice, ginger, blackcurrant",
+    "cupSize": "Espresso",
+    "intensity": null,
+    "bitterness": null,
+    "decaf": false
+  },
+  {
+    "brand": "Folgers",
+    "flavour": "Toasty Hazelnut",
+    "tasting": "Toasty hazelnut aroma with smooth coffee base",
+    "cupSize": "Small - Travel",
+    "intensity": 6,
+    "bitterness": 3,
+    "decaf": false
+  },
+  {
+    "brand": "Folgers",
+    "flavour": "Classic Decaf",
+    "tasting": "Smooth decaf",
+    "cupSize": "Drip",
+    "intensity": 5,
+    "bitterness": 3,
+    "decaf": true
+  },
+  {
+    "brand": "Costa",
+    "flavour": "Caramel Latte",
+    "tasting": "Caramel, creamy latte",
+    "cupSize": "Latte",
+    "intensity": null,
+    "bitterness": 5,
+    "decaf": false
+  },
+  {
+    "brand": "Lavazza",
+    "flavour": "Decaf Keurig",
+    "tasting": "Smooth decaffeinated coffee with mild roast",
+    "cupSize": "Small - Travel",
+    "intensity": 4,
+    "bitterness": 3,
+    "decaf": true
+  },
+  {
+    "brand": "Eight O’Clock Coffee",
+    "flavour": "100% Colombian Peaks",
+    "tasting": "Rich, winey, full-bodied Colombian coffee",
+    "cupSize": "Small - Travel",
+    "intensity": 7,
+    "bitterness": 4,
+    "decaf": false
+  },
+  {
+    "brand": "Intelligentsia",
+    "flavour": "Organic French Roast",
+    "tasting": "Bold, smoky",
+    "cupSize": "French Press",
+    "intensity": 9,
+    "bitterness": 7,
+    "decaf": false
+  },
+  {
+    "brand": "Victor Allen’s Coffee",
+    "flavour": "Milk Chocolate Hot Cocoa",
+    "tasting": "Rich milk chocolate flavor with creamy sweetness",
+    "cupSize": "Small - Travel",
+    "intensity": null,
+    "bitterness": 2,
+    "decaf": true
+  },
+  {
+    "brand": "Lavazza",
+    "flavour": "Espresso Maestro Classico",
+    "tasting": "Balanced espresso with cereal and biscuit notes",
+    "cupSize": "Espresso",
+    "intensity": 8,
+    "bitterness": 6,
+    "decaf": false
+  },
+  {
+    "brand": "UCC Coffee Singapore",
+    "flavour": "UCC Gourmet Coffee Ristretto",
+    "tasting": "Bold rich and chocolate",
+    "cupSize": "Ristretto",
+    "intensity": 10,
+    "bitterness": null,
+    "decaf": false
+  },
+  {
+    "brand": "L’OR Espresso",
+    "flavour": "Espresso Forza",
+    "tasting": "Powerful, spicy",
+    "cupSize": "Espresso",
+    "intensity": 9,
+    "bitterness": null,
+    "decaf": false
+  },
+  {
+    "brand": "Tanamera Coffee (SG)",
+    "flavour": "Bali Washed",
+    "tasting": "Brown sugar, citrus, caramel, light chocolate",
+    "cupSize": "Espresso",
+    "intensity": 7,
+    "bitterness": 5,
+    "decaf": false
+  },
+  {
+    "brand": "Starbucks",
+    "flavour": "Italian Roast",
+    "tasting": "Deep roast, caramelized sugar",
+    "cupSize": "Drip, Espresso",
+    "intensity": 9,
+    "bitterness": 7,
+    "decaf": false
+  },
+  {
+    "brand": "Eight O’Clock Coffee",
+    "flavour": "French Vanilla",
+    "tasting": "weet vanilla with caramel notes",
+    "cupSize": "Small - Travel",
+    "intensity": 6,
+    "bitterness": 4,
+    "decaf": false
+  },
+  {
+    "brand": "La Colombe",
+    "flavour": "Ethiopia Myth Maker",
+    "tasting": "Fruity, floral, bright; eye-opening cup",
+    "cupSize": "Pour-over, Drip",
+    "intensity": 5,
+    "bitterness": 2,
+    "decaf": false
+  },
+  {
+    "brand": "Tanamera Coffee (SG)",
+    "flavour": "Espresso Blend",
+    "tasting": "Palm sugar, cacao, lime acidity, dry date, hint of floral",
+    "cupSize": "Espresso",
+    "intensity": 8,
+    "bitterness": null,
+    "decaf": false
+  },
+  {
+    "brand": "Great Value",
+    "flavour": "Breakfast Blend",
+    "tasting": "Bright, light-bodied, smooth",
+    "cupSize": "Small - Travel",
+    "intensity": 4,
+    "bitterness": 2,
+    "decaf": false
+  },
+  {
+    "brand": "Counter Culture",
+    "flavour": "Big Trouble",
+    "tasting": "Chocolatey, nutty, comforting",
+    "cupSize": "Drip, Espresso",
+    "intensity": 6,
+    "bitterness": 3,
+    "decaf": false
+  },
+  {
+    "brand": "Day to Day Coffee",
+    "flavour": "House Blend Light Roast",
+    "tasting": "Smooth and balanced with mild sweetness and gentle body",
+    "cupSize": "Small - Travel",
+    "intensity": 4,
+    "bitterness": 2,
+    "decaf": false
+  },
+  {
+    "brand": "Counter Culture",
+    "flavour": "Yacuanquer",
+    "tasting": "Pear, almond, floral",
+    "cupSize": "Pour-over",
+    "intensity": 5,
+    "bitterness": 2,
+    "decaf": false
+  },
+  {
+    "brand": "Day to Day Coffee",
+    "flavour": "Decaf Colombian",
+    "tasting": "Smooth and mellow coffee with gentle sweetness and low acidity",
+    "cupSize": "Small - Travel",
+    "intensity": 4,
+    "bitterness": 2,
+    "decaf": true
+  },
+  {
+    "brand": "Nespresso",
+    "flavour": "Barista Creations Golden Caramel",
+    "tasting": "Caramel, biscuit, sweet pastry",
+    "cupSize": "Coffee/Mug",
+    "intensity": null,
+    "bitterness": 2,
+    "decaf": false
+  },
+  {
+    "brand": "Market Pantry",
+    "flavour": "French Roast Medium-Dark",
+    "tasting": "Bold, smoky, rich French-roast flavor",
+    "cupSize": "Small - Travel",
+    "intensity": 7,
+    "bitterness": 6,
+    "decaf": false
+  },
+  {
+    "brand": "Good & Gather",
+    "flavour": "Naturally Flavored Caramel",
+    "tasting": "Sweet caramel espresso flavor",
+    "cupSize": "Espresso",
+    "intensity": 7,
+    "bitterness": 5,
+    "decaf": false
+  }
+]

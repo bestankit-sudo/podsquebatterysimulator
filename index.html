@@ -2545,10 +2545,21 @@ async function loadNotionCatalog() {
     if (!res.ok) throw new Error('coffees.json not found');
     const data = await res.json();
     if (Array.isArray(data) && data.length > 0) {
+      // Normalize: default null intensity/bitterness to mid-range 5
+      const normalized = data.map(c => ({
+        brand: c.brand || '',
+        flavour: c.flavour || '',
+        tasting: c.tasting || '',
+        cupSize: c.cupSize || 'Espresso',
+        intensity: c.intensity != null ? c.intensity : 5,
+        bitterness: c.bitterness != null ? c.bitterness : 5,
+        decaf: !!c.decaf,
+        remarks: ''
+      })).filter(c => c.brand && c.flavour);
       // Preserve coffees with podImage from hardcoded list (used by 4-color mode)
       const withImages = COFFEES.filter(c => c.podImage);
-      COFFEES = data.concat(withImages);
-      return data.length;
+      COFFEES = normalized.concat(withImages);
+      return normalized.length;
     }
   } catch (e) {
     console.log('Using hardcoded coffee list:', e.message);
