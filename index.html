@@ -700,7 +700,7 @@ input[type="number"]:focus { border-color: var(--amber); }
 }
 
 /* ── E-Ink Image Generator ── */
-.einkimg-grid { grid-template-columns: 1fr 1fr 1fr 1fr; }
+.einkimg-grid { grid-template-columns: 1fr 1fr 1fr; }
 
 /* Coffee panel: match grid row height (driven by Fields col), scroll internally */
 .einkimg-grid > .control-panel:nth-child(3) {
@@ -871,6 +871,27 @@ input[type="number"]:focus { border-color: var(--amber); }
 }
 .sim-input-row input[type="number"]:focus { border-color:var(--amber); outline:none; }
 .sim-input-row .sim-unit { font-family:var(--font-mono); font-size:9px; color:var(--text-dim); }
+.einkimg-review-row {
+  display:flex; align-items:center; gap:8px; margin-bottom:6px;
+  font-family:var(--font-mono); font-size:10px;
+}
+.einkimg-review-row .einkimg-review-label {
+  min-width:200px; max-width:240px; color:var(--text); font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.einkimg-review-row input[type="text"] {
+  flex:1; padding:4px 6px; font-family:var(--font-mono); font-size:10px;
+  border:1px solid var(--border); border-radius:4px; background:var(--input-bg); color:var(--text);
+}
+.einkimg-review-row input[type="text"]:focus { border-color:var(--amber); outline:none; }
+.einkimg-review-row .review-charcount { font-family:var(--font-mono); font-size:8px; color:var(--text-dim); min-width:40px; text-align:right; }
+
+.einkimg-search-wrap { margin-bottom:6px; }
+.einkimg-search-wrap input[type="text"] {
+  width:100%; padding:4px 8px; font-family:var(--font-mono); font-size:10px;
+  border:1px solid var(--border); border-radius:4px; background:var(--input-bg); color:var(--text); box-sizing:border-box;
+}
+.einkimg-search-wrap input[type="text"]:focus { border-color:var(--amber); outline:none; }
+
 .sim-textarea {
   width:100%; padding:5px 6px; font-family:var(--font-mono); font-size:10px;
   border:1px solid var(--border); border-radius:4px; background:var(--input-bg); color:var(--text);
@@ -1274,33 +1295,15 @@ input[type="number"]:focus { border-color: var(--amber); }
         </label>
       </div>
 
-      <!-- Col 2: Resolution -->
-      <div class="control-panel">
-        <h3>Resolution</h3>
-        <div id="einkimgResGroup" class="radio-group" data-value="800x480">
-          <div class="radio-opt" data-val="792x528" onclick="selectEinkImgRadio('einkimgResGroup','792x528')">
-            <span class="radio-dot"></span> 3.68&quot; <span class="einkimg-res-label">792&times;528</span>
-          </div>
-          <div class="radio-opt selected" data-val="800x480" onclick="selectEinkImgRadio('einkimgResGroup','800x480')">
-            <span class="radio-dot"></span> 3.97&quot; <span class="einkimg-res-label">800&times;480</span>
-          </div>
-          <div class="radio-opt" data-val="768x552" onclick="selectEinkImgRadio('einkimgResGroup','768x552')">
-            <span class="radio-dot"></span> 3.98&quot; <span class="einkimg-res-label">768&times;552</span>
-          </div>
-          <div class="radio-opt" data-val="custom" onclick="selectEinkImgRadio('einkimgResGroup','custom')">
-            <span class="radio-dot"></span> Custom
-          </div>
-        </div>
-        <div id="einkimg-custom-res" class="einkimg-custom-res">
-          <label>H</label><input type="number" id="einkimgCustomW" value="400" min="100" max="2000">
-          <label>&times;</label>
-          <label>V</label><input type="number" id="einkimgCustomH" value="300" min="100" max="2000">
-        </div>
-      </div>
+      <!-- Resolution fixed at 3.97" 800x480 -->
+      <input type="hidden" id="einkimgResGroup" data-value="800x480">
 
       <!-- Col 3: Coffee Selection -->
       <div class="control-panel">
         <h3 id="einkimg-coffee-heading">Select Coffees (max 4)</h3>
+        <div class="einkimg-search-wrap">
+          <input type="text" id="einkimgCoffeeSearch" placeholder="Search by brand or name..." oninput="filterCoffeeList()">
+        </div>
         <div id="einkimg-coffee-list" class="einkimg-coffee-list"></div>
       </div>
 
@@ -1320,6 +1323,14 @@ input[type="number"]:focus { border-color: var(--amber); }
   <main style="padding: 16px;">
     <div id="einkimg-preview-wrap">
       <canvas id="einkimg-canvas" width="800" height="480"></canvas>
+
+      <!-- Per-coffee editable reviews (shown after preview generation) -->
+      <div id="einkimg-reviews" style="display:none; width:100%; max-width:800px; margin-top:12px;">
+        <h3 style="font-family:var(--font-mono); font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:.5px; color:var(--text-muted); margin-bottom:6px;">Edit Reviews (Auto-Filled)</h3>
+        <div id="einkimg-reviews-list"></div>
+        <button class="einkimg-btn" onclick="regenerateWithReviews()" style="margin-top:8px;">Re-render with Edits</button>
+      </div>
+
       <div id="einkimg-download-btns" style="display:none; gap:8px; flex-wrap:wrap; align-items:center;">
         <button class="einkimg-btn" onclick="downloadEinkPNG()">Download PNG</button>
         <button class="einkimg-btn" onclick="downloadEinkBitmap()">Download Bitmap Array (.h)</button>
@@ -2188,7 +2199,51 @@ const EINK_TINTS = {
   black:    '#000000'
 };
 
-const COFFEES = [
+// 40 pre-defined reviews — auto-assigned to selected coffees, user can edit
+const REVIEWS_POOL = [
+  'Best with a short pull and dark chocolate on the side',
+  'Skim milk only, dash of caramel syrup',
+  'Use lungo button for fuller body',
+  'Pairs beautifully with morning toast',
+  'Great as a doppio after dinner',
+  'Add a splash of oat milk for balance',
+  'Surprisingly bold for a decaf option',
+  'Smooth, comforting, perfect afternoon pick-me-up',
+  'Excellent crema, full-bodied finish',
+  'Bright acidity cuts through milk well',
+  'Try it iced with a hint of vanilla',
+  'Best served piping hot in a small cup',
+  'Letting it bloom 30s makes a difference',
+  'Cocoa notes really come through with milk',
+  'Smoky undertones, finishes clean',
+  'My go-to for cold brew weekends',
+  'Use 1.5x dose for a richer extraction',
+  'Great pour-over candidate, fruity',
+  'Pair with a buttery croissant',
+  'Tones down nicely with a dash of cream',
+  'Holds up well in a flat white',
+  'Roasty notes shine with milk',
+  'Perfect Sunday morning espresso',
+  'Sweetness opens up after blooming',
+  'Earthy, low-acid — easy on the stomach',
+  'Best after the bag has rested 4 days',
+  'Let it cool slightly to taste the chocolate',
+  'Excellent with a square of dark chocolate',
+  'Brews beautifully in a moka pot',
+  'Floral notes get lost with too much milk',
+  'My favorite for late-night decaf cravings',
+  'Punches above its weight in cappuccino',
+  'Go single shot — double overwhelms it',
+  'The nutty finish lingers nicely',
+  'Try with a splash of cold water to open it up',
+  'Surprisingly versatile across brew methods',
+  'Best fresh — drink within 2 weeks of opening',
+  'Adds depth to a cortado',
+  'Honeyed sweetness pairs with citrus pastry',
+  'My weekend ritual — slow pour, warm cup'
+];
+
+let COFFEES = [
   { brand: 'Nespresso', flavour: 'Ristretto Italiano Decaffeinato', tasting: 'Intense, Roasted & Woody', remarks: 'Best with short pull', decaf: true, cupSize: 'Ristretto', intensity: 10, bitterness: 8 },
   { brand: 'Nespresso', flavour: 'Arpeggio Decaffeinato', tasting: 'Cocoa, Creamy & Intense', remarks: 'Great as a doppio', decaf: true, cupSize: 'Espresso', intensity: 9, bitterness: 7 },
   { brand: 'Nespresso', flavour: 'Volluto Decaffeinato', tasting: 'Sweet, Light & Biscuity', remarks: 'Good afternoon pick-me-up', decaf: true, cupSize: 'Espresso', intensity: 4, bitterness: 2 },
@@ -2414,23 +2469,10 @@ function getColorMode() {
 function switchColorMode(mode) {
   selectEinkImgRadio('einkimgColorGroup', mode);
 
-  const resGroup = document.getElementById('einkimgResGroup');
   const previewToggle = document.getElementById('einkPreviewToggle');
-
   if (mode === '4color') {
-    // Lock resolution to 3.97" (800x480)
-    selectEinkImgRadio('einkimgResGroup', '800x480');
-    resGroup.querySelectorAll('.radio-opt').forEach(opt => {
-      if (opt.dataset.val !== '800x480') opt.classList.add('disabled-opt');
-      opt.style.pointerEvents = opt.dataset.val === '800x480' ? '' : 'none';
-    });
     previewToggle.style.display = '';
   } else {
-    // Re-enable all resolutions
-    resGroup.querySelectorAll('.radio-opt').forEach(opt => {
-      opt.classList.remove('disabled-opt');
-      opt.style.pointerEvents = '';
-    });
     previewToggle.style.display = 'none';
     document.getElementById('einkPreviewCheck').checked = false;
   }
@@ -2497,8 +2539,28 @@ function populateCoffeeList() {
   enforceCoffeeMax();
 }
 
+async function loadNotionCatalog() {
+  try {
+    const res = await fetch('coffees.json', { cache: 'no-cache' });
+    if (!res.ok) throw new Error('coffees.json not found');
+    const data = await res.json();
+    if (Array.isArray(data) && data.length > 0) {
+      // Preserve coffees with podImage from hardcoded list (used by 4-color mode)
+      const withImages = COFFEES.filter(c => c.podImage);
+      COFFEES = data.concat(withImages);
+      return data.length;
+    }
+  } catch (e) {
+    console.log('Using hardcoded coffee list:', e.message);
+  }
+  return 0;
+}
+
 function initEinkImageTab() {
-  populateCoffeeList();
+  loadNotionCatalog().then(count => {
+    populateCoffeeList();
+    if (count > 0) console.log('Loaded ' + count + ' coffees from Notion catalog');
+  });
 
   const fieldEl = document.getElementById('einkimg-field-list');
   EINKIMG_FIELDS.forEach(f => {
@@ -2508,6 +2570,16 @@ function initEinkImageTab() {
       (f.defaultOn ? ' checked' : '') + ' onchange="enforceFieldMax()">' +
       '<span>' + f.label + '</span>';
     fieldEl.appendChild(row);
+  });
+}
+
+function filterCoffeeList() {
+  const q = (document.getElementById('einkimgCoffeeSearch').value || '').toLowerCase().trim();
+  const rows = document.querySelectorAll('#einkimg-coffee-list .einkimg-coffee-row');
+  rows.forEach(row => {
+    if (!q) { row.style.display = ''; return; }
+    const text = (row.textContent || '').toLowerCase();
+    row.style.display = text.includes(q) ? '' : 'none';
   });
 }
 
@@ -2529,9 +2601,6 @@ function selectEinkImgRadio(groupId, value) {
   group.querySelectorAll('.radio-opt').forEach(opt => {
     opt.classList.toggle('selected', opt.dataset.val === value);
   });
-  if (groupId === 'einkimgResGroup') {
-    document.getElementById('einkimg-custom-res').classList.toggle('visible', value === 'custom');
-  }
 }
 
 function getSelectedCoffees() {
@@ -2545,15 +2614,8 @@ function getSelectedFields() {
 }
 
 function getEinkImgResolution() {
-  const val = document.getElementById('einkimgResGroup').dataset.value;
-  if (val === 'custom') {
-    return {
-      w: parseInt(document.getElementById('einkimgCustomW').value) || 400,
-      h: parseInt(document.getElementById('einkimgCustomH').value) || 300
-    };
-  }
-  const [w, h] = val.split('x').map(Number);
-  return { w, h };
+  // Fixed at 3.97" (800x480 landscape)
+  return { w: 800, h: 480 };
 }
 
 // ── Spec: wrapText (center-to-center model) ──
@@ -2837,8 +2899,56 @@ function drawCoffeeCard(ctx, coffee, fields, x, y, w, h, posLabel, numericMode, 
   ctx.restore();
 }
 
-function generateEinkImage() {
-  const coffees = getSelectedCoffees();
+// Auto-assign unique reviews from the pool to each coffee.
+// Returns coffees with `remarks` overridden by either user-edited or pool-assigned text.
+function assignReviews(coffees, useEdited) {
+  const editedInputs = useEdited ? document.querySelectorAll('#einkimg-reviews-list input[type="text"]') : [];
+  // Shuffle pool indices so each generation picks fresh reviews
+  if (!window._reviewShuffle || window._reviewShuffle.length < coffees.length) {
+    const idxs = [...Array(REVIEWS_POOL.length).keys()];
+    for (let i = idxs.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [idxs[i], idxs[j]] = [idxs[j], idxs[i]];
+    }
+    window._reviewShuffle = idxs;
+  }
+  return coffees.map((c, i) => {
+    let review;
+    if (useEdited && editedInputs[i]) review = editedInputs[i].value;
+    else review = REVIEWS_POOL[window._reviewShuffle[i]];
+    return Object.assign({}, c, { remarks: review });
+  });
+}
+
+function buildReviewEditFields(coffees) {
+  const wrap = document.getElementById('einkimg-reviews');
+  const list = document.getElementById('einkimg-reviews-list');
+  list.innerHTML = '';
+  coffees.forEach((c, i) => {
+    const row = document.createElement('div');
+    row.className = 'einkimg-review-row';
+    row.innerHTML =
+      '<span class="einkimg-review-label" title="' + c.brand + ' — ' + c.flavour + '">' +
+      c.brand + ' — ' + c.flavour + '</span>' +
+      '<input type="text" maxlength="75" value="' + (c.remarks || '').replace(/"/g, '&quot;') + '" oninput="updateReviewCount(' + i + ')">' +
+      '<span class="review-charcount" id="reviewCharCount' + i + '">' + (c.remarks || '').length + '/75</span>';
+    list.appendChild(row);
+  });
+  wrap.style.display = 'block';
+}
+
+function updateReviewCount(i) {
+  const inputs = document.querySelectorAll('#einkimg-reviews-list input[type="text"]');
+  const counter = document.getElementById('reviewCharCount' + i);
+  if (inputs[i] && counter) counter.textContent = inputs[i].value.length + '/75';
+}
+
+function regenerateWithReviews() {
+  generateEinkImage(true);
+}
+
+function generateEinkImage(useEditedReviews) {
+  let coffees = getSelectedCoffees();
   const fields = getSelectedFields();
   const res = getEinkImgResolution();
   const numericMode = document.getElementById('einkimgNumericGroup').dataset.value;
@@ -2847,6 +2957,15 @@ function generateEinkImage() {
 
   if (coffees.length === 0) { alert('Select at least 1 coffee.'); return; }
   if (fields.length === 0) { alert('Select at least 1 field.'); return; }
+
+  // Reset shuffle on fresh generation (not re-render)
+  if (!useEditedReviews) window._reviewShuffle = null;
+
+  // Auto-assign reviews from pool (or use edited values)
+  coffees = assignReviews(coffees, useEditedReviews);
+
+  // Build/refresh editable review fields below preview
+  if (!useEditedReviews) buildReviewEditFields(coffees);
 
   // Pre-load pod images if 4-color mode
   const imagePromises = [];
