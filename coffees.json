@@ -6,7 +6,9 @@
     "cupSize": "Espresso",
     "intensity": null,
     "bitterness": null,
-    "decaf": true
+    "decaf": true,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Segafredo",
@@ -15,7 +17,9 @@
     "cupSize": "Espresso",
     "intensity": 8,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Peet’s Coffee",
@@ -24,7 +28,9 @@
     "cupSize": "Drip, Pour-over",
     "intensity": 5,
     "bitterness": 2,
-    "decaf": false
+    "decaf": false,
+    "type": "bean",
+    "system": ""
   },
   {
     "brand": "Good & Gather",
@@ -33,7 +39,9 @@
     "cupSize": "Small - Travel",
     "intensity": 4,
     "bitterness": 2,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "kCup"
   },
   {
     "brand": "Day to Day Coffee",
@@ -42,7 +50,9 @@
     "cupSize": "Small - Travel",
     "intensity": 5,
     "bitterness": 2,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "kCup"
   },
   {
     "brand": "Day to Day Coffee",
@@ -51,7 +61,9 @@
     "cupSize": "Small - Travel",
     "intensity": 6,
     "bitterness": 5,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "kCup"
   },
   {
     "brand": "Dunkin",
@@ -60,7 +72,9 @@
     "cupSize": "Drip, Pour-over, French Press",
     "intensity": 5,
     "bitterness": 5,
-    "decaf": false
+    "decaf": false,
+    "type": "bean",
+    "system": ""
   },
   {
     "brand": "Lavazza",
@@ -69,7 +83,9 @@
     "cupSize": "Espresso",
     "intensity": 7,
     "bitterness": 5,
-    "decaf": true
+    "decaf": true,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Lavazza",
@@ -78,7 +94,9 @@
     "cupSize": "Espresso",
     "intensity": 10,
     "bitterness": 5,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Lavazza",
@@ -87,7 +105,9 @@
     "cupSize": "Espresso",
     "intensity": 7,
     "bitterness": 5,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Starbucks",
@@ -96,7 +116,9 @@
     "cupSize": "Small - Travel",
     "intensity": 4,
     "bitterness": 2,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "kCup"
   },
   {
     "brand": "Dunkin’",
@@ -105,7 +127,9 @@
     "cupSize": "Small - Travel",
     "intensity": null,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "kCup"
   },
   {
     "brand": "TAG Espresso",
@@ -114,7 +138,9 @@
     "cupSize": "Espresso",
     "intensity": 8,
     "bitterness": 3,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "illy",
@@ -123,7 +149,9 @@
     "cupSize": "Espresso",
     "intensity": 9,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "xCaps"
   },
   {
     "brand": "Starbucks",
@@ -132,7 +160,9 @@
     "cupSize": "Latte",
     "intensity": null,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "dolceGusto"
   },
   {
     "brand": "Halo Coffee",
@@ -141,7 +171,9 @@
     "cupSize": "Espresso, Filter",
     "intensity": null,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "bean",
+    "system": ""
   },
   {
     "brand": "L’OR Espresso",
@@ -150,7 +182,9 @@
     "cupSize": "Ristretto",
     "intensity": 10,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Intelligentsia",
@@ -159,7 +193,9 @@
     "cupSize": "Drip, Pour-over",
     "intensity": 5,
     "bitterness": 3,
-    "decaf": true
+    "decaf": true,
+    "type": "bean",
+    "system": ""
   },
   {
     "brand": "Keurig",
@@ -168,7 +204,9 @@
     "cupSize": "Small - Travel",
     "intensity": 4,
     "bitterness": 2,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "kCup"
   },
   {
     "brand": "Blue Bottle",
@@ -177,7 +215,9 @@
     "cupSize": "French Press, Espresso",
     "intensity": 9,
     "bitterness": 7,
-    "decaf": false
+    "decaf": false,
+    "type": "bean",
+    "system": ""
   },
   {
     "brand": "Colonna Coffee",
@@ -186,7 +226,9 @@
     "cupSize": "Espresso, Filter",
     "intensity": null,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "bean",
+    "system": ""
   },
   {
     "brand": "Huggs Coffee",
@@ -195,7 +237,9 @@
     "cupSize": "Espresso",
     "intensity": 7,
     "bitterness": 3,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Lavazza",
@@ -204,7 +248,9 @@
     "cupSize": "Lungo",
     "intensity": 6,
     "bitterness": 2,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "aModoMio"
   },
   {
     "brand": "Fresh Roasted Coffee – Espresso Capsules",
@@ -213,7 +259,9 @@
     "cupSize": "Espresso",
     "intensity": 7,
     "bitterness": 4,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Costa",
@@ -222,7 +270,9 @@
     "cupSize": "Latte",
     "intensity": null,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "tassimo"
   },
   {
     "brand": "Blue Bottle",
@@ -231,7 +281,9 @@
     "cupSize": "Pour-over, Drip",
     "intensity": 5,
     "bitterness": 3,
-    "decaf": true
+    "decaf": true,
+    "type": "bean",
+    "system": ""
   },
   {
     "brand": "Victor Allen’s Coffee",
@@ -240,7 +292,9 @@
     "cupSize": "Small - Travel",
     "intensity": 5,
     "bitterness": 2,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "kCup"
   },
   {
     "brand": "Volcano Coffee Works",
@@ -249,7 +303,9 @@
     "cupSize": "Espresso, Filter",
     "intensity": null,
     "bitterness": null,
-    "decaf": true
+    "decaf": true,
+    "type": "bean",
+    "system": ""
   },
   {
     "brand": "Colonna Coffee",
@@ -258,7 +314,9 @@
     "cupSize": "Espresso",
     "intensity": null,
     "bitterness": null,
-    "decaf": true
+    "decaf": true,
+    "type": "bean",
+    "system": ""
   },
   {
     "brand": "Fresh Roasted Coffee – Espresso Capsules",
@@ -267,7 +325,9 @@
     "cupSize": "Espresso",
     "intensity": 6,
     "bitterness": 4,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Halo Coffee",
@@ -276,7 +336,9 @@
     "cupSize": "Espresso, Filter",
     "intensity": null,
     "bitterness": null,
-    "decaf": true
+    "decaf": true,
+    "type": "bean",
+    "system": ""
   },
   {
     "brand": "Nespresso",
@@ -285,7 +347,9 @@
     "cupSize": "Coffee/Mug",
     "intensity": null,
     "bitterness": 2,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "vertuo"
   },
   {
     "brand": "Starbucks",
@@ -294,7 +358,9 @@
     "cupSize": "Americano",
     "intensity": null,
     "bitterness": 5,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "dolceGusto"
   },
   {
     "brand": "Starbucks",
@@ -303,7 +369,9 @@
     "cupSize": "Drip, French Press",
     "intensity": 7,
     "bitterness": 5,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "vertuo"
   },
   {
     "brand": "Cafe Bustelo",
@@ -312,7 +380,9 @@
     "cupSize": "Small - Travel",
     "intensity": 6,
     "bitterness": 4,
-    "decaf": false
+    "decaf": false,
+    "type": "bean",
+    "system": ""
   },
   {
     "brand": "Lavazza",
@@ -321,7 +391,9 @@
     "cupSize": "Moka Pot, Espresso",
     "intensity": 5,
     "bitterness": 3,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "kCup"
   },
   {
     "brand": "Lavazza",
@@ -330,7 +402,9 @@
     "cupSize": "Espresso",
     "intensity": 9,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "bean",
+    "system": ""
   },
   {
     "brand": "Eight O’Clock Coffee",
@@ -339,7 +413,9 @@
     "cupSize": "Small - Travel",
     "intensity": 9,
     "bitterness": 8,
-    "decaf": false
+    "decaf": false,
+    "type": "bean",
+    "system": ""
   },
   {
     "brand": "Lavazza",
@@ -348,7 +424,9 @@
     "cupSize": "Espresso",
     "intensity": 7,
     "bitterness": 2,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "kCup"
   },
   {
     "brand": "Starbucks",
@@ -357,7 +435,9 @@
     "cupSize": "Mocha",
     "intensity": null,
     "bitterness": 2,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "aModoMio"
   },
   {
     "brand": "Fresh Roasted Coffee – envipods",
@@ -366,7 +446,9 @@
     "cupSize": "Small - Travel",
     "intensity": 5,
     "bitterness": 2,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "dolceGusto"
   },
   {
     "brand": "Dunkin’",
@@ -375,7 +457,9 @@
     "cupSize": "Small - Travel",
     "intensity": null,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "kCup"
   },
   {
     "brand": "Dunkin’",
@@ -384,7 +468,9 @@
     "cupSize": "Small - Travel",
     "intensity": null,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "kCup"
   },
   {
     "brand": "Lavazza",
@@ -393,7 +479,9 @@
     "cupSize": "Espresso",
     "intensity": 6,
     "bitterness": 3,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "kCup"
   },
   {
     "brand": "Lavazza",
@@ -402,7 +490,9 @@
     "cupSize": "Espresso, Filter",
     "intensity": 6,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Costa",
@@ -411,7 +501,9 @@
     "cupSize": "Cappuccino",
     "intensity": null,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "bean",
+    "system": ""
   },
   {
     "brand": "Lavazza",
@@ -420,7 +512,9 @@
     "cupSize": "Espresso, Moka Pot, Bean-to-cup",
     "intensity": 5,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "tassimo"
   },
   {
     "brand": "Peet’s",
@@ -429,7 +523,9 @@
     "cupSize": "Small - Travel",
     "intensity": 7,
     "bitterness": 4,
-    "decaf": false
+    "decaf": false,
+    "type": "bean",
+    "system": ""
   },
   {
     "brand": "Keurig",
@@ -438,7 +534,9 @@
     "cupSize": "Small - Travel",
     "intensity": 5,
     "bitterness": 5,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "kCup"
   },
   {
     "brand": "Peet’s",
@@ -447,7 +545,9 @@
     "cupSize": "Small - Travel",
     "intensity": 6,
     "bitterness": 3,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "kCup"
   },
   {
     "brand": "Lavazza",
@@ -456,7 +556,9 @@
     "cupSize": "Espresso",
     "intensity": 7,
     "bitterness": 7,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "kCup"
   },
   {
     "brand": "TAG Espresso",
@@ -465,7 +567,9 @@
     "cupSize": "Espresso",
     "intensity": 7,
     "bitterness": 3,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "aModoMio"
   },
   {
     "brand": "Starbucks",
@@ -474,7 +578,9 @@
     "cupSize": "Drip, Pour-over, French Press",
     "intensity": 6,
     "bitterness": 5,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Caribou Coffee",
@@ -483,7 +589,9 @@
     "cupSize": "Espresso, Moka Pot, Drip",
     "intensity": 7,
     "bitterness": 5,
-    "decaf": false
+    "decaf": false,
+    "type": "bean",
+    "system": ""
   },
   {
     "brand": "Cowpresso",
@@ -492,7 +600,9 @@
     "cupSize": "Ristretto, Espresso",
     "intensity": 7,
     "bitterness": 2,
-    "decaf": false
+    "decaf": false,
+    "type": "bean",
+    "system": ""
   },
   {
     "brand": "Starbucks",
@@ -501,7 +611,9 @@
     "cupSize": "Small - Travel",
     "intensity": 4,
     "bitterness": 2,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Wogan",
@@ -510,7 +622,9 @@
     "cupSize": "Espresso",
     "intensity": null,
     "bitterness": 2,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "kCup"
   },
   {
     "brand": "L’OR Espresso",
@@ -519,7 +633,9 @@
     "cupSize": "Espresso, Bean-to-cup, Filter",
     "intensity": 6,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Caribou Coffee",
@@ -528,7 +644,9 @@
     "cupSize": "Small - Travel",
     "intensity": 7,
     "bitterness": 5,
-    "decaf": false
+    "decaf": false,
+    "type": "bean",
+    "system": ""
   },
   {
     "brand": "Nespresso",
@@ -537,7 +655,9 @@
     "cupSize": "Ristretto",
     "intensity": 10,
     "bitterness": 8,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "kCup"
   },
   {
     "brand": "L’OR Espresso",
@@ -546,7 +666,9 @@
     "cupSize": "Espresso",
     "intensity": 5,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "L’OR Espresso",
@@ -555,7 +677,9 @@
     "cupSize": "Espresso, Bean-to-cup",
     "intensity": 10,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Nespresso",
@@ -564,7 +688,9 @@
     "cupSize": "Coffee/Mug",
     "intensity": 7,
     "bitterness": 4,
-    "decaf": false
+    "decaf": false,
+    "type": "bean",
+    "system": ""
   },
   {
     "brand": "Wogan",
@@ -573,7 +699,9 @@
     "cupSize": "Espresso",
     "intensity": null,
     "bitterness": 2,
-    "decaf": true
+    "decaf": true,
+    "type": "pod",
+    "system": "vertuo"
   },
   {
     "brand": "Fresh Roasted Coffee – Espresso Capsules",
@@ -582,7 +710,9 @@
     "cupSize": "Espresso",
     "intensity": 8,
     "bitterness": 6,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Counter Culture",
@@ -591,7 +721,9 @@
     "cupSize": "Drip",
     "intensity": 5,
     "bitterness": 3,
-    "decaf": true
+    "decaf": true,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Nespresso",
@@ -600,7 +732,9 @@
     "cupSize": "Coffee/Mug",
     "intensity": 8,
     "bitterness": 7,
-    "decaf": false
+    "decaf": false,
+    "type": "bean",
+    "system": ""
   },
   {
     "brand": "Wogan",
@@ -609,7 +743,9 @@
     "cupSize": "Espresso",
     "intensity": null,
     "bitterness": 2,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "vertuo"
   },
   {
     "brand": "Peet’s Coffee",
@@ -618,7 +754,9 @@
     "cupSize": "Small - Travel",
     "intensity": 5,
     "bitterness": 4,
-    "decaf": true
+    "decaf": true,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Wogan",
@@ -627,7 +765,9 @@
     "cupSize": "Espresso",
     "intensity": null,
     "bitterness": 7,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "kCup"
   },
   {
     "brand": "L’OR Espresso",
@@ -636,7 +776,9 @@
     "cupSize": "Lungo",
     "intensity": 6,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "La Colombe",
@@ -645,7 +787,9 @@
     "cupSize": "French Press, Drip, Espresso",
     "intensity": 9,
     "bitterness": 8,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Nespresso",
@@ -654,7 +798,9 @@
     "cupSize": "Espresso",
     "intensity": 9,
     "bitterness": 7,
-    "decaf": false
+    "decaf": false,
+    "type": "bean",
+    "system": ""
   },
   {
     "brand": "UCC Coffee Singapore",
@@ -663,7 +809,9 @@
     "cupSize": "Lungo",
     "intensity": 6,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Volcano Coffee Works",
@@ -672,7 +820,9 @@
     "cupSize": "Espresso, Filter",
     "intensity": null,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Blue Bottle",
@@ -681,7 +831,9 @@
     "cupSize": "French Press, Espresso",
     "intensity": 8,
     "bitterness": 6,
-    "decaf": false
+    "decaf": false,
+    "type": "bean",
+    "system": ""
   },
   {
     "brand": "Fresh Roasted Coffee – Classic Pods",
@@ -690,7 +842,9 @@
     "cupSize": "Small - Travel",
     "intensity": 4,
     "bitterness": 2,
-    "decaf": false
+    "decaf": false,
+    "type": "bean",
+    "system": ""
   },
   {
     "brand": "Starbucks",
@@ -699,7 +853,9 @@
     "cupSize": "Cappuccino",
     "intensity": null,
     "bitterness": 5,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "kCup"
   },
   {
     "brand": "Blue Bottle",
@@ -708,7 +864,9 @@
     "cupSize": "French Press, Drip",
     "intensity": 8,
     "bitterness": 6,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "dolceGusto"
   },
   {
     "brand": "Eight O’Clock Coffee",
@@ -717,7 +875,9 @@
     "cupSize": "Small - Travel",
     "intensity": 6,
     "bitterness": 3,
-    "decaf": false
+    "decaf": false,
+    "type": "bean",
+    "system": ""
   },
   {
     "brand": "Grind",
@@ -726,7 +886,9 @@
     "cupSize": "Espresso",
     "intensity": null,
     "bitterness": null,
-    "decaf": true
+    "decaf": true,
+    "type": "pod",
+    "system": "kCup"
   },
   {
     "brand": "La Colombe",
@@ -735,7 +897,9 @@
     "cupSize": "Espresso, Drip",
     "intensity": 6,
     "bitterness": 4,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Keurig",
@@ -744,7 +908,9 @@
     "cupSize": "Small - Travel",
     "intensity": 3,
     "bitterness": 2,
-    "decaf": true
+    "decaf": true,
+    "type": "bean",
+    "system": ""
   },
   {
     "brand": "Wogan",
@@ -753,7 +919,9 @@
     "cupSize": "Espresso",
     "intensity": null,
     "bitterness": 7,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "kCup"
   },
   {
     "brand": "Keurig",
@@ -762,7 +930,9 @@
     "cupSize": "Small - Travel",
     "intensity": 4,
     "bitterness": 2,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Nespresso",
@@ -771,7 +941,9 @@
     "cupSize": "Coffee/Mug",
     "intensity": null,
     "bitterness": 2,
-    "decaf": true
+    "decaf": true,
+    "type": "pod",
+    "system": "kCup"
   },
   {
     "brand": "Good & Gather",
@@ -780,7 +952,9 @@
     "cupSize": "Small - Travel",
     "intensity": 7,
     "bitterness": 6,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "vertuo"
   },
   {
     "brand": "Caribou Coffee",
@@ -789,7 +963,9 @@
     "cupSize": "Drip, Pour-over, French Press",
     "intensity": 5,
     "bitterness": 2,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "kCup"
   },
   {
     "brand": "Common mam coffee roasters",
@@ -798,7 +974,9 @@
     "cupSize": "Espresso",
     "intensity": null,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "bean",
+    "system": ""
   },
   {
     "brand": "Costa",
@@ -807,7 +985,9 @@
     "cupSize": "Latte",
     "intensity": null,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "TAG Espresso",
@@ -816,7 +996,9 @@
     "cupSize": "Espresso",
     "intensity": 7,
     "bitterness": 3,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "tassimo"
   },
   {
     "brand": "Nespresso",
@@ -825,7 +1007,9 @@
     "cupSize": "Coffee/Mug",
     "intensity": null,
     "bitterness": 2,
-    "decaf": true
+    "decaf": true,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Lavazza",
@@ -834,7 +1018,9 @@
     "cupSize": "Espresso",
     "intensity": 7,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "vertuo"
   },
   {
     "brand": "Peet’s Coffee",
@@ -843,7 +1029,9 @@
     "cupSize": "Pour-over, Drip",
     "intensity": 5,
     "bitterness": 2,
-    "decaf": false
+    "decaf": false,
+    "type": "bean",
+    "system": ""
   },
   {
     "brand": "Peet’s Coffee",
@@ -852,7 +1040,9 @@
     "cupSize": "Pour-over, Drip",
     "intensity": 4,
     "bitterness": 2,
-    "decaf": false
+    "decaf": false,
+    "type": "bean",
+    "system": ""
   },
   {
     "brand": "Grind",
@@ -861,7 +1051,9 @@
     "cupSize": "Espresso",
     "intensity": null,
     "bitterness": null,
-    "decaf": true
+    "decaf": true,
+    "type": "bean",
+    "system": ""
   },
   {
     "brand": "La Colombe",
@@ -870,7 +1062,9 @@
     "cupSize": "Drip, Pour-over",
     "intensity": 6,
     "bitterness": 3,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Dunkin’",
@@ -879,7 +1073,9 @@
     "cupSize": "Small - Travel",
     "intensity": null,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "bean",
+    "system": ""
   },
   {
     "brand": "Eight O’Clock Coffee",
@@ -888,7 +1084,9 @@
     "cupSize": "Small - Travel",
     "intensity": 6,
     "bitterness": 4,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "kCup"
   },
   {
     "brand": "UCC Coffee Singapore",
@@ -897,7 +1095,9 @@
     "cupSize": "Espresso",
     "intensity": 9,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "kCup"
   },
   {
     "brand": "Counter Culture",
@@ -906,7 +1106,9 @@
     "cupSize": "Pour-over, Drip",
     "intensity": 6,
     "bitterness": 3,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Lavazza",
@@ -915,7 +1117,9 @@
     "cupSize": "Small - Travel",
     "intensity": 7,
     "bitterness": 6,
-    "decaf": false
+    "decaf": false,
+    "type": "bean",
+    "system": ""
   },
   {
     "brand": "Black Rifle Coffee Company",
@@ -924,7 +1128,9 @@
     "cupSize": "Small - Travel",
     "intensity": 8,
     "bitterness": 6,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "kCup"
   },
   {
     "brand": "Fresh Roasted Coffee – envipods",
@@ -933,7 +1139,9 @@
     "cupSize": "Small - Travel",
     "intensity": 4,
     "bitterness": 2,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "kCup"
   },
   {
     "brand": "Eight O’Clock Coffee",
@@ -942,7 +1150,9 @@
     "cupSize": "Small - Travel",
     "intensity": 8,
     "bitterness": 8,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "kCup"
   },
   {
     "brand": "Lavazza",
@@ -951,7 +1161,9 @@
     "cupSize": "Small - Travel",
     "intensity": 7,
     "bitterness": 5,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "kCup"
   },
   {
     "brand": "Eight O’Clock Coffee",
@@ -960,7 +1172,9 @@
     "cupSize": "Small - Travel",
     "intensity": 4,
     "bitterness": 3,
-    "decaf": true
+    "decaf": true,
+    "type": "pod",
+    "system": "kCup"
   },
   {
     "brand": "Starbucks",
@@ -969,7 +1183,9 @@
     "cupSize": "Small - Travel",
     "intensity": null,
     "bitterness": 2,
-    "decaf": true
+    "decaf": true,
+    "type": "pod",
+    "system": "kCup"
   },
   {
     "brand": "Lavazza",
@@ -978,7 +1194,9 @@
     "cupSize": "Espresso",
     "intensity": 8,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "kCup"
   },
   {
     "brand": "UCC Coffee Singapore",
@@ -987,7 +1205,9 @@
     "cupSize": "Espresso",
     "intensity": 7,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "bean",
+    "system": ""
   },
   {
     "brand": "Cafe Bustelo",
@@ -996,7 +1216,9 @@
     "cupSize": "Small - Travel",
     "intensity": 5,
     "bitterness": 3,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Dunkin’",
@@ -1005,7 +1227,9 @@
     "cupSize": "Small - Travel",
     "intensity": 9,
     "bitterness": 7,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "kCup"
   },
   {
     "brand": "Nespresso",
@@ -1014,7 +1238,9 @@
     "cupSize": "Espresso, Lungo",
     "intensity": 4,
     "bitterness": 2,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "kCup"
   },
   {
     "brand": "La Colombe",
@@ -1023,7 +1249,9 @@
     "cupSize": "Drip, French Press",
     "intensity": 6,
     "bitterness": 3,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Tanamera Coffee (SG)",
@@ -1032,7 +1260,9 @@
     "cupSize": "Espresso",
     "intensity": null,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "bean",
+    "system": ""
   },
   {
     "brand": "Folgers",
@@ -1041,7 +1271,9 @@
     "cupSize": "Small - Travel",
     "intensity": 6,
     "bitterness": 3,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Folgers",
@@ -1050,7 +1282,9 @@
     "cupSize": "Drip",
     "intensity": 5,
     "bitterness": 3,
-    "decaf": true
+    "decaf": true,
+    "type": "pod",
+    "system": "kCup"
   },
   {
     "brand": "Costa",
@@ -1059,7 +1293,9 @@
     "cupSize": "Latte",
     "intensity": null,
     "bitterness": 5,
-    "decaf": false
+    "decaf": false,
+    "type": "bean",
+    "system": ""
   },
   {
     "brand": "Lavazza",
@@ -1068,7 +1304,9 @@
     "cupSize": "Small - Travel",
     "intensity": 4,
     "bitterness": 3,
-    "decaf": true
+    "decaf": true,
+    "type": "pod",
+    "system": "tassimo"
   },
   {
     "brand": "Eight O’Clock Coffee",
@@ -1077,7 +1315,9 @@
     "cupSize": "Small - Travel",
     "intensity": 7,
     "bitterness": 4,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "kCup"
   },
   {
     "brand": "Intelligentsia",
@@ -1086,7 +1326,9 @@
     "cupSize": "French Press",
     "intensity": 9,
     "bitterness": 7,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "kCup"
   },
   {
     "brand": "Victor Allen’s Coffee",
@@ -1095,7 +1337,9 @@
     "cupSize": "Small - Travel",
     "intensity": null,
     "bitterness": 2,
-    "decaf": true
+    "decaf": true,
+    "type": "bean",
+    "system": ""
   },
   {
     "brand": "Lavazza",
@@ -1104,7 +1348,9 @@
     "cupSize": "Espresso",
     "intensity": 8,
     "bitterness": 6,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "kCup"
   },
   {
     "brand": "UCC Coffee Singapore",
@@ -1113,7 +1359,9 @@
     "cupSize": "Ristretto",
     "intensity": 10,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "L’OR Espresso",
@@ -1122,7 +1370,9 @@
     "cupSize": "Espresso",
     "intensity": 9,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "kCup"
   },
   {
     "brand": "Tanamera Coffee (SG)",
@@ -1131,7 +1381,9 @@
     "cupSize": "Espresso",
     "intensity": 7,
     "bitterness": 5,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Starbucks",
@@ -1140,7 +1392,9 @@
     "cupSize": "Drip, Espresso",
     "intensity": 9,
     "bitterness": 7,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Eight O’Clock Coffee",
@@ -1149,7 +1403,9 @@
     "cupSize": "Small - Travel",
     "intensity": 6,
     "bitterness": 4,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "La Colombe",
@@ -1158,7 +1414,9 @@
     "cupSize": "Pour-over, Drip",
     "intensity": 5,
     "bitterness": 2,
-    "decaf": false
+    "decaf": false,
+    "type": "bean",
+    "system": ""
   },
   {
     "brand": "Tanamera Coffee (SG)",
@@ -1167,7 +1425,9 @@
     "cupSize": "Espresso",
     "intensity": 8,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "kCup"
   },
   {
     "brand": "Great Value",
@@ -1176,7 +1436,9 @@
     "cupSize": "Small - Travel",
     "intensity": 4,
     "bitterness": 2,
-    "decaf": false
+    "decaf": false,
+    "type": "bean",
+    "system": ""
   },
   {
     "brand": "Counter Culture",
@@ -1185,7 +1447,9 @@
     "cupSize": "Drip, Espresso",
     "intensity": 6,
     "bitterness": 3,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Day to Day Coffee",
@@ -1194,7 +1458,9 @@
     "cupSize": "Small - Travel",
     "intensity": 4,
     "bitterness": 2,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "kCup"
   },
   {
     "brand": "Counter Culture",
@@ -1203,7 +1469,9 @@
     "cupSize": "Pour-over",
     "intensity": 5,
     "bitterness": 2,
-    "decaf": false
+    "decaf": false,
+    "type": "bean",
+    "system": ""
   },
   {
     "brand": "Day to Day Coffee",
@@ -1212,7 +1480,9 @@
     "cupSize": "Small - Travel",
     "intensity": 4,
     "bitterness": 2,
-    "decaf": true
+    "decaf": true,
+    "type": "pod",
+    "system": "kCup"
   },
   {
     "brand": "Nespresso",
@@ -1221,7 +1491,9 @@
     "cupSize": "Coffee/Mug",
     "intensity": null,
     "bitterness": 2,
-    "decaf": false
+    "decaf": false,
+    "type": "bean",
+    "system": ""
   },
   {
     "brand": "Market Pantry",
@@ -1230,7 +1502,9 @@
     "cupSize": "Small - Travel",
     "intensity": 7,
     "bitterness": 6,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "kCup"
   },
   {
     "brand": "Good & Gather",
@@ -1239,7 +1513,9 @@
     "cupSize": "Espresso",
     "intensity": 7,
     "bitterness": 5,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "vertuo"
   },
   {
     "brand": "Lavazza",
@@ -1248,7 +1524,9 @@
     "cupSize": "Espresso, Filter",
     "intensity": 7,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "kCup"
   },
   {
     "brand": "Lavazza",
@@ -1257,7 +1535,9 @@
     "cupSize": "Espresso, Double Espresso, Cappuccino, Latte, Latte Macchiato, Flat White, Mocha",
     "intensity": 6,
     "bitterness": 5,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Kiss the Hippo",
@@ -1266,7 +1546,9 @@
     "cupSize": "Espresso",
     "intensity": null,
     "bitterness": 2,
-    "decaf": false
+    "decaf": false,
+    "type": "bean",
+    "system": ""
   },
   {
     "brand": "Starbucks",
@@ -1275,7 +1557,9 @@
     "cupSize": "Small - Travel",
     "intensity": 4,
     "bitterness": 2,
-    "decaf": false
+    "decaf": false,
+    "type": "bean",
+    "system": ""
   },
   {
     "brand": "Nespresso",
@@ -1284,7 +1568,9 @@
     "cupSize": "Espresso",
     "intensity": 6,
     "bitterness": 4,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Starbucks",
@@ -1293,7 +1579,9 @@
     "cupSize": "Small - Travel",
     "intensity": 8,
     "bitterness": 4,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "kCup"
   },
   {
     "brand": "Starbucks by Nespresso",
@@ -1302,7 +1590,9 @@
     "cupSize": "Espresso, Lungo",
     "intensity": null,
     "bitterness": 3,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Volcano Coffee Works",
@@ -1311,7 +1601,9 @@
     "cupSize": "Espresso, Filter",
     "intensity": null,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "kCup"
   },
   {
     "brand": "Victor Allen’s Coffee",
@@ -1320,7 +1612,9 @@
     "cupSize": "Small - Travel",
     "intensity": 4,
     "bitterness": 2,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Caribou Coffee",
@@ -1329,7 +1623,9 @@
     "cupSize": "Small - Travel",
     "intensity": 4,
     "bitterness": 2,
-    "decaf": false
+    "decaf": false,
+    "type": "bean",
+    "system": ""
   },
   {
     "brand": "Day to Day Coffee",
@@ -1338,7 +1634,9 @@
     "cupSize": "Small - Travel",
     "intensity": 5,
     "bitterness": 2,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "kCup"
   },
   {
     "brand": "Great Value",
@@ -1347,7 +1645,9 @@
     "cupSize": "Small - Travel",
     "intensity": 7,
     "bitterness": 6,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "kCup"
   },
   {
     "brand": "Folgers",
@@ -1356,7 +1656,9 @@
     "cupSize": "Drip",
     "intensity": 5,
     "bitterness": 2,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "kCup"
   },
   {
     "brand": "Black Rifle Coffee Company",
@@ -1365,7 +1667,9 @@
     "cupSize": "Small - Travel",
     "intensity": 5,
     "bitterness": 3,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "kCup"
   },
   {
     "brand": "illy",
@@ -1374,7 +1678,9 @@
     "cupSize": "Lungo",
     "intensity": null,
     "bitterness": 2,
-    "decaf": false
+    "decaf": false,
+    "type": "bean",
+    "system": ""
   },
   {
     "brand": "Volcano Coffee Works",
@@ -1383,7 +1689,9 @@
     "cupSize": "Espresso, Filter, French Press",
     "intensity": null,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "kCup"
   },
   {
     "brand": "Tanamera Coffee (SG)",
@@ -1392,7 +1700,9 @@
     "cupSize": "Espresso",
     "intensity": null,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "xCaps"
   },
   {
     "brand": "Fresh Roasted Coffee – Espresso Capsules",
@@ -1401,7 +1711,9 @@
     "cupSize": "Espresso",
     "intensity": 7,
     "bitterness": 5,
-    "decaf": false
+    "decaf": false,
+    "type": "bean",
+    "system": ""
   },
   {
     "brand": "Grind",
@@ -1410,7 +1722,9 @@
     "cupSize": "Espresso",
     "intensity": null,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Volcano Coffee Works",
@@ -1419,7 +1733,9 @@
     "cupSize": "Espresso, Filter",
     "intensity": null,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Halo Coffee",
@@ -1428,7 +1744,9 @@
     "cupSize": "Espresso",
     "intensity": null,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Victor Allen’s Coffee",
@@ -1437,7 +1755,9 @@
     "cupSize": "Small - Travel",
     "intensity": 6,
     "bitterness": 3,
-    "decaf": false
+    "decaf": false,
+    "type": "bean",
+    "system": ""
   },
   {
     "brand": "Dunkin’",
@@ -1446,7 +1766,9 @@
     "cupSize": "Small - Travel",
     "intensity": null,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "bean",
+    "system": ""
   },
   {
     "brand": "Lavazza",
@@ -1455,7 +1777,9 @@
     "cupSize": "Espresso",
     "intensity": 9,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "kCup"
   },
   {
     "brand": "Starbucks",
@@ -1464,7 +1788,9 @@
     "cupSize": "Small - Travel",
     "intensity": 4,
     "bitterness": 2,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "kCup"
   },
   {
     "brand": "Caribou Coffee",
@@ -1473,7 +1799,9 @@
     "cupSize": "Small - Travel",
     "intensity": 7,
     "bitterness": 5,
-    "decaf": false
+    "decaf": false,
+    "type": "bean",
+    "system": ""
   },
   {
     "brand": "Starbucks",
@@ -1482,7 +1810,9 @@
     "cupSize": "Pour-over, Drip",
     "intensity": 5,
     "bitterness": 2,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "kCup"
   },
   {
     "brand": "illy",
@@ -1491,7 +1821,9 @@
     "cupSize": "Espresso",
     "intensity": 7,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "kCup"
   },
   {
     "brand": "Fresh Roasted Coffee – Espresso Capsules",
@@ -1500,7 +1832,9 @@
     "cupSize": "Espresso",
     "intensity": 6,
     "bitterness": 4,
-    "decaf": false
+    "decaf": false,
+    "type": "bean",
+    "system": ""
   },
   {
     "brand": "illy",
@@ -1509,7 +1843,9 @@
     "cupSize": "Espresso",
     "intensity": null,
     "bitterness": null,
-    "decaf": true
+    "decaf": true,
+    "type": "pod",
+    "system": "xCaps"
   },
   {
     "brand": "Wonky Coffee",
@@ -1518,7 +1854,9 @@
     "cupSize": "Espresso, Filter, French Press",
     "intensity": 7,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "bean",
+    "system": ""
   },
   {
     "brand": "Folgers",
@@ -1527,7 +1865,9 @@
     "cupSize": "Drip",
     "intensity": 6,
     "bitterness": 3,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Lavazza",
@@ -1536,7 +1876,9 @@
     "cupSize": "Espresso",
     "intensity": 8,
     "bitterness": 5,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "xCaps"
   },
   {
     "brand": "Kiss the Hippo",
@@ -1545,7 +1887,9 @@
     "cupSize": "Espresso",
     "intensity": null,
     "bitterness": 7,
-    "decaf": false
+    "decaf": false,
+    "type": "bean",
+    "system": ""
   },
   {
     "brand": "Fresh Roasted Coffee – Classic Pods",
@@ -1554,7 +1898,9 @@
     "cupSize": "Small - Travel",
     "intensity": 5,
     "bitterness": 2,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Volcano Coffee Works",
@@ -1563,7 +1909,9 @@
     "cupSize": "Espresso",
     "intensity": 3,
     "bitterness": null,
-    "decaf": true
+    "decaf": true,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Fresh Roasted Coffee – Classic Pods",
@@ -1572,7 +1920,9 @@
     "cupSize": "Small - Travel",
     "intensity": 5,
     "bitterness": 2,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "kCup"
   },
   {
     "brand": "L’OR Espresso",
@@ -1581,7 +1931,9 @@
     "cupSize": "Espresso, Bean-to-cup, Filter",
     "intensity": 8,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Fresh Roasted Coffee – Classic Pods",
@@ -1590,7 +1942,9 @@
     "cupSize": "Small - Travel",
     "intensity": 5,
     "bitterness": 2,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "kCup"
   },
   {
     "brand": "Peet’s",
@@ -1599,7 +1953,9 @@
     "cupSize": "Small - Travel",
     "intensity": null,
     "bitterness": 3,
-    "decaf": false
+    "decaf": false,
+    "type": "bean",
+    "system": ""
   },
   {
     "brand": "illy",
@@ -1608,7 +1964,9 @@
     "cupSize": "Espresso",
     "intensity": null,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "kCup"
   },
   {
     "brand": "Lavazza",
@@ -1617,7 +1975,9 @@
     "cupSize": "Espresso",
     "intensity": 8,
     "bitterness": 2,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "kCup"
   },
   {
     "brand": "Fresh Roasted Coffee – Espresso Capsules",
@@ -1626,7 +1986,9 @@
     "cupSize": "Espresso",
     "intensity": 5,
     "bitterness": 4,
-    "decaf": true
+    "decaf": true,
+    "type": "pod",
+    "system": "xCaps"
   },
   {
     "brand": "Nespresso",
@@ -1635,7 +1997,9 @@
     "cupSize": "Coffee/Mug",
     "intensity": 6,
     "bitterness": 2,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "L’OR Espresso",
@@ -1644,7 +2008,9 @@
     "cupSize": "Espresso, Bean-to-cup",
     "intensity": 9,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Starbucks",
@@ -1653,7 +2019,9 @@
     "cupSize": "Espresso",
     "intensity": null,
     "bitterness": 5,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "vertuo"
   },
   {
     "brand": "Day to Day Coffee",
@@ -1662,7 +2030,9 @@
     "cupSize": "Small - Travel",
     "intensity": 5,
     "bitterness": 2,
-    "decaf": false
+    "decaf": false,
+    "type": "bean",
+    "system": ""
   },
   {
     "brand": "Lavazza",
@@ -1671,7 +2041,9 @@
     "cupSize": "Espresso",
     "intensity": 5,
     "bitterness": 5,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "dolceGusto"
   },
   {
     "brand": "Fresh Roasted Coffee – Espresso Capsules",
@@ -1680,7 +2052,9 @@
     "cupSize": "Espresso",
     "intensity": 8,
     "bitterness": 6,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "kCup"
   },
   {
     "brand": "Grind",
@@ -1689,7 +2063,9 @@
     "cupSize": "Espresso",
     "intensity": null,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "bean",
+    "system": ""
   },
   {
     "brand": "Dunkin’",
@@ -1698,7 +2074,9 @@
     "cupSize": "Small - Travel",
     "intensity": null,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Wogan",
@@ -1707,7 +2085,9 @@
     "cupSize": "Espresso",
     "intensity": null,
     "bitterness": 7,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Suzuki Coffee (SG)",
@@ -1716,7 +2096,9 @@
     "cupSize": "Espresso",
     "intensity": 7,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "kCup"
   },
   {
     "brand": "Starbucks",
@@ -1725,7 +2107,9 @@
     "cupSize": "Espresso",
     "intensity": null,
     "bitterness": 7,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Peet’s Coffee",
@@ -1734,7 +2118,9 @@
     "cupSize": "Espresso",
     "intensity": 9,
     "bitterness": 8,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Grind",
@@ -1743,7 +2129,9 @@
     "cupSize": "Espresso",
     "intensity": null,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "dolceGusto"
   },
   {
     "brand": "Volcano Coffee Works",
@@ -1752,7 +2140,9 @@
     "cupSize": "Espresso, Filter",
     "intensity": null,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Tanamera Coffee (SG)",
@@ -1761,7 +2151,9 @@
     "cupSize": "Espresso",
     "intensity": null,
     "bitterness": null,
-    "decaf": true
+    "decaf": true,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Colonna Coffee",
@@ -1770,7 +2162,9 @@
     "cupSize": "Filter",
     "intensity": null,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "bean",
+    "system": ""
   },
   {
     "brand": "Starbucks",
@@ -1779,7 +2173,9 @@
     "cupSize": "Espresso",
     "intensity": 8,
     "bitterness": 6,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Good & Gather",
@@ -1788,7 +2184,9 @@
     "cupSize": "Espresso",
     "intensity": 6,
     "bitterness": 5,
-    "decaf": false
+    "decaf": false,
+    "type": "bean",
+    "system": ""
   },
   {
     "brand": "Starbucks by Nespresso for Vertuo",
@@ -1797,7 +2195,9 @@
     "cupSize": "Coffee/Mug",
     "intensity": 6,
     "bitterness": 3,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Dunkin’",
@@ -1806,7 +2206,9 @@
     "cupSize": "Small - Travel",
     "intensity": 6,
     "bitterness": 2,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Good & Gather",
@@ -1815,7 +2217,9 @@
     "cupSize": "Espresso",
     "intensity": 8,
     "bitterness": 5,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "vertuo"
   },
   {
     "brand": "Grind",
@@ -1824,7 +2228,9 @@
     "cupSize": "Espresso",
     "intensity": 6,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "kCup"
   },
   {
     "brand": "L’OR Espresso",
@@ -1833,7 +2239,9 @@
     "cupSize": "Espresso",
     "intensity": 8,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "bean",
+    "system": ""
   },
   {
     "brand": "Lavazza",
@@ -1842,7 +2250,9 @@
     "cupSize": "Small - Travel",
     "intensity": 5,
     "bitterness": 3,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Victor Allen’s Coffee",
@@ -1851,7 +2261,9 @@
     "cupSize": "Small - Travel",
     "intensity": 5,
     "bitterness": 3,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Suzuki Coffee (SG)",
@@ -1860,7 +2272,9 @@
     "cupSize": "Espresso",
     "intensity": 7,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Volcano Coffee Works",
@@ -1869,7 +2283,9 @@
     "cupSize": "Espresso",
     "intensity": null,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "kCup"
   },
   {
     "brand": "Caribou Coffee",
@@ -1878,7 +2294,9 @@
     "cupSize": "Small - Travel",
     "intensity": 5,
     "bitterness": 2,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "kCup"
   },
   {
     "brand": "Lavazza",
@@ -1887,7 +2305,9 @@
     "cupSize": "Espresso, Filter",
     "intensity": 3,
     "bitterness": null,
-    "decaf": true
+    "decaf": true,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Starbucks",
@@ -1896,7 +2316,9 @@
     "cupSize": "Small - Travel",
     "intensity": 4,
     "bitterness": 2,
-    "decaf": false
+    "decaf": false,
+    "type": "bean",
+    "system": ""
   },
   {
     "brand": "Intelligentsia",
@@ -1905,7 +2327,9 @@
     "cupSize": "Drip, Pour-over",
     "intensity": 6,
     "bitterness": 3,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "kCup"
   },
   {
     "brand": "Victor Allen’s Coffee",
@@ -1914,7 +2338,9 @@
     "cupSize": "Small - Travel",
     "intensity": 5,
     "bitterness": 2,
-    "decaf": false
+    "decaf": false,
+    "type": "bean",
+    "system": ""
   },
   {
     "brand": "Peet’s",
@@ -1923,7 +2349,9 @@
     "cupSize": "Ristretto, Espresso, Lungo",
     "intensity": 8,
     "bitterness": 4,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "kCup"
   },
   {
     "brand": "Black Rifle Coffee Company",
@@ -1932,7 +2360,9 @@
     "cupSize": "Small - Travel",
     "intensity": 8,
     "bitterness": 6,
-    "decaf": false
+    "decaf": false,
+    "type": "bean",
+    "system": ""
   },
   {
     "brand": "Fresh Roasted Coffee – Espresso Capsules",
@@ -1941,7 +2371,9 @@
     "cupSize": "Espresso",
     "intensity": 7,
     "bitterness": 5,
-    "decaf": false
+    "decaf": false,
+    "type": "bean",
+    "system": ""
   },
   {
     "brand": "Grind",
@@ -1950,7 +2382,9 @@
     "cupSize": "Espresso",
     "intensity": 8,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "kCup"
   },
   {
     "brand": "Starbucks",
@@ -1959,7 +2393,9 @@
     "cupSize": "Small - Travel",
     "intensity": 5,
     "bitterness": 3,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Caribou Coffee",
@@ -1968,7 +2404,9 @@
     "cupSize": "Drip, French Press, Espresso",
     "intensity": 7,
     "bitterness": 5,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "kCup"
   },
   {
     "brand": "Suzuki Coffee (SG)",
@@ -1977,7 +2415,9 @@
     "cupSize": "Espresso",
     "intensity": 8,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "UCC Coffee Singapore",
@@ -1986,7 +2426,9 @@
     "cupSize": "Espresso, Lungo",
     "intensity": 10,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Intelligentsia",
@@ -1995,7 +2437,9 @@
     "cupSize": "Drip, Pour-over",
     "intensity": 6,
     "bitterness": 3,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "kCup"
   },
   {
     "brand": "Starbucks",
@@ -2004,7 +2448,9 @@
     "cupSize": "Latte",
     "intensity": null,
     "bitterness": 2,
-    "decaf": false
+    "decaf": false,
+    "type": "bean",
+    "system": ""
   },
   {
     "brand": "Caribou Coffee",
@@ -2013,7 +2459,9 @@
     "cupSize": "Drip, French Press",
     "intensity": 6,
     "bitterness": 5,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Starbucks",
@@ -2022,7 +2470,9 @@
     "cupSize": "Drip, Pour-over",
     "intensity": 5,
     "bitterness": 2,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Keurig",
@@ -2031,7 +2481,9 @@
     "cupSize": "Small - Travel",
     "intensity": 8,
     "bitterness": 4,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "kCup"
   },
   {
     "brand": "The Coffee Folks",
@@ -2040,7 +2492,9 @@
     "cupSize": "Espresso",
     "intensity": 1,
     "bitterness": 1,
-    "decaf": true
+    "decaf": true,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Perla",
@@ -2049,7 +2503,9 @@
     "cupSize": "Coffee/Mug",
     "intensity": 5,
     "bitterness": null,
-    "decaf": true
+    "decaf": true,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Kanis & Gunnink",
@@ -2058,7 +2514,9 @@
     "cupSize": "Coffee/Mug",
     "intensity": 5,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Fresh Brew Co.",
@@ -2067,7 +2525,9 @@
     "cupSize": "Espresso",
     "intensity": 9,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Coffeeza",
@@ -2076,7 +2536,9 @@
     "cupSize": "Espresso",
     "intensity": null,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Great Value",
@@ -2085,7 +2547,9 @@
     "cupSize": "Coffee/Mug",
     "intensity": 7,
     "bitterness": 5,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "kCup"
   },
   {
     "brand": "Great Value",
@@ -2094,7 +2558,9 @@
     "cupSize": "Coffee/Mug",
     "intensity": 9,
     "bitterness": 7,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "kCup"
   },
   {
     "brand": "Nabob",
@@ -2103,7 +2569,9 @@
     "cupSize": "Coffee/Mug",
     "intensity": 7,
     "bitterness": 5,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "kCup"
   },
   {
     "brand": "Perla",
@@ -2112,7 +2580,9 @@
     "cupSize": "Coffee/Mug",
     "intensity": 4,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Perla",
@@ -2121,7 +2591,9 @@
     "cupSize": "Coffee/Mug",
     "intensity": 3,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Nespresso",
@@ -2130,7 +2602,9 @@
     "cupSize": "Alto / XL",
     "intensity": null,
     "bitterness": 2,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "vertuo"
   },
   {
     "brand": "Nabob",
@@ -2139,7 +2613,9 @@
     "cupSize": "Coffee/Mug",
     "intensity": null,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "kCup"
   },
   {
     "brand": "Fresh Brew Co.",
@@ -2148,7 +2624,9 @@
     "cupSize": "Espresso",
     "intensity": 6,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Fresh Brew Co.",
@@ -2157,7 +2635,9 @@
     "cupSize": "Espresso",
     "intensity": 8,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Fresh Brew Co.",
@@ -2166,7 +2646,9 @@
     "cupSize": "Espresso",
     "intensity": 6,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Fresh Brew Co.",
@@ -2175,7 +2657,9 @@
     "cupSize": "Espresso",
     "intensity": 6,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Fresh Brew Co.",
@@ -2184,7 +2668,9 @@
     "cupSize": "Espresso",
     "intensity": 6,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Fresh Brew Co.",
@@ -2193,7 +2679,9 @@
     "cupSize": "Espresso",
     "intensity": 7,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Fresh Brew Co.",
@@ -2202,7 +2690,9 @@
     "cupSize": "Espresso",
     "intensity": 6,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Fresh Brew Co.",
@@ -2211,7 +2701,9 @@
     "cupSize": "Espresso",
     "intensity": 6,
     "bitterness": null,
-    "decaf": true
+    "decaf": true,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Fresh Brew Co.",
@@ -2220,7 +2712,9 @@
     "cupSize": "Espresso",
     "intensity": 6,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Caribou Coffee",
@@ -2229,7 +2723,9 @@
     "cupSize": "Small - Travel",
     "intensity": 5,
     "bitterness": 3,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "kCup"
   },
   {
     "brand": "Fresh Brew Co.",
@@ -2238,7 +2734,9 @@
     "cupSize": "Espresso",
     "intensity": 6,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Fresh Brew Co.",
@@ -2247,7 +2745,9 @@
     "cupSize": "Espresso",
     "intensity": null,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Fresh Brew Co.",
@@ -2256,7 +2756,9 @@
     "cupSize": "Espresso",
     "intensity": null,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Fresh Brew Co.",
@@ -2265,7 +2767,9 @@
     "cupSize": "Espresso",
     "intensity": 10,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Maxwell House",
@@ -2274,7 +2778,9 @@
     "cupSize": "Coffee/Mug",
     "intensity": null,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "kCup"
   },
   {
     "brand": "Maxwell House",
@@ -2283,7 +2789,9 @@
     "cupSize": "Coffee/Mug",
     "intensity": null,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "kCup"
   },
   {
     "brand": "My Coffee Cup",
@@ -2292,7 +2800,9 @@
     "cupSize": "Espresso",
     "intensity": null,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "My Coffee Cup",
@@ -2301,7 +2811,9 @@
     "cupSize": "Espresso",
     "intensity": null,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Starbucks",
@@ -2310,7 +2822,9 @@
     "cupSize": "Espresso",
     "intensity": 7,
     "bitterness": 5,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Jacobs",
@@ -2319,7 +2833,9 @@
     "cupSize": "Espresso",
     "intensity": 9,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Jacobs",
@@ -2328,7 +2844,9 @@
     "cupSize": "Espresso",
     "intensity": 7,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Nespresso",
@@ -2337,7 +2855,9 @@
     "cupSize": "Coffee/Mug",
     "intensity": 5,
     "bitterness": 1,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "vertuo"
   },
   {
     "brand": "Starbucks",
@@ -2346,7 +2866,9 @@
     "cupSize": "French Press, Drip",
     "intensity": 8,
     "bitterness": 5,
-    "decaf": false
+    "decaf": false,
+    "type": "bean",
+    "system": ""
   },
   {
     "brand": "Nespresso",
@@ -2355,7 +2877,9 @@
     "cupSize": "Espresso, Lungo",
     "intensity": 8,
     "bitterness": 3,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Suzuki Coffee (SG)",
@@ -2364,7 +2888,9 @@
     "cupSize": "Espresso",
     "intensity": 8,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Nespresso",
@@ -2373,7 +2899,9 @@
     "cupSize": "Gran Lungo",
     "intensity": 7,
     "bitterness": 3,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "vertuo"
   },
   {
     "brand": "Wogan",
@@ -2382,7 +2910,9 @@
     "cupSize": "Espresso",
     "intensity": null,
     "bitterness": 2,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Halo Coffee",
@@ -2391,7 +2921,9 @@
     "cupSize": "Espresso, Filter, French Press",
     "intensity": null,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "bean",
+    "system": ""
   },
   {
     "brand": "Nespresso",
@@ -2400,7 +2932,9 @@
     "cupSize": "Espresso, Lungo",
     "intensity": 5,
     "bitterness": 2,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Counter Culture",
@@ -2409,7 +2943,9 @@
     "cupSize": "Pour-over, Drip",
     "intensity": 6,
     "bitterness": 3,
-    "decaf": false
+    "decaf": false,
+    "type": "bean",
+    "system": ""
   },
   {
     "brand": "Blue Bottle",
@@ -2418,7 +2954,9 @@
     "cupSize": "Drip, Pour-over",
     "intensity": 6,
     "bitterness": 3,
-    "decaf": false
+    "decaf": false,
+    "type": "bean",
+    "system": ""
   },
   {
     "brand": "Caribou Coffee",
@@ -2427,7 +2965,9 @@
     "cupSize": "Drip, Pour-over, French Press",
     "intensity": 5,
     "bitterness": 2,
-    "decaf": false
+    "decaf": false,
+    "type": "bean",
+    "system": ""
   },
   {
     "brand": "Caribou Coffee",
@@ -2436,7 +2976,9 @@
     "cupSize": "Drip, Pour-over, French Press",
     "intensity": 5,
     "bitterness": 5,
-    "decaf": false
+    "decaf": false,
+    "type": "bean",
+    "system": ""
   },
   {
     "brand": "Colonna Coffee",
@@ -2445,7 +2987,9 @@
     "cupSize": "Espresso, Filter",
     "intensity": null,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "bean",
+    "system": ""
   },
   {
     "brand": "Colonna Coffee",
@@ -2454,7 +2998,9 @@
     "cupSize": "Espresso, Filter",
     "intensity": null,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "bean",
+    "system": ""
   },
   {
     "brand": "Colonna Coffee",
@@ -2463,7 +3009,9 @@
     "cupSize": "Filter, Espresso",
     "intensity": null,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "bean",
+    "system": ""
   },
   {
     "brand": "Volcano Coffee Works",
@@ -2472,7 +3020,9 @@
     "cupSize": "Filter, Espresso",
     "intensity": null,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "bean",
+    "system": ""
   },
   {
     "brand": "Volcano Coffee Works",
@@ -2481,7 +3031,9 @@
     "cupSize": "Filter, Espresso",
     "intensity": null,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "bean",
+    "system": ""
   },
   {
     "brand": "Cowpresso",
@@ -2490,7 +3042,9 @@
     "cupSize": "Espresso",
     "intensity": 7,
     "bitterness": 2,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Dunkin’",
@@ -2499,7 +3053,9 @@
     "cupSize": "Small - Travel",
     "intensity": null,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "kCup"
   },
   {
     "brand": "Tanamera Coffee (SG)",
@@ -2508,7 +3064,9 @@
     "cupSize": "Espresso",
     "intensity": null,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Nespresso",
@@ -2517,7 +3075,9 @@
     "cupSize": "Alto / XL",
     "intensity": null,
     "bitterness": 3,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "vertuo"
   },
   {
     "brand": "Peet’s Coffee",
@@ -2526,7 +3086,9 @@
     "cupSize": "Drip, Pour-over",
     "intensity": 5,
     "bitterness": 2,
-    "decaf": false
+    "decaf": false,
+    "type": "bean",
+    "system": ""
   },
   {
     "brand": "Nespresso",
@@ -2535,7 +3097,9 @@
     "cupSize": "Double Espresso",
     "intensity": null,
     "bitterness": 2,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "vertuo"
   },
   {
     "brand": "Nespresso",
@@ -2544,7 +3108,9 @@
     "cupSize": "Alto / XL",
     "intensity": null,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "vertuo"
   },
   {
     "brand": "Day to Day Coffee",
@@ -2553,7 +3119,9 @@
     "cupSize": "Small - Travel",
     "intensity": 4,
     "bitterness": 2,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "kCup"
   },
   {
     "brand": "Nespresso",
@@ -2562,7 +3130,9 @@
     "cupSize": "Gran Lungo",
     "intensity": 4,
     "bitterness": 1,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "vertuo"
   },
   {
     "brand": "illy",
@@ -2571,7 +3141,9 @@
     "cupSize": "Espresso",
     "intensity": 3,
     "bitterness": 2,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "illy",
@@ -2580,7 +3152,9 @@
     "cupSize": "Espresso",
     "intensity": 5,
     "bitterness": 5,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Segafredo",
@@ -2589,7 +3163,9 @@
     "cupSize": "Espresso",
     "intensity": 6,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Barista Prima",
@@ -2598,7 +3174,9 @@
     "cupSize": "Small - Travel",
     "intensity": 7,
     "bitterness": 5,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "kCup"
   },
   {
     "brand": "Nespresso",
@@ -2607,7 +3185,9 @@
     "cupSize": "Coffee/Mug",
     "intensity": 5,
     "bitterness": 2,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "vertuo"
   },
   {
     "brand": "Nespresso",
@@ -2616,7 +3196,9 @@
     "cupSize": "Espresso",
     "intensity": null,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Green Mountain",
@@ -2625,7 +3207,9 @@
     "cupSize": "Small - Travel",
     "intensity": 7,
     "bitterness": 5,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "kCup"
   },
   {
     "brand": "Segafredo",
@@ -2634,7 +3218,9 @@
     "cupSize": "Espresso",
     "intensity": 6,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Victor Allen’s Coffee",
@@ -2643,7 +3229,9 @@
     "cupSize": "Small - Travel",
     "intensity": 6,
     "bitterness": 2,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "kCup"
   },
   {
     "brand": "Fresh Brew Co.",
@@ -2652,7 +3240,9 @@
     "cupSize": "Espresso",
     "intensity": 8,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Maxwell House",
@@ -2661,7 +3251,9 @@
     "cupSize": "Coffee/Mug",
     "intensity": null,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "kCup"
   },
   {
     "brand": "Starbucks",
@@ -2670,7 +3262,9 @@
     "cupSize": "Espresso",
     "intensity": 6,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Starbucks",
@@ -2679,7 +3273,9 @@
     "cupSize": "Espresso",
     "intensity": 7,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Starbucks",
@@ -2688,7 +3284,9 @@
     "cupSize": "Espresso",
     "intensity": 10,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "L'OR",
@@ -2697,7 +3295,9 @@
     "cupSize": "Espresso",
     "intensity": 6,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "L'OR",
@@ -2706,7 +3306,9 @@
     "cupSize": "Espresso",
     "intensity": 8,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "Suzuki Coffee (SG)",
@@ -2715,7 +3317,9 @@
     "cupSize": "Espresso",
     "intensity": 5,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "L'OR",
@@ -2724,7 +3328,9 @@
     "cupSize": "Espresso",
     "intensity": 7,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   },
   {
     "brand": "L'OR",
@@ -2733,6 +3339,8 @@
     "cupSize": "Espresso",
     "intensity": 8,
     "bitterness": null,
-    "decaf": false
+    "decaf": false,
+    "type": "pod",
+    "system": "classic"
   }
 ]
